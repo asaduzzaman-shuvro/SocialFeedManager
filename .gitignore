@@ -1,0 +1,18 @@
+# Intellij Project Files
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Class & Package Files
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven Project Files
+overlays/
+target/
+
+# OS related Files
+.DS_Store
