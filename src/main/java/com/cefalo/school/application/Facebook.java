@@ -27,7 +27,6 @@ public class Facebook implements Application {
 
   public void setAuthToken(String authToken) {
     this.authToken = authToken;
-
   }
 
   public void setApplicationType(ApplicationType applicationType) {

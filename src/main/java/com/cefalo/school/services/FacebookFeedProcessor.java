@@ -1,4 +1,9 @@
 package com.cefalo.school.services;
 
-public class FacebookFeedProcessor {
+import com.cefalo.school.Model.FeedItem;
+
+public class FacebookFeedProcessor implements FeedOperationProcessor {
+    public boolean postUpdate(FeedItem item) {
+        return false;
+    }
 }
