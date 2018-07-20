@@ -1,10 +1,20 @@
 package com.cefalo.school.application;
 
+import com.cefalo.school.factories.FeedProcessorFactory;
+import com.cefalo.school.model.FeedItem;
+import com.cefalo.school.processors.FeedProcessor;
+
+import java.rmi.server.UID;
+import java.util.List;
+
 /**
  * Created by atiqul on 7/19/2018.
  */
 public interface Application {
-  public void setUserName(String userName);
-  public void setAuthToken(String authToken);
-  public void setApplicationType(ApplicationType applicationType);
+  void setUserName(String userName);
+  void setAuthToken(String authToken);
+  void setApplicationType(ApplicationType applicationType);
+  void setApplicationIdentifier(UID identifier);
+  UID getApplicationIdentifier();
+  ApplicationType getApplicationType();
 }
