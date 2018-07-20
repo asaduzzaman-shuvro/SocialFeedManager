@@ -1,4 +1,4 @@
-package com.cefalo.school.Model;
+package com.cefalo.school.model;
 
 public enum ContentType {
     TEXT,

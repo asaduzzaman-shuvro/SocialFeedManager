@@ -1,6 +1,6 @@
-package com.cefalo.school.Mapper;
+package com.cefalo.school.mapper;
 
-import com.cefalo.school.Model.FeedItem;
+import com.cefalo.school.model.FeedItem;
 
 import java.util.List;
 

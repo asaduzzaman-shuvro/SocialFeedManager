@@ -24,7 +24,7 @@ public class AccountManager {
         supportedApplications.add(twitter);
     }
 
-    public List<Application> getListItems() {
+    public List<Application> getSupportedApplications() {
         return this.supportedApplications;
     }
 

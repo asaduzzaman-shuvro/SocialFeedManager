@@ -1,5 +1,7 @@
 package com.cefalo.school.application;
 
+import java.rmi.server.UID;
+
 /**
  * Created by atiqul on 7/19/2018.
  */
@@ -31,5 +33,13 @@ public class Facebook implements Application {
 
   public void setApplicationType(ApplicationType applicationType) {
     this.applicationType = applicationType;
+  }
+
+  public void setApplicationIdentifier(UID identifier) {
+
+  }
+
+  public UID getApplicationIdentifier() {
+    return null;
   }
 }
