@@ -1,5 +1,11 @@
 package com.cefalo.school.processors;
 
-public class TwitterFeedProcessor extends FeedProcessor{
+import com.cefalo.school.mapper.TwitterFeedMapper;
+import com.cefalo.school.operators.TwitterOperator;
 
+public class TwitterFeedProcessor extends FeedProcessor{
+    public TwitterFeedProcessor() {
+        this.feedOperator = new TwitterOperator();
+        this.feedMapper = new TwitterFeedMapper();
+    }
 }

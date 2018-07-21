@@ -16,5 +16,4 @@ public class FacebookOperator implements FeedOperator {
         jsonObject = FacebookApi.getFeeds();
         return jsonObject != null;
     }
-
 }
