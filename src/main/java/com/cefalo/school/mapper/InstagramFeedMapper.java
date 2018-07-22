@@ -3,6 +3,7 @@ package com.cefalo.school.mapper;
 import com.cefalo.school.model.Content;
 import com.cefalo.school.model.ContentType;
 import com.cefalo.school.model.FeedItem;
+import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,7 +18,7 @@ public class InstagramFeedMapper implements FeedMapper {
 
         JSONArray array = jsonObject.getJSONArray("data");
 
-        List<FeedItem> feedItemList = null;
+        List<FeedItem> feedItemList = new ArrayList<FeedItem>();
 
         for (int i = 0; i < array.length(); i++) {
 
