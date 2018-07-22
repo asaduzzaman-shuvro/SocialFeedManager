@@ -12,9 +12,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class FacebookFeedMapper implements FeedMapper {
-    public List<FeedItem> getProcessedFeedItems() {
+    public List<FeedItem> getProcessedFeedItems(JSONObject jsonObject) {
 
-        JSONObject jsonObject = null;
         JSONArray array = jsonObject.getJSONArray("data");
 
         List<FeedItem> feedItemList = null;

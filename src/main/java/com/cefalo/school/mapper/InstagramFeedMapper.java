@@ -13,8 +13,8 @@ import java.util.Locale;
 
 public class InstagramFeedMapper implements FeedMapper {
 
-    public List<FeedItem> getProcessedFeedItems() {
-        JSONObject jsonObject = null;
+    public List<FeedItem> getProcessedFeedItems(JSONObject jsonObject) {
+
         JSONArray array = jsonObject.getJSONArray("data");
 
         List<FeedItem> feedItemList = null;
