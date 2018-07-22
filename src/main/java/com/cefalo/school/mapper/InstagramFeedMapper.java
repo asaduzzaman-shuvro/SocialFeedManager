@@ -11,7 +11,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class InstagramMapper implements FeedMapper {
+public class InstagramFeedMapper implements FeedMapper {
+
     public List<FeedItem> getProcessedFeedItems() {
         JSONObject jsonObject = null;
         JSONArray array = jsonObject.getJSONArray("data");
@@ -26,7 +27,7 @@ public class InstagramMapper implements FeedMapper {
             feedItem.identifier = object.getString("id");
             feedItem.publishedDate = new Date(object.getLong("created_time") * 1000L);
 
-            if (object.getJSONObject("caption").getString("text") != nil) {
+            if (object.getJSONObject("caption").getString("text") != null) {
                 feedItem.contents.add(new Content(ContentType.TEXT, object.getJSONObject("caption").getString("text")));
             }
 
@@ -35,11 +36,9 @@ public class InstagramMapper implements FeedMapper {
             }
 
 
-
             if (object.getString("type") == "video") {
                 feedItem.contents.add(new Content(ContentType.URL, object.getJSONObject("videos").getJSONObject("standard_resolution").getString("url")));
             }
-            
 
             feedItemList.add(feedItem);
         }
