@@ -5,7 +5,7 @@ import com.thirdparty.api.FacebookApi;
 import org.json.JSONObject;
 
 public class FacebookOperator implements FeedOperator {
-    public  JSONObject jsonObject = null;
+    public JSONObject jsonObject = null;
 
     public boolean postUpdate(FeedItem item) {
 
