@@ -4,6 +4,8 @@ import com.cefalo.school.model.Content;
 import com.cefalo.school.model.ContentType;
 import com.cefalo.school.model.FeedItem;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,6 +21,13 @@ public class FacebookFeedMapper implements FeedMapper {
 
         List<FeedItem> feedItemList = new ArrayList<FeedItem>();
 
+        Map<String, ContentType> keyMap = new HashMap<String, ContentType>(){{
+            put("message", ContentType.TEXT);
+            put("links", ContentType.URL);
+            put("video", ContentType.VIDEO);
+            put("image", ContentType.PICTURE);
+        }};
+
         for (Object item : data) {
 
             JSONObject object = (JSONObject) item;
@@ -31,20 +40,10 @@ public class FacebookFeedMapper implements FeedMapper {
                 e.printStackTrace();
             }
 
-            if (object.has("message")) {
-                feedItem.contents.add(new Content(ContentType.TEXT, object.getString("message")));
-            }
-
-            if (object.has("links")) {
-                feedItem.contents.add(new Content(ContentType.URL, object.getString("links")));
-            }
-
-            if (object.has("video")) {
-                feedItem.contents.add(new Content(ContentType.VIDEO, object.getString("video")));
-            }
-
-            if (object.has("image")) {
-                feedItem.contents.add(new Content(ContentType.PICTURE, object.getString("image")));
+            for (String itemType : keyMap.keySet()) {
+                if(object.has(itemType)){
+                    feedItem.contents.add(new Content(keyMap.get(itemType), object.getString(itemType)));
+                }
             }
 
             feedItemList.add(feedItem);
