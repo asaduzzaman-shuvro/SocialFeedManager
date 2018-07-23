@@ -1,12 +1,8 @@
 package com.cefalo.school;
 
 import com.cefalo.school.model.FeedItem;
-import com.cefalo.school.operators.FacebookOperator;
 import com.cefalo.school.processors.FacebookFeedProcessor;
-import com.thirdparty.api.FacebookApi;
 import java.util.List;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  * Created by atiqul on 7/17/2018.
@@ -23,10 +19,14 @@ public class Main {
     FacebookFeedProcessor facebookFeedProcessor = new FacebookFeedProcessor();
     List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems();
 
-    for(FeedItem item : feedItems){
-      String message = item.contents.get(0).value;
-      System.out.println(message);
-    }
+    feedItems.forEach(item->{item.contents.forEach(content -> {
+      System.out.println("======================================");
+      System.out.println(content.contentType + "-" + content.value);
+    });
+      item.reactions.forEach((k,v)-> System.out.println(k + ":" + v ));
+      System.out.println("comments: " + item.comments.size());
+      System.out.println("======================================");
+    });
   }
 
   public static void twitterTest(){
