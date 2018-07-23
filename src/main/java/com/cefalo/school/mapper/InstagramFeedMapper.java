@@ -16,28 +16,27 @@ public class InstagramFeedMapper implements FeedMapper {
 
     public List<FeedItem> getProcessedFeedItems(JSONObject jsonObject) {
 
-        JSONArray array = jsonObject.getJSONArray("data");
+        JSONArray data = jsonObject.getJSONArray("data");
 
         List<FeedItem> feedItemList = new ArrayList<FeedItem>();
 
-        for (int i = 0; i < array.length(); i++) {
+        for (Object item : data) {
 
-            JSONObject object = array.getJSONObject(i);
+            JSONObject object = (JSONObject) item;
 
             FeedItem feedItem = new FeedItem();
             feedItem.identifier = object.getString("id");
             feedItem.publishedDate = new Date(object.getLong("created_time") * 1000L);
 
-            if (object.getJSONObject("caption").getString("text") != null) {
+            if (object.has("caption")) {
                 feedItem.contents.add(new Content(ContentType.TEXT, object.getJSONObject("caption").getString("text")));
             }
 
-            if (object.getString("type") == "image") {
+            if (object.has("type") && object.getString("type") == "image") {
                 feedItem.contents.add(new Content(ContentType.URL, object.getJSONObject("images").getJSONObject("standard_resolution").getString("url")));
             }
 
-
-            if (object.getString("type") == "video") {
+            if (object.has("type") && object.getString("type") == "video") {
                 feedItem.contents.add(new Content(ContentType.URL, object.getJSONObject("videos").getJSONObject("standard_resolution").getString("url")));
             }
 
