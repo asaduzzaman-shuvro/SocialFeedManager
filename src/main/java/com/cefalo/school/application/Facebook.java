@@ -37,7 +37,7 @@ public class Facebook implements Application {
   }
 
   public void setApplicationIdentifier(UUID identifier) {
-    this.applicationIdentifier = new UUID(23,45);
+    this.applicationIdentifier = UUID.randomUUID();
 
   }
 
