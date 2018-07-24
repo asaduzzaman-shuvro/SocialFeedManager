@@ -13,7 +13,9 @@ public class FacebookOperator implements FeedOperator {
     }
 
     public boolean getFeed() {
-        jsonObject = FacebookApi.getFeeds();
+        if(jsonObject == null) {
+            jsonObject = FacebookApi.getFeeds();
+        }
         return jsonObject != null;
     }
 }

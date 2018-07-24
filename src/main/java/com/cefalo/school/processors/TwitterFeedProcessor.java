@@ -12,4 +12,11 @@ public class TwitterFeedProcessor implements FeedProcessor{
     public List<FeedItem> getFeedItems(UUID applicationIdentifier) {
         return null;
     }
+
+    @Override
+    public void updateFeedItem(UUID applicationIdentifier, FeedItem feedItem, Enum action) {
+
+    }
+
+
 }
