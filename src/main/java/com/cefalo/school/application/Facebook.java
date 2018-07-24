@@ -1,6 +1,6 @@
 package com.cefalo.school.application;
 
-import java.rmi.server.UID;
+import java.util.UUID;
 
 /**
  * Created by atiqul on 7/19/2018.
@@ -10,7 +10,7 @@ public class Facebook implements Application {
   private String userName;
   private String authToken;
   private ApplicationType applicationType;
-  private UID applicationIdentifier;
+  private UUID applicationIdentifier;
 
   public String getUserName() {
     return userName;
@@ -36,12 +36,12 @@ public class Facebook implements Application {
     this.applicationType = applicationType;
   }
 
-  public void setApplicationIdentifier(UID identifier) {
-    this.applicationIdentifier = new UID();
+  public void setApplicationIdentifier(UUID identifier) {
+    this.applicationIdentifier = new UUID(23,45);
 
   }
 
-  public UID getApplicationIdentifier() {
+  public UUID getApplicationIdentifier() {
     return applicationIdentifier;
   }
 }

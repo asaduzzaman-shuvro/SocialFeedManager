@@ -6,6 +6,7 @@ import com.cefalo.school.model.FeedItem;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class FacebookFeedMapper implements FeedMapper {
-    public List<FeedItem> getProcessedFeedItems(JSONObject jsonObject) {
+    public List<FeedItem> getProcessedFeedItems(UUID applicationIdentifier, JSONObject jsonObject) {
 
         JSONArray data = jsonObject.getJSONArray("data");
 
@@ -43,6 +44,7 @@ public class FacebookFeedMapper implements FeedMapper {
 
             FeedItem feedItem = new FeedItem();
             feedItem.identifier = object.getString("id");
+            feedItem.applicationIdentifier = applicationIdentifier;
             try {
                 feedItem.publishedDate = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ", Locale.ENGLISH).parse(object.getString("created_time")) ;
                 feedItem.lastModifiedDate = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ", Locale.ENGLISH).parse(object.getString("updated_time")) ;

@@ -3,6 +3,7 @@ package com.cefalo.school;
 import com.cefalo.school.model.FeedItem;
 import com.cefalo.school.processors.FacebookFeedProcessor;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by atiqul on 7/17/2018.
@@ -17,7 +18,7 @@ public class Main {
 
   public static void facebookTest(){
     FacebookFeedProcessor facebookFeedProcessor = new FacebookFeedProcessor();
-    List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems();
+    List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems(new UUID(23, 45));
 
     feedItems.forEach(item->{item.contents.forEach(content -> {
       System.out.println("======================================");
@@ -25,6 +26,7 @@ public class Main {
     });
       item.reactions.forEach((k,v)-> System.out.println(k + ":" + v ));
       System.out.println("comments: " + item.comments.size());
+      System.out.println("application Identifier: " + item.applicationIdentifier);
       System.out.println("======================================");
     });
   }

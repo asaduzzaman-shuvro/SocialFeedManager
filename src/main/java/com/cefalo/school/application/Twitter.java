@@ -1,6 +1,6 @@
 package com.cefalo.school.application;
 
-import java.rmi.server.UID;
+import java.util.UUID;
 
 public class Twitter implements Application {
     private String userName;
@@ -19,11 +19,11 @@ public class Twitter implements Application {
         this.applicationType = applicationType;
     }
 
-    public void setApplicationIdentifier(UID identifier) {
+    public void setApplicationIdentifier(UUID identifier) {
 
     }
 
-    public UID getApplicationIdentifier() {
+    public UUID getApplicationIdentifier() {
         return null;
     }
 
