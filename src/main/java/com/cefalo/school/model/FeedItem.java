@@ -13,6 +13,6 @@ public class FeedItem {
     public Date lastModifiedDate;
     public List<Content> contents = new ArrayList<Content>();
     public Map<String, Integer> reactions = new HashMap<String, Integer>();
-    public List<Content> comments = new ArrayList<Content>();
+    public List<FeedItem> comments = new ArrayList<FeedItem>();
     public UUID applicationIdentifier;
 }
