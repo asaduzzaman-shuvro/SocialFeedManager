@@ -10,6 +10,7 @@ public class Facebook implements Application {
   private String userName;
   private String authToken;
   private ApplicationType applicationType;
+  private UID applicationIdentifier;
 
   public String getUserName() {
     return userName;
@@ -36,10 +37,11 @@ public class Facebook implements Application {
   }
 
   public void setApplicationIdentifier(UID identifier) {
+    this.applicationIdentifier = new UID();
 
   }
 
   public UID getApplicationIdentifier() {
-    return null;
+    return applicationIdentifier;
   }
 }
