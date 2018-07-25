@@ -15,6 +15,7 @@ public class Facebook implements Application {
   public Facebook(){
     this.applicationIdentifier = UUID.randomUUID();
     this.applicationType = ApplicationType.FACEBOOK;
+    System.out.println("Facebook: " + applicationIdentifier);
   }
 
   public String getUserName() {

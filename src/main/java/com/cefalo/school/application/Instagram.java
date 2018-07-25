@@ -12,6 +12,7 @@ public class Instagram implements Application{
     public Instagram(){
         this.applicationIdentifier = UUID.randomUUID();
         this.applicationType = ApplicationType.INSTAGRAM;
+        System.out.println("Facebook: " + applicationIdentifier);
     }
 
     @Override

@@ -1,11 +1,14 @@
 package com.cefalo.school.application;
 
+import com.cefalo.school.model.FeedItem;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class AccountManager {
     private static AccountManager ourInstance = new AccountManager();
-    private List<Application> supportedApplications;
+    private List<Application> supportedApplications = new ArrayList<>();
 
     public static AccountManager getInstance() {
         return ourInstance;
@@ -24,7 +27,7 @@ public class AccountManager {
     }
 
     public List<Application> getSupportedApplications() {
-        return this.supportedApplications;
+        return supportedApplications;
     }
 
     public String getAuthTokenByIdentifier(UUID appIdentifier){

@@ -1,5 +1,6 @@
 package com.cefalo.school.processors;
 
+import com.cefalo.school.application.AccountManager;
 import com.cefalo.school.mapper.InstagramFeedMapper;
 import com.cefalo.school.mapper.TwitterFeedMapper;
 import com.cefalo.school.model.FeedItem;
@@ -23,6 +24,10 @@ public class TwitterFeedProcessor implements FeedProcessor{
 
     @Override
     public List<FeedItem> getFeedItems() {
+        if(feedOperator.getFeed(AccountManager.getInstance().getAuthTokenByIdentifier(applicationIdentifier))) {
+            feedItems = feedMapper.getProcessedFeedItems(applicationIdentifier, feedOperator.jsonObject);
+            return feedItems;
+        }
         return null;
     }
 

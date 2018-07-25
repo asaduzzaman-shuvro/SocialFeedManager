@@ -1,5 +1,7 @@
 package com.cefalo.school;
 
+import com.cefalo.school.application.AccountManager;
+import com.cefalo.school.application.SocialFeedManager;
 import com.cefalo.school.model.FeedItem;
 import com.cefalo.school.processors.FBActionType;
 import com.cefalo.school.processors.FacebookFeedProcessor;
@@ -16,8 +18,8 @@ public class Main {
 
 //    facebookTest();
 //    testFBUpdate();
-    testFbCommentUpdate();
-
+//    testFbCommentUpdate();
+    twitterTest();
   }
 
   public static void facebookTest(){
@@ -82,7 +84,9 @@ public class Main {
   }
 
   public static void twitterTest(){
-
+//    AccountManager.getInstance();
+    SocialFeedManager manager = new SocialFeedManager();
+    manager.getAllFeedItems();
   }
 
   public static void instagramTest(){
