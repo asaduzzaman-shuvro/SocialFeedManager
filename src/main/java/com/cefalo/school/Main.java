@@ -85,8 +85,9 @@ public class Main {
   }
 
   public static void instagramTest(){
+    UUID uniqueAppId = UUID.randomUUID();
     InstagramFeedProcessor feedProcessor = new InstagramFeedProcessor();
-    List<FeedItem> feedItems = feedProcessor.getFeedItems();
+    List<FeedItem> feedItems = feedProcessor.getFeedItems(uniqueAppId);
 
     System.out.println("\n\n\nInstagram feeds");
     for (FeedItem item: feedItems) {
