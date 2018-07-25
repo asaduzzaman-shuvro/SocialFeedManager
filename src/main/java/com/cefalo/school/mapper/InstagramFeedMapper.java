@@ -28,15 +28,15 @@ public class InstagramFeedMapper implements FeedMapper {
             feedItem.publishedDate = new Date(object.getLong("created_time") * 1000L);
 
             if (object.has("caption")) {
-                feedItem.contents.add(new Content(ContentType.TEXT, object.getJSONObject("caption").getString("text")));
+                feedItem.contents.add(new Content(ContentType.TEXT, object.getJSONObject("caption").getString("text"), ""));
             }
 
             if (object.has("type") && object.getString("type") == "image") {
-                feedItem.contents.add(new Content(ContentType.URL, object.getJSONObject("images").getJSONObject("standard_resolution").getString("url")));
+                feedItem.contents.add(new Content(ContentType.URL, object.getJSONObject("images").getJSONObject("standard_resolution").getString("url"), ""));
             }
 
             if (object.has("type") && object.getString("type") == "video") {
-                feedItem.contents.add(new Content(ContentType.URL, object.getJSONObject("videos").getJSONObject("standard_resolution").getString("url")));
+                feedItem.contents.add(new Content(ContentType.URL, object.getJSONObject("videos").getJSONObject("standard_resolution").getString("url"), ""));
             }
 
             feedItemList.add(feedItem);

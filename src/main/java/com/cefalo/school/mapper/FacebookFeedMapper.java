@@ -54,7 +54,7 @@ public class FacebookFeedMapper implements FeedMapper {
 
             for (String itemType : keyMap.keySet()) {
                 if(object.has("type") && object.getString("type").equals(itemType)){
-                    feedItem.contents.add(new Content(keyMap.get(itemType), object.has("message")?object.getString("message") : ""));
+                    feedItem.contents.add(new Content(keyMap.get(itemType), object.has("message")?object.getString("message") : "", ""));
                 }
             }
 
@@ -79,7 +79,7 @@ public class FacebookFeedMapper implements FeedMapper {
 
                     for (String itemType : keyMap.keySet()) {
                         if(comment.has("type") && comment.getString("type").equals(itemType)){
-                            commentFeed.contents.add(new Content(keyMap.get(itemType), comment.has("message")?comment.getString("message") : ""));
+                            commentFeed.contents.add(new Content(keyMap.get(itemType), comment.has("message")?comment.getString("message") : "", ""));
                         }
                     }
 

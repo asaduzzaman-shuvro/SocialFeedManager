@@ -3,17 +3,16 @@ package com.cefalo.school.mapper;
 import com.cefalo.school.model.Content;
 import com.cefalo.school.model.ContentType;
 import com.cefalo.school.model.FeedItem;
-import java.util.ArrayList;
-import java.util.UUID;
+
+import java.util.*;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 public class TwitterFeedMapper implements FeedMapper {
+
     public List<FeedItem> getProcessedFeedItems(UUID applicationIdentifier, JSONObject jsonObject) {
 
         JSONArray array = jsonObject.getJSONArray("data");
@@ -25,21 +24,41 @@ public class TwitterFeedMapper implements FeedMapper {
             JSONObject object = array.getJSONObject(i);
 
             FeedItem feedItem = new FeedItem();
+            feedItem.applicationIdentifier = applicationIdentifier;
             feedItem.identifier = object.getString("id_str");
 
             try {
-                feedItem.publishedDate = new SimpleDateFormat("EE MMM dd hh:mm:ss Z yyyy", Locale.ENGLISH).parse(object.getString("created_at")) ;
-            }catch (Exception e) {
+                feedItem.publishedDate = new SimpleDateFormat("EE MMM dd hh:mm:ss Z yyyy",
+                        Locale.ENGLISH).parse(object.getString("created_at"));
+            } catch (Exception e) {
                 System.out.println(e);
             }
 
-            if (object.getString("text") != null) {
-                feedItem.contents.add(new Content(ContentType.TEXT, object.getString("text")));
-            }
+            feedItem.contents.add(new Content(ContentType.TEXT,
+                    object.getString("text"), object.getString("text")));
 
+            if (object.has("entities")) {
+                JSONObject item = object.getJSONObject("entities");
+                if (item.has("media")) {
+                    JSONArray medias = item.getJSONArray("media");
+                    for (Object mediaObj : medias) {
+                        JSONObject media = (JSONObject) mediaObj;
+                        ContentType contentType = ContentType.URL;
+                        //TODO: determine video or photo
+                        if (media.has("type")) {
+                            if (media.getString("type").equals("photo")) {
+                                contentType = ContentType.PICTURE;
+                            }
+                        }
+                        feedItem.contents.add(new Content(contentType,
+                                media.getString("media_url"), ""));
+
+                    }
+                }
+            }
             feedItemList.add(feedItem);
         }
-
         return feedItemList;
     }
+
 }
