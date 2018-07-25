@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 public class InstagramApi {
-    public static JSONObject getFeeds() {
+    public static JSONObject getFeeds(String authToken) {
         String filename = "Instagram.json";
         JSONObject instagramFeeds = null;
         try {

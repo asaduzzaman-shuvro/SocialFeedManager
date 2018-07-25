@@ -25,6 +25,11 @@ public class Instagram implements Application{
     }
 
     @Override
+    public String getAuthToken() {
+        return authToken;
+    }
+
+    @Override
     public UUID getApplicationIdentifier() {
         return applicationIdentifier;
     }

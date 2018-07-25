@@ -12,8 +12,11 @@ public class TwitterOperator implements FeedOperator {
         return false;
     }
 
-    public boolean getFeed() {
-        jsonObject = TwitterApi.getFeeds();
+    @Override
+    public boolean getFeed(String authToken) {
+        if(jsonObject == null) {
+            jsonObject = TwitterApi.getFeeds(authToken);
+        }
         return jsonObject != null;
     }
 }

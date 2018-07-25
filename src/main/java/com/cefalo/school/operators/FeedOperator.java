@@ -5,5 +5,5 @@ import org.json.JSONObject;
 
 public interface FeedOperator {
     boolean postUpdate(FeedItem item);
-    boolean getFeed();
+    boolean getFeed(String authToken);
 }

@@ -10,13 +10,22 @@ import java.util.UUID;
 
 public class SocialFeedManager {
     private List<FeedItem> allFeedItems;
-    private Map<UUID, FeedProcessor> processors;
+    private List<FeedProcessor> processors;
 
     public SocialFeedManager() {
         List<Application> applications = AccountManager.getInstance().getSupportedApplications();
         for (Application application : applications) {
-            processors.put(application.getApplicationIdentifier(), FeedProcessorFactory.getFeedOperator(application.getApplicationType()));
+            processors.add(FeedProcessorFactory.getFeedProcessor(application));
         }
+    }
+
+    private FeedProcessor getProcessor(UUID appIdentifier){
+        for (FeedProcessor processor : processors) {
+            if (processor.getApplicationIdentifier() == appIdentifier){
+                return processor;
+            }
+        }
+        return null;
     }
 
     public List<FeedItem> getAllFeedItems(){
@@ -24,6 +33,7 @@ public class SocialFeedManager {
     }
 
     public boolean editFeedItem(FeedItem item){
+
         return false;
     }
 

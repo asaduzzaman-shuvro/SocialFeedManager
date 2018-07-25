@@ -12,9 +12,10 @@ public class FacebookOperator implements FeedOperator {
         return false;
     }
 
-    public boolean getFeed() {
+    @Override
+    public boolean getFeed(String authToken) {
         if(jsonObject == null) {
-            jsonObject = FacebookApi.getFeeds();
+            jsonObject = FacebookApi.getFeeds(authToken);
         }
         return jsonObject != null;
     }

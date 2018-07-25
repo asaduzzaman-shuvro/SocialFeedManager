@@ -12,10 +12,11 @@ public class InstagramOperator implements FeedOperator {
         return false;
     }
 
-    public boolean getFeed() {
-
-        jsonObject = InstagramApi.getFeeds();
+    @Override
+    public boolean getFeed(String authToken) {
+        if(jsonObject == null) {
+            jsonObject = InstagramApi.getFeeds(authToken);
+        }
         return jsonObject != null;
-
     }
 }

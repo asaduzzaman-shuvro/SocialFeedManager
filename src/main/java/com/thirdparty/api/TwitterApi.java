@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 public class TwitterApi {
-    public static JSONObject getFeeds() {
+    public static JSONObject getFeeds(String authToken) {
         String filename = "Twitter.json";
         JSONObject tweeterFeeds = null;
         try {

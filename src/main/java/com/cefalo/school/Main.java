@@ -21,8 +21,9 @@ public class Main {
   }
 
   public static void facebookTest(){
-    FacebookFeedProcessor facebookFeedProcessor = new FacebookFeedProcessor();
-    List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems(UUID.randomUUID());
+    UUID uniqueAppId = UUID.randomUUID();
+    FacebookFeedProcessor facebookFeedProcessor = new FacebookFeedProcessor(uniqueAppId);
+    List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems();
 
     feedItems.forEach(item->{item.contents.forEach(content -> {
       System.out.println("======================================");
@@ -37,12 +38,12 @@ public class Main {
 
   public static void testFBUpdate(){
     UUID uniqueAppId = UUID.randomUUID();
-    FacebookFeedProcessor facebookFeedProcessor = new FacebookFeedProcessor();
-    List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems(uniqueAppId);
+    FacebookFeedProcessor facebookFeedProcessor = new FacebookFeedProcessor(uniqueAppId);
+    List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems();
     System.out.println(String.format("%s items found in facebook feed", feedItems.size()));
     System.out.println("now like 3rd item from the feed list");
 
-    facebookFeedProcessor.fbFeedItems.get(2).reactions.forEach((k,v)->{
+    facebookFeedProcessor.feedItems.get(2).reactions.forEach((k,v)->{
       if(k == "like"){
         System.out.println("initial like count for this post");
         System.out.println("Like: " + v);
@@ -50,8 +51,8 @@ public class Main {
     });
     FeedItem targetFeedItem = feedItems.get(2);
 
-    facebookFeedProcessor.updateFeedItem(uniqueAppId, targetFeedItem, FBActionType.LIKE);
-    facebookFeedProcessor.fbFeedItems.get(2).reactions.forEach((k,v)->{
+    facebookFeedProcessor.updateFeedItem(targetFeedItem, FBActionType.LIKE);
+    facebookFeedProcessor.feedItems.get(2).reactions.forEach((k,v)->{
       if(k == "like"){
         System.out.println("after given like");
         System.out.println("Like: " + v);
@@ -62,8 +63,8 @@ public class Main {
 
   public static void testFbCommentUpdate(){
     UUID uniqueAppId = UUID.randomUUID();
-    FacebookFeedProcessor facebookFeedProcessor = new FacebookFeedProcessor();
-    List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems(uniqueAppId);
+    FacebookFeedProcessor facebookFeedProcessor = new FacebookFeedProcessor(uniqueAppId);
+    List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems();
     System.out.println(String.format("%s items found in facebook feed", feedItems.size()));
     System.out.println("now update comment of 3rd item from the feed list");
 
@@ -73,7 +74,7 @@ public class Main {
     String targetCommentId = feedItems.get(2).comments.get(0).identifier;
 
     facebookFeedProcessor.updateComment(uniqueAppId, targetCommentId, "update test comment....");
-    facebookFeedProcessor.fbFeedItems.get(2).comments.forEach(comment->{
+    facebookFeedProcessor.feedItems.get(2).comments.forEach(comment->{
       System.out.println("current comment: " + comment.contents.get(0).value);
     });
 
@@ -86,8 +87,8 @@ public class Main {
 
   public static void instagramTest(){
     UUID uniqueAppId = UUID.randomUUID();
-    InstagramFeedProcessor feedProcessor = new InstagramFeedProcessor();
-    List<FeedItem> feedItems = feedProcessor.getFeedItems(uniqueAppId);
+    InstagramFeedProcessor feedProcessor = new InstagramFeedProcessor(uniqueAppId);
+    List<FeedItem> feedItems = feedProcessor.getFeedItems();
 
     System.out.println("\n\n\nInstagram feeds");
     for (FeedItem item: feedItems) {

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface FeedProcessor {
-    public List<FeedItem> getFeedItems(UUID applicationIdentifier);
-    public void updateFeedItem(UUID applicationIdentifier, FeedItem feedItem, Enum action);
+    public List<FeedItem> getFeedItems();
+    public void updateFeedItem(FeedItem feedItem, Enum action);
+    public UUID getApplicationIdentifier();
 }

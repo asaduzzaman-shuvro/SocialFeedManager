@@ -8,7 +8,7 @@ import org.json.*;
  */
 public class FacebookApi {
 
-  public static JSONObject getFeeds() {
+  public static JSONObject getFeeds(String authToken) {
     String filename = "Facebook.json";
     JSONObject facebookFeeds = null;
     try {
