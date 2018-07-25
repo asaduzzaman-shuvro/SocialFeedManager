@@ -14,13 +14,11 @@ public class AccountManager {
         Facebook fb = new Facebook();
         fb.setUserName("AMI");
         fb.setAuthToken("ASJAKJSHDKJASHDGFJHASJHDGFHAFSD");
-        fb.setApplicationType(ApplicationType.FACEBOOK);
         supportedApplications.add(fb);
 
         Twitter twitter= new Twitter();
         twitter.setUserName("AshifIqbal");
         twitter.setAuthToken("ASJAK896957658586587658765FHAFSD");
-        twitter.setApplicationType(ApplicationType.TWITTER);
         supportedApplications.add(twitter);
     }
 

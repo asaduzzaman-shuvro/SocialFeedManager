@@ -4,6 +4,7 @@ import com.cefalo.school.model.Content;
 import com.cefalo.school.model.ContentType;
 import com.cefalo.school.model.FeedItem;
 import java.util.ArrayList;
+import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class TwitterFeedMapper implements FeedMapper {
-    public List<FeedItem> getProcessedFeedItems(JSONObject jsonObject) {
+    public List<FeedItem> getProcessedFeedItems(UUID applicationIdentifier, JSONObject jsonObject) {
 
         JSONArray array = jsonObject.getJSONArray("data");
 
