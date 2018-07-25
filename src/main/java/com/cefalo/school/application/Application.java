@@ -8,8 +8,6 @@ import java.util.UUID;
 public interface Application {
   void setUserName(String userName);
   void setAuthToken(String authToken);
-  void setApplicationType(ApplicationType applicationType);
-  void setApplicationIdentifier(UUID identifier);
   UUID getApplicationIdentifier();
   ApplicationType getApplicationType();
 }
