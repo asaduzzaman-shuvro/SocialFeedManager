@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface FeedMapper {
     List<FeedItem> getProcessedFeedItems(UUID applicationIdentifier, JSONObject jsonObject);
+    JSONObject mapFeedItemToJSON(FeedItem item);
 }
