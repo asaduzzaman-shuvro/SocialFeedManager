@@ -13,6 +13,7 @@ public class Instagram implements Application{
     public Instagram(){
         this.applicationIdentifier = UUID.randomUUID();
         this.applicationType = ApplicationType.INSTAGRAM;
+        this.userId = "1547627005";
         System.out.println("Instagram: " + applicationIdentifier);
     }
 
