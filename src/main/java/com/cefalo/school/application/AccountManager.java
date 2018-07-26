@@ -7,14 +7,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class AccountManager {
-    private static AccountManager ourInstance = new AccountManager();
     private List<Application> supportedApplications = new ArrayList<>();
 
-    public static AccountManager getInstance() {
-        return ourInstance;
-    }
-
-    private AccountManager() {
+    public AccountManager() {
         Facebook fb = new Facebook();
         fb.setUserName("AMI");
         fb.setAuthToken("ASJAKJSHDKJASHDGFJHASJHDGFHAFSD");
@@ -27,15 +22,15 @@ public class AccountManager {
 
         Instagram instagram = new Instagram();
         instagram.setUserName("Shuvro");
-        instagram.setAuthToken("ASJAK896957658586587658765FHAFSD");
+        instagram.setAuthToken("ASJAK896957asdaq34qwda58765FHAFSD");
         supportedApplications.add(instagram);
     }
 
-    public List<Application> getSupportedApplications() {
+    protected List<Application> getSupportedApplications() {
         return supportedApplications;
     }
 
-    public String getAuthTokenByIdentifier(UUID appIdentifier){
+    protected String getAuthTokenByIdentifier(UUID appIdentifier){
         for (Application supportedApplication : supportedApplications) {
             if(supportedApplication.getApplicationIdentifier() == appIdentifier){
                 return supportedApplication.getAuthToken();
@@ -44,7 +39,7 @@ public class AccountManager {
         return null;
     }
 
-    public String getApplicationTypeByIdentifier(UUID appIdentifier){
+    protected String getApplicationTypeByIdentifier(UUID appIdentifier){
 
         for (Application supportedApplication : supportedApplications) {
             if(supportedApplication.getApplicationIdentifier() == appIdentifier){
@@ -54,7 +49,17 @@ public class AccountManager {
         return null;
     }
 
-    public void addSupportedApplication(Application application){
+    protected String getApplicationUserIdByIdentifier(UUID appIdentifier){
+
+        for (Application supportedApplication : supportedApplications) {
+            if(supportedApplication.getApplicationIdentifier() == appIdentifier){
+                return supportedApplication.getUserId();
+            }
+        }
+        return null;
+    }
+
+    protected void addSupportedApplication(Application application){
 
     }
 }
