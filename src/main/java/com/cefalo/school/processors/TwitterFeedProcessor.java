@@ -6,8 +6,10 @@ import com.cefalo.school.mapper.TwitterFeedMapper;
 import com.cefalo.school.model.FeedItem;
 import com.cefalo.school.operators.InstagramOperator;
 import com.cefalo.school.operators.TwitterOperator;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,6 +36,12 @@ public class TwitterFeedProcessor implements FeedProcessor{
     @Override
     public void updateFeedItem(FeedItem feedItem, Enum action) {
 
+    }
+
+    @Override
+    public boolean postUpdate(FeedItem item) {
+        JSONObject object = feedMapper.mapFeedItemToJSON(item);
+        return feedOperator.postUpdate(object);
     }
 
     @Override

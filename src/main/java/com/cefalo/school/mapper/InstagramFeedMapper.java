@@ -45,4 +45,9 @@ public class InstagramFeedMapper implements FeedMapper {
 
         return feedItemList;
     }
+
+    @Override
+    public JSONObject mapFeedItemToJSON(FeedItem item) {
+        return null;
+    }
 }

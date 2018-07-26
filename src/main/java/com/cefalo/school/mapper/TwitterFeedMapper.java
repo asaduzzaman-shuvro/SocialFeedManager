@@ -4,6 +4,7 @@ import com.cefalo.school.model.Content;
 import com.cefalo.school.model.ContentType;
 import com.cefalo.school.model.FeedItem;
 
+import java.text.DateFormat;
 import java.util.*;
 
 import org.json.JSONArray;
@@ -63,6 +64,25 @@ public class TwitterFeedMapper implements FeedMapper {
             feedItemList.add(feedItem);
         }
         return feedItemList;
+    }
+
+    @Override
+    public JSONObject mapFeedItemToJSON(FeedItem item) {
+        item.publishedDate = new Date();
+        JSONObject object = new JSONObject();
+        DateFormat df = new SimpleDateFormat("EE MMM dd hh:mm:ss Z yyyy");
+        object.put("created_at", df.format(item.publishedDate));
+        object.put("id_str", UUID.randomUUID().toString());
+        String text = "";
+        for (Content content:item.contents) {
+            if(content.contentType == ContentType.TEXT && !content.description.isEmpty()){
+                text = content.description;
+                break;
+            }
+        }
+        object.put("text", text);
+
+        return object;
     }
 
 }

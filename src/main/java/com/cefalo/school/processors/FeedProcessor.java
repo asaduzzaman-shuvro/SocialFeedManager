@@ -7,5 +7,6 @@ import java.util.UUID;
 public interface FeedProcessor {
     public List<FeedItem> getFeedItems();
     public void updateFeedItem(FeedItem feedItem, Enum action);
+    public boolean postUpdate(FeedItem item);
     public UUID getApplicationIdentifier();
 }

@@ -21,6 +21,9 @@ public class FacebookApi {
 
   }
 
+  public static boolean postItem(String authToken, Object postObject){
+    return true;
+  }
 
 
 }

@@ -1,13 +1,19 @@
 package com.cefalo.school;
 
 import com.cefalo.school.application.AccountManager;
+import com.cefalo.school.application.Application;
+import com.cefalo.school.application.ApplicationType;
 import com.cefalo.school.application.SocialFeedManager;
+import com.cefalo.school.model.Content;
+import com.cefalo.school.model.ContentType;
 import com.cefalo.school.model.FeedItem;
 import com.cefalo.school.processors.FBActionType;
 import com.cefalo.school.processors.FacebookFeedProcessor;
 import com.cefalo.school.processors.InstagramFeedProcessor;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by atiqul on 7/17/2018.
@@ -86,6 +92,20 @@ public class Main {
   public static void twitterTest(){
     SocialFeedManager manager = new SocialFeedManager();
     manager.getAllFeedItems();
+
+    // test post update to twitter
+    FeedItem itemToPost = new FeedItem();
+    itemToPost.contents.add(new Content(ContentType.TEXT, "", "My first status from SFM"));
+
+    List<Application> applications = AccountManager.getInstance().getSupportedApplications();
+    Stream<Application> matchingObject = applications.stream().
+            filter(p -> p.getApplicationType().equals(ApplicationType.TWITTER));
+    List<UUID> identifiers = matchingObject.
+            map(Application::getApplicationIdentifier).collect(Collectors.toList());
+
+    if(manager.postItem(itemToPost, identifiers)){
+      manager.getAllFeedItems();
+    }
   }
 
   public static void instagramTest(){
