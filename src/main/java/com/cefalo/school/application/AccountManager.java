@@ -39,6 +39,15 @@ public class AccountManager {
         return null;
     }
 
+    public String getApplicationTypeByIdentifier(UUID appIdentifier){
+        for (Application supportedApplication : supportedApplications) {
+            if(supportedApplication.getApplicationIdentifier() == appIdentifier){
+                return supportedApplication.getApplicationType().toString();
+            }
+        }
+        return null;
+    }
+
     public void addSupportedApplication(Application application){
 
     }

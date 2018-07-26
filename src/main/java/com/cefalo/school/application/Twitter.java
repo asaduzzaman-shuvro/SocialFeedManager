@@ -11,7 +11,7 @@ public class Twitter implements Application {
     public Twitter(){
         this.applicationIdentifier = UUID.randomUUID();
         this.applicationType = ApplicationType.TWITTER;
-        System.out.println("Facebook: " + applicationIdentifier);
+        System.out.println("Twitter: " + applicationIdentifier);
     }
 
     public void setUserName(String userName) {

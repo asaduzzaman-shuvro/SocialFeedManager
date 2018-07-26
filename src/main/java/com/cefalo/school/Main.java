@@ -84,7 +84,6 @@ public class Main {
   }
 
   public static void twitterTest(){
-//    AccountManager.getInstance();
     SocialFeedManager manager = new SocialFeedManager();
     manager.getAllFeedItems();
   }

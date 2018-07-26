@@ -34,8 +34,10 @@ public class TwitterFeedMapper implements FeedMapper {
                 System.out.println(e);
             }
 
-            feedItem.contents.add(new Content(ContentType.TEXT,
-                    object.getString("text"), object.getString("text")));
+            if(object.has("text")){
+                feedItem.contents.add(new Content(ContentType.TEXT,
+                        object.getString("text"), object.getString("text")));
+            }
 
             if (object.has("entities")) {
                 JSONObject item = object.getJSONObject("entities");
@@ -48,6 +50,8 @@ public class TwitterFeedMapper implements FeedMapper {
                         if (media.has("type")) {
                             if (media.getString("type").equals("photo")) {
                                 contentType = ContentType.PICTURE;
+                            }else if(media.getString("type").equals("video")){
+                                contentType = ContentType.VIDEO;
                             }
                         }
                         feedItem.contents.add(new Content(contentType,

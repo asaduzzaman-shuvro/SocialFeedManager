@@ -39,7 +39,7 @@ public class SocialFeedManager {
         }
         System.out.println("all feeds" + allFeedItems);
         for (FeedItem item: allFeedItems) {
-            System.out.println("item.publishedDate " + item.publishedDate + " item.Identifier "+ item.applicationIdentifier + " item.contents " + item.contents);
+            System.out.println("item.publishedDate " + item.publishedDate + " item.appType "+ AccountManager.getInstance().getApplicationTypeByIdentifier(item.applicationIdentifier)+ " item.contents " + item.contents);
         }
         return allFeedItems;
     }
