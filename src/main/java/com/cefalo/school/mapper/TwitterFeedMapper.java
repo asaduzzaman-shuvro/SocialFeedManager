@@ -40,6 +40,13 @@ public class TwitterFeedMapper implements FeedMapper {
                         object.getString("text"), object.getString("text")));
             }
 
+            if (object.has("user")){
+                JSONObject user = object.getJSONObject("user");
+                if(user.has("id_str")){
+                    feedItem.userID = user.getString("id_str");
+                }
+            }
+
             if (object.has("entities")) {
                 JSONObject item = object.getJSONObject("entities");
                 if (item.has("media")) {
@@ -73,6 +80,10 @@ public class TwitterFeedMapper implements FeedMapper {
         DateFormat df = new SimpleDateFormat("EE MMM dd hh:mm:ss Z yyyy");
         object.put("created_at", df.format(item.publishedDate));
         object.put("id_str", UUID.randomUUID().toString());
+        JSONObject user = new JSONObject();
+        user.put("id_str", item.userID);
+        object.put("user", user);
+
         String text = "";
         for (Content content:item.contents) {
             if(content.contentType == ContentType.TEXT && !content.description.isEmpty()){

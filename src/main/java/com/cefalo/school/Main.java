@@ -10,6 +10,8 @@ import com.cefalo.school.model.FeedItem;
 import com.cefalo.school.processors.FBActionType;
 import com.cefalo.school.processors.FacebookFeedProcessor;
 import com.cefalo.school.processors.InstagramFeedProcessor;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -31,7 +33,7 @@ public class Main {
   public static void facebookTest(){
     UUID uniqueAppId = UUID.randomUUID();
     FacebookFeedProcessor facebookFeedProcessor = new FacebookFeedProcessor(uniqueAppId);
-    List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems();
+    List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems("");
 
     feedItems.forEach(item->{item.contents.forEach(content -> {
       System.out.println("======================================");
@@ -47,7 +49,7 @@ public class Main {
   public static void testFBUpdate(){
     UUID uniqueAppId = UUID.randomUUID();
     FacebookFeedProcessor facebookFeedProcessor = new FacebookFeedProcessor(uniqueAppId);
-    List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems();
+    List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems("");
     System.out.println(String.format("%s items found in facebook feed", feedItems.size()));
     System.out.println("now like 3rd item from the feed list");
 
@@ -72,7 +74,7 @@ public class Main {
   public static void testFbCommentUpdate(){
     UUID uniqueAppId = UUID.randomUUID();
     FacebookFeedProcessor facebookFeedProcessor = new FacebookFeedProcessor(uniqueAppId);
-    List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems();
+    List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems("");
     System.out.println(String.format("%s items found in facebook feed", feedItems.size()));
     System.out.println("now update comment of 3rd item from the feed list");
 
@@ -93,15 +95,13 @@ public class Main {
     SocialFeedManager manager = new SocialFeedManager();
     manager.getAllFeedItems();
 
+
     // test post update to twitter
     FeedItem itemToPost = new FeedItem();
     itemToPost.contents.add(new Content(ContentType.TEXT, "", "My first status from SFM"));
 
-    List<Application> applications = AccountManager.getInstance().getSupportedApplications();
-    Stream<Application> matchingObject = applications.stream().
-            filter(p -> p.getApplicationType().equals(ApplicationType.TWITTER));
-    List<UUID> identifiers = matchingObject.
-            map(Application::getApplicationIdentifier).collect(Collectors.toList());
+    List<UUID> identifiers = new ArrayList<>();
+    identifiers.add(manager.getApplicationIdentifiers().get(1));
 
     if(manager.postItem(itemToPost, identifiers)){
       manager.getAllFeedItems();
@@ -111,7 +111,7 @@ public class Main {
   public static void instagramTest(){
     UUID uniqueAppId = UUID.randomUUID();
     InstagramFeedProcessor feedProcessor = new InstagramFeedProcessor(uniqueAppId);
-    List<FeedItem> feedItems = feedProcessor.getFeedItems();
+    List<FeedItem> feedItems = feedProcessor.getFeedItems("");
 
     System.out.println("\n\n\nInstagram feeds");
     for (FeedItem item: feedItems) {
