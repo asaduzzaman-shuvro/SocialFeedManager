@@ -24,6 +24,11 @@ public class AccountManager {
         twitter.setUserName("AshifIqbal");
         twitter.setAuthToken("ASJAK896957658586587658765FHAFSD");
         supportedApplications.add(twitter);
+
+        Instagram instagram = new Instagram();
+        instagram.setUserName("Shuvro");
+        instagram.setAuthToken("ASJAK896957658586587658765FHAFSD");
+        supportedApplications.add(instagram);
     }
 
     public List<Application> getSupportedApplications() {
@@ -40,6 +45,7 @@ public class AccountManager {
     }
 
     public String getApplicationTypeByIdentifier(UUID appIdentifier){
+
         for (Application supportedApplication : supportedApplications) {
             if(supportedApplication.getApplicationIdentifier() == appIdentifier){
                 return supportedApplication.getApplicationType().toString();
