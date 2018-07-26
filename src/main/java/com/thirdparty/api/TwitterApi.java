@@ -1,5 +1,6 @@
 package com.thirdparty.api;
 
+import com.cefalo.school.model.FeedItem;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -14,5 +15,10 @@ public class TwitterApi {
             e.printStackTrace();
         }
         return tweeterFeeds;
+    }
+
+    public static boolean postItem(String authToken, Object postObject){
+        // post to twitter with twitter api
+        return true;
     }
 }

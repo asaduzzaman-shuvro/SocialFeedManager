@@ -17,4 +17,8 @@ public class InstagramApi {
         return instagramFeeds;
 
     }
+
+    public static boolean postItem(String authToken, Object postObject){
+        return true;
+    }
 }
