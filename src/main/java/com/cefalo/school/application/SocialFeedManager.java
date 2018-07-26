@@ -31,6 +31,7 @@ public class SocialFeedManager {
 
     public List<FeedItem> getAllFeedItems(){
 
+        if (allFeedItems.size() > 0) allFeedItems.clear();
         for (FeedProcessor processor: processors) {
             allFeedItems.addAll(processor.getFeedItems());
         }
@@ -49,8 +50,13 @@ public class SocialFeedManager {
         return false;
     }
 
-    public boolean postItem(FeedItem item){
-        return false;
+    public boolean postItem(FeedItem item, List<UUID>appIdentifiers){
+        boolean success = false;
+        for (UUID id: appIdentifiers) {
+            FeedProcessor processor = getProcessor(id);
+            success = processor.postUpdate(item);
+        }
+        return success;
     }
 }
 
