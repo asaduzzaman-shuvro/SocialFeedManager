@@ -8,7 +8,7 @@ import org.json.JSONObject;
 public class InstagramOperator implements FeedOperator {
     public JSONObject jsonObject = null;
 
-    public boolean postUpdate(FeedItem item) {
+    public boolean postUpdate(JSONObject item) {
         return false;
     }
 

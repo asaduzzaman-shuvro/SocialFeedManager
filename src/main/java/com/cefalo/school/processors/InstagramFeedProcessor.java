@@ -31,6 +31,11 @@ public class InstagramFeedProcessor implements FeedProcessor{
     }
 
     @Override
+    public boolean postUpdate(FeedItem item) {
+        return false;
+    }
+
+    @Override
     public UUID getApplicationIdentifier() {
         return applicationIdentifier;
     }

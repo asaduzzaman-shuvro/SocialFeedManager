@@ -38,6 +38,11 @@ public class FacebookFeedProcessor implements FeedProcessor {
     }
 
     @Override
+    public boolean postUpdate(FeedItem item) {
+        return false;
+    }
+
+    @Override
     public UUID getApplicationIdentifier() {
         return applicationIdentifier;
     }
