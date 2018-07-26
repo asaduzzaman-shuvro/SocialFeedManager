@@ -3,6 +3,8 @@ package com.cefalo.school.mapper;
 import com.cefalo.school.model.Content;
 import com.cefalo.school.model.ContentType;
 import com.cefalo.school.model.FeedItem;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.UUID;
 import org.json.JSONArray;
@@ -28,6 +30,13 @@ public class InstagramFeedMapper implements FeedMapper {
             feedItem.publishedDate = new Date(object.getLong("created_time") * 1000L);
             feedItem.applicationIdentifier = applicationIdentifier;
 
+            if (object.has("user")){
+                JSONObject user = object.getJSONObject("user");
+                if (user.has("id")){
+                    feedItem.userID = user.getString("id");
+                }
+            }
+
             if (object.has("caption")) {
                 feedItem.contents.add(new Content(ContentType.TEXT, object.getJSONObject("caption").getString("text"), ""));
             }
@@ -48,6 +57,27 @@ public class InstagramFeedMapper implements FeedMapper {
 
     @Override
     public JSONObject mapFeedItemToJSON(FeedItem item) {
-        return null;
+
+        JSONObject object = new JSONObject();
+        object.put("id",item.identifier);
+        object.put("created_time",new Date().getTime());
+
+        String text = "";
+        for (Content content:item.contents) {
+            if(content.contentType == ContentType.TEXT && !content.description.isEmpty()){
+                text = content.description;
+                break;
+            }
+        }
+
+        JSONObject captionObject = new JSONObject();
+        captionObject.put("text",text);
+        object.put("caption",captionObject);
+
+        JSONObject user = new JSONObject();
+        user.put("id",item.userID);
+        object.put("user",user);
+
+        return object;
     }
 }
