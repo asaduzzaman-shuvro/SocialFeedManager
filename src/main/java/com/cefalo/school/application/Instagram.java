@@ -8,6 +8,7 @@ public class Instagram implements Application{
     private String authToken;
     private ApplicationType applicationType;
     private UUID applicationIdentifier;
+    private String  userId;
 
     public Instagram(){
         this.applicationIdentifier = UUID.randomUUID();
@@ -17,6 +18,11 @@ public class Instagram implements Application{
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    @Override
+    public String getUserId() {
+        return userId;
     }
 
     public void setAuthToken(String authToken) {

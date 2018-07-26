@@ -11,6 +11,7 @@ public class Facebook implements Application {
   private String authToken;
   private ApplicationType applicationType;
   private UUID applicationIdentifier;
+  private String  userId;
 
   public Facebook(){
     this.applicationIdentifier = UUID.randomUUID();
@@ -32,6 +33,11 @@ public class Facebook implements Application {
 
   public void setUserName(String userName) {
     this.userName = userName;
+  }
+
+  @Override
+  public String getUserId() {
+    return userId;
   }
 
   public void setAuthToken(String authToken) {

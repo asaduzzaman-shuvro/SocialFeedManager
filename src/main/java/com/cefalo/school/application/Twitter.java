@@ -7,15 +7,22 @@ public class Twitter implements Application {
     private String authToken;
     private ApplicationType applicationType;
     private UUID applicationIdentifier;
+    private String  userId;
 
     public Twitter(){
         this.applicationIdentifier = UUID.randomUUID();
         this.applicationType = ApplicationType.TWITTER;
+        this.userId = "80177619";
         System.out.println("Twitter: " + applicationIdentifier);
     }
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    @Override
+    public String getUserId() {
+        return userId;
     }
 
     public void setAuthToken(String authToken) {

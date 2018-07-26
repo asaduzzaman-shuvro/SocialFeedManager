@@ -8,11 +8,15 @@ import java.util.Map;
 import java.util.UUID;
 
 public class FeedItem {
-    public String identifier;
+    public String identifier = "";
+    public String userID = "";
     public Date publishedDate;
-    public Date lastModifiedDate;
+    public UUID applicationIdentifier;
     public List<Content> contents = new ArrayList<Content>();
+
+    // for facebook only
+    public Date lastModifiedDate;
     public Map<String, Integer> reactions = new HashMap<String, Integer>();
     public List<FeedItem> comments = new ArrayList<FeedItem>();
-    public UUID applicationIdentifier;
+    //TODO: move these to some other place or
 }
