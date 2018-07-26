@@ -26,6 +26,7 @@ public class InstagramFeedMapper implements FeedMapper {
             FeedItem feedItem = new FeedItem();
             feedItem.identifier = object.getString("id");
             feedItem.publishedDate = new Date(object.getLong("created_time") * 1000L);
+            feedItem.applicationIdentifier = applicationIdentifier;
 
             if (object.has("caption")) {
                 feedItem.contents.add(new Content(ContentType.TEXT, object.getJSONObject("caption").getString("text"), ""));
