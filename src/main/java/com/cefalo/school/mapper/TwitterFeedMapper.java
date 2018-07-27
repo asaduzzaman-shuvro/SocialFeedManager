@@ -75,11 +75,10 @@ public class TwitterFeedMapper implements FeedMapper {
 
     @Override
     public JSONObject mapFeedItemToJSON(FeedItem item) {
-        item.publishedDate = new Date();
         JSONObject object = new JSONObject();
         DateFormat df = new SimpleDateFormat("EE MMM dd hh:mm:ss Z yyyy");
         object.put("created_at", df.format(item.publishedDate));
-        object.put("id_str", UUID.randomUUID().toString());
+        object.put("id_str", item.identifier);
         JSONObject user = new JSONObject();
         user.put("id_str", item.userID);
         object.put("user", user);

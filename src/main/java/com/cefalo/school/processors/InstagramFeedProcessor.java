@@ -30,14 +30,14 @@ public class InstagramFeedProcessor implements FeedProcessor{
     }
 
     @Override
-    public void updateFeedItem(FeedItem feedItem, Enum action) {
-
+    public boolean updateFeedItem(FeedItem feedItem, Enum action) {
+        return false;
     }
 
     @Override
     public boolean postUpdate(FeedItem item, String authToken) {
         JSONObject object = feedMapper.mapFeedItemToJSON(item);
-        return feedOperator.postUpdate(object);
+        return feedOperator.postItem(object);
     }
 
     @Override

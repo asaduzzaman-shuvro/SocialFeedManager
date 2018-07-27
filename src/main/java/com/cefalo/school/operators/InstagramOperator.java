@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public class InstagramOperator implements FeedOperator {
     public JSONObject jsonObject = null;
 
-    public boolean postUpdate(JSONObject item) {
+    public boolean postItem(JSONObject item) {
 
         if (jsonObject != null){
             JSONArray array = jsonObject.getJSONArray("data");

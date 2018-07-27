@@ -2,6 +2,7 @@ package com.cefalo.school.mapper;
 
 import com.cefalo.school.model.Content;
 import com.cefalo.school.model.ContentType;
+import com.cefalo.school.model.FacebookFeedItem;
 import com.cefalo.school.model.FeedItem;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,14 +44,14 @@ public class FacebookFeedMapper implements FeedMapper {
 
             JSONObject object = (JSONObject) item;
 
-            FeedItem feedItem = new FeedItem();
+            FacebookFeedItem feedItem = new FacebookFeedItem();
             feedItem.identifier = object.getString("id");
             feedItem.applicationIdentifier = applicationIdentifier;
             try {
                 feedItem.publishedDate = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ", Locale.ENGLISH)
                     .parse(object.getString("created_time")) ;
-                feedItem.lastModifiedDate = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ", Locale.ENGLISH)
-                    .parse(object.getString("updated_time")) ;
+//                feedItem.lastModifiedDate = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ", Locale.ENGLISH)
+//                    .parse(object.getString("updated_time")) ;
             }catch (Exception e) {
                 e.printStackTrace();
             }
