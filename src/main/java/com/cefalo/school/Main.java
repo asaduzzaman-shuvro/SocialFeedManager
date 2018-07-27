@@ -1,21 +1,13 @@
 package com.cefalo.school;
 
-import com.cefalo.school.application.AccountManager;
-import com.cefalo.school.application.Application;
-import com.cefalo.school.application.ApplicationType;
 import com.cefalo.school.application.SocialFeedManager;
-import com.cefalo.school.model.Content;
-import com.cefalo.school.model.ContentType;
-import com.cefalo.school.model.FeedItem;
-import com.cefalo.school.processors.FBActionType;
+import com.cefalo.school.model.*;
 import com.cefalo.school.processors.FacebookFeedProcessor;
 import com.cefalo.school.processors.InstagramFeedProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by atiqul on 7/17/2018.
@@ -30,18 +22,36 @@ public class Main {
     twitterTest();
   }
 
+  public static void facebookPostTest(){
+    SocialFeedManager manager = new SocialFeedManager();
+    manager.getAllFeedItems();
+
+    FacebookFeedItem itemToPost = new FacebookFeedItem();
+    itemToPost.contents.add(new Content(ContentType.TEXT, "", "My first status from SFM"));
+
+    List<UUID> identifiers = new ArrayList<>();
+    identifiers.add(manager.getApplicationIdentifiers().get(1));
+
+    List<FeedItem> items = new ArrayList<>();
+    if(manager.postItem(itemToPost, identifiers)){
+      items = manager.getAllFeedItems();
+    }
+  }
+
   public static void facebookTest(){
     UUID uniqueAppId = UUID.randomUUID();
     FacebookFeedProcessor facebookFeedProcessor = new FacebookFeedProcessor(uniqueAppId);
     List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems("");
 
-    feedItems.forEach(item->{item.contents.forEach(content -> {
+    feedItems.forEach(item->{
+      FacebookFeedItem newItem = (FacebookFeedItem)item;
+      newItem.contents.forEach(content -> {
       System.out.println("======================================");
       System.out.println(content.contentType + "-" + content.value);
     });
-      item.reactions.forEach((k,v)-> System.out.println(k + ":" + v ));
-      System.out.println("comments: " + item.comments.size());
-      System.out.println("application Identifier: " + item.applicationIdentifier);
+      newItem.reactions.forEach((k,v)-> System.out.println(k + ":" + v ));
+      System.out.println("comments: " + newItem.comments.size());
+      System.out.println("application Identifier: " + newItem.applicationIdentifier);
       System.out.println("======================================");
     });
   }
@@ -53,16 +63,17 @@ public class Main {
     System.out.println(String.format("%s items found in facebook feed", feedItems.size()));
     System.out.println("now like 3rd item from the feed list");
 
-    facebookFeedProcessor.feedItems.get(2).reactions.forEach((k,v)->{
+    FacebookFeedItem newItem = (FacebookFeedItem)facebookFeedProcessor.feedItems.get(2);
+    newItem.reactions.forEach((k,v)->{
       if(k == "like"){
         System.out.println("initial like count for this post");
         System.out.println("Like: " + v);
       }
     });
-    FeedItem targetFeedItem = feedItems.get(2);
+    FacebookFeedItem targetFeedItem = (FacebookFeedItem)feedItems.get(2);
 
-    facebookFeedProcessor.updateFeedItem(targetFeedItem, FBActionType.LIKE);
-    facebookFeedProcessor.feedItems.get(2).reactions.forEach((k,v)->{
+    facebookFeedProcessor.updateFeedItem(targetFeedItem, ActionType.LIKE);
+    newItem.reactions.forEach((k,v)->{
       if(k == "like"){
         System.out.println("after given like");
         System.out.println("Like: " + v);
@@ -78,13 +89,16 @@ public class Main {
     System.out.println(String.format("%s items found in facebook feed", feedItems.size()));
     System.out.println("now update comment of 3rd item from the feed list");
 
-    feedItems.get(2).comments.forEach(comment->{
+    FacebookFeedItem newItem = (FacebookFeedItem)feedItems.get(2);
+    newItem.comments.forEach(comment->{
       System.out.println("previous comment: " + comment.contents.get(0).value);
     });
-    String targetCommentId = feedItems.get(2).comments.get(0).identifier;
+
+    String targetCommentId = newItem.comments.get(0).identifier;
 
     facebookFeedProcessor.updateComment(uniqueAppId, targetCommentId, "update test comment....");
-    facebookFeedProcessor.feedItems.get(2).comments.forEach(comment->{
+    FacebookFeedItem target = (FacebookFeedItem)facebookFeedProcessor.feedItems.get(2);
+    target.comments.forEach(comment->{
       System.out.println("current comment: " + comment.contents.get(0).value);
     });
 
@@ -103,7 +117,14 @@ public class Main {
     List<UUID> identifiers = new ArrayList<>();
     identifiers.add(manager.getApplicationIdentifiers().get(1));
 
+    List<FeedItem> items = new ArrayList<>();
     if(manager.postItem(itemToPost, identifiers)){
+      items = manager.getAllFeedItems();
+    }
+
+    FeedItem itemToEdit = items.get(0);
+//    items.
+    if(manager.postItem(itemToEdit, identifiers)){
       manager.getAllFeedItems();
     }
   }
