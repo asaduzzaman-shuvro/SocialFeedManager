@@ -1,9 +1,9 @@
-package com.cefalo.school.processors;
+package com.cefalo.school.model;
 
 /**
  * Created by atiqul on 7/25/2018.
  */
-public enum FBActionType {
+public enum ActionType {
   LIKE,
   WOW,
   HAHA,
