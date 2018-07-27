@@ -5,10 +5,6 @@ package com.cefalo.school.model;
  */
 public enum ActionType {
   LIKE,
-  WOW,
-  HAHA,
-  ANGRY,
-  SAD,
-  LOVE,
   COMMENT
 }
+
