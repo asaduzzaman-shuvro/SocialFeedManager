@@ -2,6 +2,8 @@ package com.cefalo.school.application;
 
 import com.cefalo.school.factories.FeedProcessorFactory;
 import com.cefalo.school.model.FeedItem;
+import com.cefalo.school.model.ActionType;
+import com.cefalo.school.model.SFMAction;
 import com.cefalo.school.processors.FeedProcessor;
 
 import java.util.ArrayList;
@@ -51,11 +53,15 @@ public class SocialFeedManager {
         return allFeedItems;
     }
 
+    public boolean addAction(FeedItem item, SFMAction action){
+
+        return postItem(item, new ArrayList<UUID>(){{add(item.applicationIdentifier);}});
+    }
+
     public boolean editFeedItem(FeedItem item){
         if(item.userID.equals(accountManager.getApplicationUserIdByIdentifier(item.applicationIdentifier))){
             // edit supported
-            //TODO: update post
-            return true;
+            return postItem(item, new ArrayList<UUID>(){{add(item.applicationIdentifier);}});
         }
         return false;
     }
@@ -64,7 +70,9 @@ public class SocialFeedManager {
         boolean success = false;
         for (UUID id: appIdentifiers) {
             FeedProcessor processor = getProcessor(id);
-            item.userID = accountManager.getApplicationUserIdByIdentifier(id);
+            if(item.userID.isEmpty()){
+                item.userID = accountManager.getApplicationUserIdByIdentifier(id);
+            }
             success = processor.postUpdate(item, accountManager.getAuthTokenByIdentifier(id));
         }
         return success;
