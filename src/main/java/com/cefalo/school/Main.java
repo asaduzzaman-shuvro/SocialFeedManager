@@ -5,6 +5,14 @@ import com.cefalo.school.model.*;
 import com.cefalo.school.processors.FacebookFeedProcessor;
 import com.cefalo.school.processors.InstagramFeedProcessor;
 
+import com.cefalo.school.services.OutputGeneratorService;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -127,6 +135,11 @@ public class Main {
     if(manager.postItem(itemToEdit, identifiers)){
       manager.getAllFeedItems();
     }
+    File dir = new File("output");
+    dir.mkdirs();
+    File file = new File(dir, "output.txt");
+
+    OutputGeneratorService.outputToFile(items, file);
   }
 
   public static void instagramTest(){

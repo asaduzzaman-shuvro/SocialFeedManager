@@ -16,3 +16,6 @@ target/
 
 # OS related Files
 .DS_Store
+
+#output
+output/*

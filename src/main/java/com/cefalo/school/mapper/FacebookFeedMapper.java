@@ -69,9 +69,9 @@ public class FacebookFeedMapper implements FeedMapper {
                 }else {
                     JSONArray attachments = object.getJSONObject("attachments").getJSONArray("data");
                     mapAttachments(feedItem, attachments, object.getString("type"));
-                    if(feedItem.contents.size() > 0 && "".equals(feedItem.contents.get(0).description) && object.has("message")){
-                        feedItem.contents.get(0).description = object.getString("message");
-                    }
+//                    if(feedItem.contents.size() > 0 && "".equals(feedItem.contents.get(0).description) && object.has("message")){
+//                        feedItem.contents.get(0).description = object.getString("message");
+//                    }
                 }
             }
 
@@ -97,8 +97,15 @@ public class FacebookFeedMapper implements FeedMapper {
         for (Object attachment : attachments) {
             JSONObject object = (JSONObject) attachment;
             if(object.getString("type").equals("photo") || object.getString("type").equals("new_album")){
-                item.contents.add(new Content(ContentType.PICTURE, object.getString("url"),
-                    object.has("description")?object.getString("description"):""));
+                if(attachments.length() > 1 || object.has("subattachments")){
+                    item.contents.add(new Content(ContentType.PICTURE, object.getString("url"),
+                        object.has("description")?object.getString("description"):""));
+                }else{
+                    item.contents.add(new Content(ContentType.PICTURE, object.getJSONObject("media")
+                        .getJSONObject("image").getString("src"),
+                        object.has("description")?object.getString("description"):""));
+                }
+
             }else{
                 item.contents.add(new Content(keyMap.get(itemType),object.getString("url"),
                     object.has("description")?object.getString("description"):""));
