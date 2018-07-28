@@ -3,10 +3,12 @@ package com.cefalo.school.processors;
 import com.cefalo.school.mapper.FacebookFeedMapper;
 import com.cefalo.school.model.FacebookFeedItem;
 import com.cefalo.school.model.FeedItem;
+import com.cefalo.school.model.SFMAction;
 import com.cefalo.school.operators.FacebookOperator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import org.json.JSONObject;
 
 public class FacebookFeedProcessor implements FeedProcessor {
 
@@ -30,18 +32,15 @@ public class FacebookFeedProcessor implements FeedProcessor {
 
 
     @Override
-    public boolean updateFeedItem(FeedItem feedItem, Enum action){
-        FacebookFeedItem item = (FacebookFeedItem) feedItem;
-        item.reactions.put(action.toString().toLowerCase(),
-                item.reactions.get(action.toString().toLowerCase()) + 1);
-        return false;
+    public boolean addAction(FeedItem feedItem, SFMAction action, String authToken){
+        return postUpdate(feedOperator.addAction(feedItem, action), authToken);
     }
 
     @Override
     public boolean postUpdate(FeedItem item, String authToken) {
         FacebookFeedItem itemToPost = (FacebookFeedItem)item;
-
-        return false;
+        JSONObject object = feedMapper.mapFeedItemToJSON(itemToPost);
+        return feedOperator.postItem(object);
     }
 
     @Override

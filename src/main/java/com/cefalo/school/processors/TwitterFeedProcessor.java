@@ -2,6 +2,7 @@ package com.cefalo.school.processors;
 
 import com.cefalo.school.mapper.TwitterFeedMapper;
 import com.cefalo.school.model.FeedItem;
+import com.cefalo.school.model.SFMAction;
 import com.cefalo.school.operators.TwitterOperator;
 import org.json.JSONObject;
 
@@ -30,7 +31,7 @@ public class TwitterFeedProcessor implements FeedProcessor{
     }
 
     @Override
-    public boolean updateFeedItem(FeedItem feedItem, Enum action) {
+    public boolean addAction(FeedItem feedItem, SFMAction action, String authToken) {
         return false;
     }
 
