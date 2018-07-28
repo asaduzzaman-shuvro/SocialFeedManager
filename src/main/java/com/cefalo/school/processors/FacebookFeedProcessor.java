@@ -1,6 +1,7 @@
 package com.cefalo.school.processors;
 
 import com.cefalo.school.mapper.FacebookFeedMapper;
+import com.cefalo.school.model.FacebookFeedItem;
 import com.cefalo.school.model.FeedItem;
 import com.cefalo.school.operators.FacebookOperator;
 import java.util.ArrayList;
@@ -29,13 +30,17 @@ public class FacebookFeedProcessor implements FeedProcessor {
 
 
     @Override
-    public void updateFeedItem(FeedItem feedItem, Enum action){
-        feedItem.reactions.put(action.toString().toLowerCase(),
-                feedItem.reactions.get(action.toString().toLowerCase()) + 1);
+    public boolean updateFeedItem(FeedItem feedItem, Enum action){
+        FacebookFeedItem item = (FacebookFeedItem) feedItem;
+        item.reactions.put(action.toString().toLowerCase(),
+                item.reactions.get(action.toString().toLowerCase()) + 1);
+        return false;
     }
 
     @Override
     public boolean postUpdate(FeedItem item, String authToken) {
+        FacebookFeedItem itemToPost = (FacebookFeedItem)item;
+
         return false;
     }
 
@@ -44,17 +49,24 @@ public class FacebookFeedProcessor implements FeedProcessor {
         return applicationIdentifier;
     }
 
-    public void updateComment(String itemId, String msg){
+    public void updateComment(UUID uuid, String id, String msg){
         feedItems.forEach(feedItem -> {
-            if(feedItem.comments.size() > 0) {
-                FeedItem targetComment = feedItem.comments.stream()
-                    .filter(comment -> itemId.equals(comment.identifier))
-                    .findAny()
-                    .orElse(null);
-                if (targetComment != null) {
-                    targetComment.contents.get(0).value = msg;
+            FacebookFeedItem newItem = null;
+            if(feedItem instanceof FacebookFeedItem) {
+                newItem = (FacebookFeedItem)feedItem;
+            }
+            if(newItem != null){
+                if(newItem.comments.size() > 0) {
+                    FeedItem targetComment = newItem.comments.stream()
+                            .filter(comment -> id.equals(comment.identifier))
+                            .findAny()
+                            .orElse(null);
+                    if (targetComment != null) {
+                        targetComment.contents.get(0).value = msg;
+                    }
                 }
             }
+
         });
 
     }

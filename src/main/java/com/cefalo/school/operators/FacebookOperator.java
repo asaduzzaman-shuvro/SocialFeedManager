@@ -7,7 +7,7 @@ import org.json.JSONObject;
 public class FacebookOperator implements FeedOperator {
     public JSONObject jsonObject = null;
 
-    public boolean postUpdate(JSONObject item) {
+    public boolean postItem(JSONObject item) {
 
         return false;
     }

@@ -14,9 +14,8 @@ public class FeedItem {
     public UUID applicationIdentifier;
     public List<Content> contents = new ArrayList<Content>();
 
-    // for facebook only
-    public Date lastModifiedDate;
-    public Map<String, Integer> reactions = new HashMap<String, Integer>();
-    public List<FeedItem> comments = new ArrayList<FeedItem>();
-    //TODO: move these to some other place or
+    public FeedItem() {
+        this.identifier = UUID.randomUUID().toString();
+        this.publishedDate = new Date();
+    }
 }

@@ -3,6 +3,7 @@ package com.cefalo.school.processors;
 import com.cefalo.school.mapper.InstagramFeedMapper;
 import com.cefalo.school.model.FeedItem;
 import com.cefalo.school.operators.InstagramOperator;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +30,14 @@ public class InstagramFeedProcessor implements FeedProcessor{
     }
 
     @Override
-    public void updateFeedItem(FeedItem feedItem, Enum action) {
-
+    public boolean updateFeedItem(FeedItem feedItem, Enum action) {
+        return false;
     }
 
     @Override
     public boolean postUpdate(FeedItem item, String authToken) {
-        return false;
+        JSONObject object = feedMapper.mapFeedItemToJSON(item);
+        return feedOperator.postItem(object);
     }
 
     @Override
