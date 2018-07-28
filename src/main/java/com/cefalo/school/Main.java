@@ -72,7 +72,7 @@ public class Main {
     });
     FacebookFeedItem targetFeedItem = (FacebookFeedItem)feedItems.get(2);
 
-    facebookFeedProcessor.updateFeedItem(targetFeedItem, ActionType.LIKE);
+    facebookFeedProcessor.addAction(targetFeedItem, new SFMAction(FBActionType.LIKE), "");
     newItem.reactions.forEach((k,v)->{
       if(k == "like"){
         System.out.println("after given like");
