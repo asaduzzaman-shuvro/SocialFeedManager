@@ -11,7 +11,8 @@ public class AccountManager {
 
     public AccountManager() {
         Facebook fb = new Facebook();
-        fb.setUserName("AMI");
+        fb.setUserName("atiqul.alam");
+        fb.setUserId("1234567890123");
         fb.setAuthToken("ASJAKJSHDKJASHDGFJHASJHDGFHAFSD");
         supportedApplications.add(fb);
 

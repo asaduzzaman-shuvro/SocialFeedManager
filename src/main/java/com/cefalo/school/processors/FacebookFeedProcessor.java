@@ -44,11 +44,11 @@ public class FacebookFeedProcessor implements FeedProcessor {
         return applicationIdentifier;
     }
 
-    public void updateComment(UUID uuid, String id, String msg){
+    public void updateComment(String itemId, String msg){
         feedItems.forEach(feedItem -> {
             if(feedItem.comments.size() > 0) {
                 FeedItem targetComment = feedItem.comments.stream()
-                    .filter(comment -> id.equals(comment.identifier))
+                    .filter(comment -> itemId.equals(comment.identifier))
                     .findAny()
                     .orElse(null);
                 if (targetComment != null) {

@@ -47,4 +47,8 @@ public class Facebook implements Application {
   public UUID getApplicationIdentifier() {
     return applicationIdentifier;
   }
+
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
 }

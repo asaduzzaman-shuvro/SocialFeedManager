@@ -55,6 +55,10 @@ public class FacebookFeedMapper implements FeedMapper {
                 e.printStackTrace();
             }
 
+            if(object.has("from")){
+                feedItem.userID = object.getJSONObject("from").getString("id");
+            }
+
             if(object.has("type")) {
                 String feedType = object.getString("type");
                 if (feedType.equals("status")){
