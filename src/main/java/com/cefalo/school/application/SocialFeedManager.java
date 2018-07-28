@@ -54,8 +54,9 @@ public class SocialFeedManager {
     }
 
     public boolean addAction(FeedItem item, SFMAction action){
+        FeedProcessor processor = getProcessor(item.applicationIdentifier);
 
-        return postItem(item, new ArrayList<UUID>(){{add(item.applicationIdentifier);}});
+        return processor.addAction(item, action, accountManager.getAuthTokenByIdentifier(item.applicationIdentifier));
     }
 
     public boolean editFeedItem(FeedItem item){
