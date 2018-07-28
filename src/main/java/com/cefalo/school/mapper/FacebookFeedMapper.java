@@ -136,7 +136,9 @@ public class FacebookFeedMapper implements FeedMapper {
         object.put("message", text);
         object.put("type", "status");
 
-        JSONArray comments = new JSONArray("data");
+        JSONObject commentObj = new JSONObject();
+        JSONArray comments = new JSONArray();
+        commentObj.put("data", comments);
 
         for (FeedItem comment : fbItem.comments) {
             comments.put(mapFeedItemToJSON(comment));
