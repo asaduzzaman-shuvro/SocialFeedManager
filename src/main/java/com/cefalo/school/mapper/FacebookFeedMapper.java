@@ -4,6 +4,7 @@ import com.cefalo.school.model.Content;
 import com.cefalo.school.model.ContentType;
 import com.cefalo.school.model.FacebookFeedItem;
 import com.cefalo.school.model.FeedItem;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -107,7 +108,43 @@ public class FacebookFeedMapper implements FeedMapper {
     }
 
     @Override
-    public JSONObject mapFeedItemToJSON(FeedItem item) {
-        return null;
+    public JSONObject mapFeedItemToJSON(FeedItem item)
+    {
+        FacebookFeedItem fbItem = (FacebookFeedItem) item;
+        JSONObject object = new JSONObject();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
+        object.put("created_time", df.format(fbItem.publishedDate));
+        object.put("id", fbItem.identifier);
+        JSONObject user = new JSONObject();
+        user.put("id", fbItem.userID);
+        object.put("from", user);
+
+        String text = "";
+        for (Content content:fbItem.contents) {
+            if(content.contentType == ContentType.TEXT && !content.description.isEmpty()){
+                text = content.description;
+                break;
+            }
+        }
+        object.put("message", text);
+        object.put("type", "status");
+
+        JSONArray comments = new JSONArray("data");
+
+        for (FeedItem comment : fbItem.comments) {
+            comments.put(mapFeedItemToJSON(comment));
+        }
+
+        if(comments.length() > 0){
+            object.put("comments", comments);
+        }
+
+        fbItem.reactions.forEach((key, value)->{
+            JSONObject reaction = new JSONObject();
+            reaction.put("total_count", value);
+            object.put(key, reaction);
+        });
+
+        return object;
     }
 }
