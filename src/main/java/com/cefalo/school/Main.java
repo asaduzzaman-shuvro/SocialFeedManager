@@ -19,6 +19,7 @@ public class Main {
 
     facebookTest();
 //    twitterTest();
+    System.out.println("check output logs from /SocialFeedManager/output folder");
   }
 
 
@@ -86,9 +87,6 @@ public class Main {
     /* edit comment to this post */
 
     FacebookFeedItem targetItem = (FacebookFeedItem)items.get(0);
-    targetItem.comments.forEach(comment->{
-      System.out.println("previous comment: " + comment.contents.get(0).description);
-    });
 
     String targetCommentId = targetItem.comments.get(0).identifier;
 
