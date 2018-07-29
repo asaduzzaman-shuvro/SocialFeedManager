@@ -112,14 +112,28 @@ public class TwitterFeedMapper implements FeedMapper {
 
     @Override
     public JSONObject mapFeedItemToJSON(FeedItem item) {
-        TwitterFeedItem tweetItem = (TwitterFeedItem)item;
+//        TwitterFeedItem item1 = new TwitterFeedItem();
+        TwitterFeedItem tweetItem = null;
+        if(item instanceof TwitterFeedItem){
+            tweetItem = (TwitterFeedItem)item;
+        }
+        else{
+            tweetItem = new TwitterFeedItem();
+            tweetItem.contents = item.contents;
+            tweetItem.displayName = item.displayName;
+            tweetItem.applicationIdentifier = item.applicationIdentifier;
+            tweetItem.publishedDate = item.publishedDate;
+            tweetItem.userID = item.userID;
+            tweetItem.identifier = item.identifier;
+        }
+
         JSONObject object = new JSONObject();
         DateFormat df = new SimpleDateFormat("EE MMM dd hh:mm:ss Z yyyy");
-        object.put("created_at", df.format(item.publishedDate));
-        object.put("id_str", item.identifier);
+        object.put("created_at", df.format(tweetItem.publishedDate));
+        object.put("id_str", tweetItem.identifier);
         JSONObject user = new JSONObject();
-        user.put("id_str", item.userID);
-        user.put("screen_name", item.displayName);
+        user.put("id_str", tweetItem.userID);
+        user.put("screen_name", tweetItem.displayName);
         object.put("user", user);
 
         object.put("retweet_count", tweetItem.retweetCount);

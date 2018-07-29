@@ -35,33 +35,35 @@ public class AccountManager {
     }
 
     protected String getAuthTokenByIdentifier(UUID appIdentifier){
-        for (Application supportedApplication : supportedApplications) {
-            if(supportedApplication.getApplicationIdentifier() == appIdentifier){
-                return supportedApplication.getAuthToken();
-            }
+        Application application = supportedApplications.stream().filter(app->{
+            return app.getApplicationIdentifier() == appIdentifier;
+        }).findAny().orElse(null);
+        if(application != null){
+            return application.getAuthToken();
         }
-        return null;
+        return "";
     }
 
     protected String getApplicationUserIdByIdentifier(UUID appIdentifier){
 
-        for (Application supportedApplication : supportedApplications) {
-            if(supportedApplication.getApplicationIdentifier() == appIdentifier){
-                return supportedApplication.getUserId();
-            }
+        Application application = supportedApplications.stream().filter(app->{
+            return app.getApplicationIdentifier() == appIdentifier;
+        }).findAny().orElse(null);
+        if(application != null){
+            return application.getUserId();
         }
-        return null;
+        return "";
     }
 
 
     protected String getApplicationUserDisplayNameByIdentifier(UUID appIdentifier){
-
-        for (Application supportedApplication : supportedApplications) {
-            if(supportedApplication.getApplicationIdentifier() == appIdentifier){
-                return supportedApplication.getUserDisplayName();
-            }
+        Application application = supportedApplications.stream().filter(app->{
+            return app.getApplicationIdentifier() == appIdentifier;
+        }).findAny().orElse(null);
+        if(application != null){
+            return application.getUserDisplayName();
         }
-        return null;
+        return "";
     }
 
     protected String getApplicationNameByIdentifier(UUID appIdentifier){

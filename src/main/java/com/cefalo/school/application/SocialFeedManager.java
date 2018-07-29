@@ -25,10 +25,11 @@ public class SocialFeedManager {
     }
 
     private FeedProcessor getProcessor(UUID appIdentifier){
-        for (FeedProcessor processor : processors) {
-            if (processor.getApplicationIdentifier() == appIdentifier){
-                return processor;
-            }
+        FeedProcessor processor = processors.stream().filter(feedProcessor->{
+            return feedProcessor.getApplicationIdentifier() == appIdentifier;
+        }).findAny().orElse(null);
+        if(processor != null){
+            return processor;
         }
         return null;
     }
@@ -40,6 +41,22 @@ public class SocialFeedManager {
     public String getApplicationName(UUID appIdentifier){
         return accountManager.getApplicationNameByIdentifier(appIdentifier);
     }
+
+    public List<FeedItem>getFeedItemsForApplications(List<UUID>appIdentifiers){
+        if (allFeedItems.size() > 0) allFeedItems.clear();
+
+        for (UUID appIdentifier : appIdentifiers) {
+            FeedProcessor processor = getProcessor(appIdentifier);
+            allFeedItems.addAll(processor.
+                    getFeedItems(accountManager.getAuthTokenByIdentifier(processor.getApplicationIdentifier())));
+        }
+        if (allFeedItems != null){
+            allFeedItems.sort(((o2, o1) -> o1.publishedDate.compareTo(o2.publishedDate)));
+        }
+
+        return allFeedItems;
+    }
+
 
     public List<FeedItem> getAllFeedItems(){
 
