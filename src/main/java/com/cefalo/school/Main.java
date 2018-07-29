@@ -42,7 +42,7 @@ public class Main {
 
     File dir = new File("output");
     dir.mkdirs();
-    File file1 = new File(dir, "post_to_facebook.txt");
+    File file1 = new File(dir, "1.Facebook_post.txt");
 
     SFMUtils.outputToFile(items, file1, manager);
 
@@ -59,7 +59,7 @@ public class Main {
       items = manager.getAllFeedItems();
     }
 
-    File file = new File(dir, "edit_post_to_facebook.txt");
+    File file = new File(dir, "2.Facebook_edit_post.txt");
 
     SFMUtils.outputToFile(items, file, manager);
 
@@ -70,7 +70,7 @@ public class Main {
     }
 
 
-    File file2= new File(dir, "like_facebook_post.txt");
+    File file2= new File(dir, "3.Facebook_add_like.txt");
 
     SFMUtils.outputToFile(items, file2, manager);
 
@@ -80,7 +80,7 @@ public class Main {
       items = manager.getAllFeedItems();
     }
 
-    File file3= new File(dir, "add_comment_to_facebook_post.txt");
+    File file3= new File(dir, "4.Facebook_add_comment.txt");
 
     SFMUtils.outputToFile(items, file3, manager);
 
@@ -94,7 +94,7 @@ public class Main {
       items = manager.getAllFeedItems();
     }
 
-    File file4= new File(dir, "edit_comment_to_facebook_post.txt");
+    File file4= new File(dir, "5.Facebook_edit_comment.txt");
 
     SFMUtils.outputToFile(items, file4, manager);
 
