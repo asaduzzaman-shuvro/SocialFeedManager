@@ -26,8 +26,8 @@ public class Main {
 
 //    facebookTest();
 //    testFBUpdate();
-//    testFbCommentUpdate();
-    twitterTest();
+    testFbCommentUpdate();
+//    twitterTest();
   }
 
   public static void facebookPostTest(){
@@ -91,24 +91,32 @@ public class Main {
   }
 
   public static void testFbCommentUpdate(){
-    UUID uniqueAppId = UUID.randomUUID();
-    FacebookFeedProcessor facebookFeedProcessor = new FacebookFeedProcessor(uniqueAppId);
-    List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems("");
+    SocialFeedManager manager = new SocialFeedManager();
+    List<FeedItem> feedItems = manager.getAllFeedItems();
+
+
+
     System.out.println(String.format("%s items found in facebook feed", feedItems.size()));
     System.out.println("now update comment of 3rd item from the feed list");
 
     FacebookFeedItem newItem = (FacebookFeedItem)feedItems.get(2);
     newItem.comments.forEach(comment->{
-      System.out.println("previous comment: " + comment.contents.get(0).value);
+      System.out.println("previous comment: " + comment.contents.get(0).description);
     });
 
     String targetCommentId = newItem.comments.get(0).identifier;
 
-    facebookFeedProcessor.updateComment(uniqueAppId, targetCommentId, "update test comment....");
-    FacebookFeedItem target = (FacebookFeedItem)facebookFeedProcessor.feedItems.get(2);
-    target.comments.forEach(comment->{
-      System.out.println("current comment: " + comment.contents.get(0).value);
-    });
+    List<FeedItem> itemList = new ArrayList<>();
+    if(manager.editComment(newItem, targetCommentId, "Updated Comment test..")){
+      itemList = manager.getAllFeedItems();
+    }
+
+    File dir = new File("output");
+    dir.mkdirs();
+    File file = new File(dir, "output.txt");
+
+    OutputGeneratorService.outputToFile(itemList, file);
+
 
 
   }
@@ -119,11 +127,13 @@ public class Main {
 
 
     // test post update to twitter
-    FeedItem itemToPost = new FeedItem();
+
+    FeedItem itemToPost = new FacebookFeedItem();
+//    FeedItem itemToPost = (FeedItem) fbItem;
     itemToPost.contents.add(new Content(ContentType.TEXT, "", "My first status from SFM"));
 
     List<UUID> identifiers = new ArrayList<>();
-    identifiers.add(manager.getApplicationIdentifiers().get(1));
+    identifiers.add(manager.getApplicationIdentifiers().get(0));
 
     List<FeedItem> items = new ArrayList<>();
     if(manager.postItem(itemToPost, identifiers)){
