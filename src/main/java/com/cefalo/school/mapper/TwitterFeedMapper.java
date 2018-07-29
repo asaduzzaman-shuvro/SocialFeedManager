@@ -95,7 +95,7 @@ public class TwitterFeedMapper implements FeedMapper {
                             feedItem.comments.
                                     add(new Comment(comment.getString("id_str"),
                                             comment.getString("text"),
-                                            commentDate, commenter, ));
+                                            commentDate, commenter));
                         }
 
                     }

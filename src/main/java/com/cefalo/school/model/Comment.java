@@ -8,15 +8,12 @@ public class Comment{
     public String text = "";
     public Date publishDate;
     public String commenteDisplayName = "";
-    public String commenteId = "";
 
-    public Comment(String identifier, String text, Date publishDate, String commenteDisplayName,
-        String commenteId) {
+    public Comment(String identifier, String text, Date publishDate, String commenter) {
         this.identifier = identifier;
         this.text = text;
         this.publishDate = publishDate;
-        this.commenteDisplayName = commenteDisplayName;
-        this.commenteId = commenteId;
+        this.commenteDisplayName = commenter;
     }
 
     public Comment(String text) {
