@@ -13,16 +13,19 @@ public class AccountManager {
         Facebook fb = new Facebook();
         fb.setUserName("atiqul.alam");
         fb.setUserId("1234567890123");
+        fb.setUserDisplayName("Atiqul Alam");
         fb.setAuthToken("ASJAKJSHDKJASHDGFJHASJHDGFHAFSD");
         supportedApplications.add(fb);
 
         Twitter twitter= new Twitter();
         twitter.setUserName("AshifIqbal");
+        twitter.setUserDisplayName("Ashif Iqbal");
         twitter.setAuthToken("ASJAK896957658586587658765FHAFSD");
         supportedApplications.add(twitter);
 
         Instagram instagram = new Instagram();
         instagram.setUserName("Shuvro");
+        instagram.setUserDisplayName("Asaduzzaman Shuvro");
         instagram.setAuthToken("ASJAK896957asdaq34qwda58765FHAFSD");
         supportedApplications.add(instagram);
     }
@@ -65,6 +68,16 @@ public class AccountManager {
         for (Application supportedApplication : supportedApplications) {
             if(supportedApplication.getApplicationIdentifier() == appIdentifier){
                 return supportedApplication.getUserName();
+            }
+        }
+        return null;
+    }
+
+    protected String getApplicationUserDisplayNameByIdentifier(UUID appIdentifier){
+
+        for (Application supportedApplication : supportedApplications) {
+            if(supportedApplication.getApplicationIdentifier() == appIdentifier){
+                return supportedApplication.getUserDisplayName();
             }
         }
         return null;

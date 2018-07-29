@@ -55,7 +55,7 @@ public class SocialFeedManager {
         return processor.addAction(item, action,
             accountManager.getAuthTokenByIdentifier(item.applicationIdentifier),
             accountManager.getApplicationUserIdByIdentifier(item.applicationIdentifier),
-            accountManager.getApplicationUserNameByIdentifier(item.applicationIdentifier));
+            accountManager.getApplicationUserDisplayNameByIdentifier(item.applicationIdentifier));
     }
 
     public boolean editFeedItem(FeedItem item){
@@ -87,7 +87,7 @@ public class SocialFeedManager {
                 item.userID = accountManager.getApplicationUserIdByIdentifier(id);
             }
             if(item.displayName.isEmpty()){
-                item.displayName = accountManager.getApplicationUserNameByIdentifier(id);
+                item.displayName = accountManager.getApplicationUserDisplayNameByIdentifier(id);
             }
             success = processor.postUpdate(item, accountManager.getAuthTokenByIdentifier(id));
         }
