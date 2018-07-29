@@ -55,6 +55,7 @@ public class TwitterTester {
         identifiers.add(socialFeedManager.getApplicationIdentifiers().get(1));
 
         List<FeedItem> items = new ArrayList<>();
+        items = socialFeedManager.getFeedItemsForApplications(identifiers);
         if(socialFeedManager.postItem(itemToPost, identifiers)){
             items = socialFeedManager.getAllFeedItems();
         }
