@@ -6,6 +6,8 @@ import com.cefalo.school.model.FeedItem;
 
 import java.util.ArrayList;
 import java.util.UUID;
+
+import netscape.javascript.JSObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -16,39 +18,63 @@ public class InstagramFeedMapper implements FeedMapper {
 
     public List<FeedItem> getProcessedFeedItems(UUID applicationIdentifier, JSONObject jsonObject) {
 
-        JSONArray data = jsonObject.getJSONArray("data");
-
         List<FeedItem> feedItemList = new ArrayList<FeedItem>();
 
-        for (Object item : data) {
+        if (jsonObject.has("graphql")){
+            JSONObject graphphql = jsonObject.getJSONObject("graphql");
+            if (graphphql.has("user")){
+                JSONObject userData = graphphql.getJSONObject("user");
+                if (userData.has("edge_owner_to_timeline_media")){
+                    JSONObject timelineData = userData.getJSONObject("edge_owner_to_timeline_media");
+                    if (timelineData.has("edges")){
+                        JSONArray allNodes = timelineData.getJSONArray("edges");
+                        for (Object node : allNodes) {
+                            JSONObject object = ((JSONObject) node).getJSONObject("node");
 
-            JSONObject object = (JSONObject) item;
+                            FeedItem feedItem = new FeedItem();
+                            if (object.has("id")){
+                                feedItem.identifier = object.getString("id");
+                            }
+                            if (object.has("taken_at_timestamp")){
+                                feedItem.publishedDate = new Date(object.getLong("taken_at_timestamp") * 1000L);
+                            }
+                            feedItem.applicationIdentifier = applicationIdentifier;
 
-            FeedItem feedItem = new FeedItem();
-            feedItem.identifier = object.getString("id");
-            feedItem.publishedDate = new Date(object.getLong("created_time") * 1000L);
-            feedItem.applicationIdentifier = applicationIdentifier;
+                            if (object.has("edge_media_to_caption")){
+                                JSONObject textMediaObject = object.getJSONObject("edge_media_to_caption");
+                                if (textMediaObject.has("edges")){
+                                    JSONArray textEgges = textMediaObject.getJSONArray("edges");
+                                    for (Object textEdge : textEgges  ) {
+                                        JSONObject textObject = (JSONObject) textEdge;
+                                        feedItem.contents.add(new Content(ContentType.TEXT, textObject.getJSONObject("node").getString("text"), ""));
 
-            if (object.has("user")){
-                JSONObject user = object.getJSONObject("user");
-                if (user.has("id")){
-                    feedItem.userID = user.getString("id");
+                                    }
+                                }
+                            }
+                            if (object.has("is_video") && !object.getBoolean("is_video")){
+                                if (object.has("thumbnail_src")){
+                                    feedItem.contents.add(new Content(ContentType.PICTURE, object.getString("thumbnail_src"), ""));
+                                }
+                            } else if (object.has("is_video") && object.getBoolean("is_video")){
+                                if (object.has("thumbnail_src")){
+                                    feedItem.contents.add(new Content(ContentType.VIDEO, object.getString("thumbnail_src"), ""));
+                                }
+                            }
+
+                            if (object.has("owner")){
+                                JSONObject userInfo = object.getJSONObject("owner");
+                                feedItem.userID = userInfo.getString("id");
+
+                            }
+
+                            feedItemList.add(feedItem);
+                        }
+                    }
                 }
             }
-
-            if (object.has("caption")) {
-                feedItem.contents.add(new Content(ContentType.TEXT, object.getJSONObject("caption").getString("text"), ""));
-            }
-
-            if (object.has("type") && object.getString("type") == "image") {
-                feedItem.contents.add(new Content(ContentType.URL, object.getJSONObject("images").getJSONObject("standard_resolution").getString("url"), ""));
-            }
-
-            if (object.has("type") && object.getString("type") == "video") {
-                feedItem.contents.add(new Content(ContentType.URL, object.getJSONObject("videos").getJSONObject("standard_resolution").getString("url"), ""));
-            }
-
-            feedItemList.add(feedItem);
+        }
+        for (FeedItem feed : feedItemList) {
+            System.out.println(feed.publishedDate);
         }
 
         return feedItemList;
