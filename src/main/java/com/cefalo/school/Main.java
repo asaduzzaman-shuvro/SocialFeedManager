@@ -5,14 +5,8 @@ import com.cefalo.school.model.*;
 import com.cefalo.school.processors.FacebookFeedProcessor;
 import com.cefalo.school.processors.InstagramFeedProcessor;
 
-import com.cefalo.school.services.OutputGeneratorService;
+import com.cefalo.school.services.SFMUtils;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -115,7 +109,7 @@ public class Main {
     dir.mkdirs();
     File file = new File(dir, "output.txt");
 
-    OutputGeneratorService.outputToFile(itemList, file);
+    SFMUtils.outputToFile(itemList, file);
 
 
 
@@ -144,7 +138,7 @@ public class Main {
     dir1.mkdirs();
     File file1 = new File(dir1, "tweetoutput0.txt");
 
-    OutputGeneratorService.outputToFile(items, file1);
+    SFMUtils.outputToFile(items, file1);
 
     FeedItem itemToEdit = items.get(0);
     for (Content content : itemToEdit.contents) {
@@ -160,7 +154,7 @@ public class Main {
     dir.mkdirs();
     File file = new File(dir, "tweetoutput1.txt");
 
-    OutputGeneratorService.outputToFile(items, file);
+    SFMUtils.outputToFile(items, file);
 
     // add favorite
 
@@ -172,7 +166,7 @@ public class Main {
     dir2.mkdirs();
     File file2= new File(dir2, "tweetoutput2.txt");
 
-    OutputGeneratorService.outputToFile(items, file2);
+    SFMUtils.outputToFile(items, file2);
 
     // add comment
 
@@ -184,7 +178,7 @@ public class Main {
     dir3.mkdirs();
     File file3= new File(dir3, "tweetoutput3.txt");
 
-    OutputGeneratorService.outputToFile(items, file3);
+    SFMUtils.outputToFile(items, file3);
   }
 
   public static void instagramTest(){

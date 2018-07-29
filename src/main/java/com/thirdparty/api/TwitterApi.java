@@ -1,6 +1,7 @@
 package com.thirdparty.api;
 
 import com.cefalo.school.model.FeedItem;
+import com.cefalo.school.services.SFMUtils;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -10,7 +11,7 @@ public class TwitterApi {
         String filename = "Twitter.json";
         JSONObject tweeterFeeds = null;
         try {
-            tweeterFeeds = JsonParser.parseJSONFile(filename);
+            tweeterFeeds = SFMUtils.parseJSONFile(filename);
         } catch (IOException e) {
             e.printStackTrace();
         }

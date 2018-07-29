@@ -2,9 +2,12 @@ package com.cefalo.school.services;
 
 import com.cefalo.school.model.*;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.text.BreakIterator;
 import java.text.DateFormat;
@@ -14,11 +17,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by atiqul on 7/28/2018.
  */
-public class OutputGeneratorService {
+public class SFMUtils {
 
   public static void outputToFile(List<FeedItem> items, File file){
     PrintStream writer = null;
@@ -163,6 +168,38 @@ public class OutputGeneratorService {
       start = end;
       end = boundary.next();
     }
+  }
+
+  public static JSONObject parseJSONFile(String filename) throws IOException, JSONException {
+    InputStream in = null;
+    JSONObject json = null;
+    try {
+      ClassLoader classLoader = SFMUtils.class.getClassLoader();
+      in = classLoader.getResourceAsStream(filename);
+
+      if (in != null) {
+        BufferedReader streamReader = new BufferedReader(
+            new InputStreamReader(in, "UTF-8"));
+        StringBuilder responseStrBuilder = new StringBuilder();
+
+        String inputStr;
+        while ((inputStr = streamReader.readLine()) != null)
+          responseStrBuilder.append(inputStr);
+
+        json = new JSONObject(responseStrBuilder.toString());
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      try {
+        in.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+
+    return json;
   }
 
 }
