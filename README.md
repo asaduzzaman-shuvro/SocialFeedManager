@@ -6,6 +6,8 @@
 
 ### Usage
 
+https://docs.google.com/document/d/1yRPTQCcYu2n9HaRFHX6lqPUl7rGfYuiNocRwsiub4Fc/edit
+
 SFM client handles fetching feeds from all added social media account. currently supported facebook,
 twitter and instagram.
 
