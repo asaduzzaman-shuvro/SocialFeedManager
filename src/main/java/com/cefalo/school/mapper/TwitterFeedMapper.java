@@ -1,8 +1,6 @@
 package com.cefalo.school.mapper;
 
-import com.cefalo.school.model.Content;
-import com.cefalo.school.model.ContentType;
-import com.cefalo.school.model.FeedItem;
+import com.cefalo.school.model.*;
 
 import java.text.DateFormat;
 import java.util.*;
@@ -24,7 +22,7 @@ public class TwitterFeedMapper implements FeedMapper {
 
             JSONObject object = array.getJSONObject(i);
 
-            FeedItem feedItem = new FeedItem();
+            TwitterFeedItem feedItem = new TwitterFeedItem();
             feedItem.applicationIdentifier = applicationIdentifier;
             feedItem.identifier = object.getString("id_str");
 
@@ -37,13 +35,30 @@ public class TwitterFeedMapper implements FeedMapper {
 
             if(object.has("text")){
                 feedItem.contents.add(new Content(ContentType.TEXT,
-                        object.getString("text"), object.getString("text")));
+                        "", object.getString("text")));
             }
 
+            if(object.has("retweet_count")){
+                feedItem.retweetCount = object.getInt("retweet_count");
+            }
+            if (object.has("retweeted")){
+                feedItem.retweeted = object.getBoolean("retweeted");
+            }
+            if(object.has("favorite_count")){
+                feedItem.favoriteCount= object.getInt("favorite_count");
+            }
+            if (object.has("favorited")){
+                feedItem.favorited = object.getBoolean("favorited");
+            }
             if (object.has("user")){
                 JSONObject user = object.getJSONObject("user");
                 if(user.has("id_str")){
                     feedItem.userID = user.getString("id_str");
+                }
+                if(user.has("screen_name")){
+                    feedItem.displayName = user.getString("screen_name");
+                }else if(user.has("name")){
+                    feedItem.displayName = user.getString("name");
                 }
             }
 
@@ -53,17 +68,25 @@ public class TwitterFeedMapper implements FeedMapper {
                     JSONArray medias = item.getJSONArray("media");
                     for (Object mediaObj : medias) {
                         JSONObject media = (JSONObject) mediaObj;
-                        ContentType contentType = ContentType.URL;
-                        //TODO: determine video or photo
+                        ContentType contentType = ContentType.PICTURE;
                         if (media.has("type")) {
-                            if (media.getString("type").equals("photo")) {
-                                contentType = ContentType.PICTURE;
-                            }else if(media.getString("type").equals("video")){
+                            if(media.getString("type").equals("video")){
                                 contentType = ContentType.VIDEO;
                             }
                         }
                         feedItem.contents.add(new Content(contentType,
                                 media.getString("media_url"), ""));
+                    }
+                }else if (item.has("comments")){
+                    JSONArray comments = item.getJSONArray("comments");
+                    for (Object commentObj : comments) {
+                        JSONObject comment = (JSONObject) commentObj;
+                        if (comment.has("text")){
+                            String text = comment.getString("text");
+                            feedItem.comments.
+                                    add(new Comment(comment.getString("id_str"),
+                                            comment.getString("text")));
+                        }
 
                     }
                 }
@@ -75,6 +98,7 @@ public class TwitterFeedMapper implements FeedMapper {
 
     @Override
     public JSONObject mapFeedItemToJSON(FeedItem item) {
+        TwitterFeedItem tweetItem = (TwitterFeedItem)item;
         JSONObject object = new JSONObject();
         DateFormat df = new SimpleDateFormat("EE MMM dd hh:mm:ss Z yyyy");
         object.put("created_at", df.format(item.publishedDate));
@@ -83,15 +107,58 @@ public class TwitterFeedMapper implements FeedMapper {
         user.put("id_str", item.userID);
         object.put("user", user);
 
+        object.put("retweet_count", tweetItem.retweetCount);
+        object.put("retweeted", tweetItem.retweeted);
+        object.put("favorite_count", tweetItem.favoriteCount);
+        object.put("favorited", tweetItem.favorited);
+
+        JSONObject entities = new JSONObject();
+        JSONArray media = new JSONArray();
+
+        entities.put("media", media);
+        object.put("entities", entities);
+
         String text = "";
         for (Content content:item.contents) {
             if(content.contentType == ContentType.TEXT && !content.description.isEmpty()){
                 text = content.description;
-                break;
+            }
+            else if(content.contentType == ContentType.PICTURE && !content.value.isEmpty()){
+                if (object.has("entities")) {
+                    JSONObject entitieObject = object.getJSONObject("entities");
+                    if (entitieObject.has("media")) {
+                        JSONArray medias = entitieObject.getJSONArray("media");
+                        JSONObject mediaObject = new JSONObject();
+                        mediaObject.put("type", "photo");
+                        mediaObject.put("media_url", content.value);
+                        medias.put(mediaObject);
+                    }
+                }
+            }
+            else if(content.contentType == ContentType.VIDEO && !content.value.isEmpty()){
+                if (object.has("entities")) {
+                    JSONObject entitieObject = object.getJSONObject("entities");
+                    if (entitieObject.has("media")) {
+                        JSONArray medias = entitieObject.getJSONArray("media");
+                        JSONObject mediaObject = new JSONObject();
+                        mediaObject.put("type", "video");
+                        mediaObject.put("media_url", content.value);
+                        medias.put(mediaObject);
+                    }
+                }
             }
         }
         object.put("text", text);
 
+        JSONArray comments = new JSONArray();
+        for(Comment comment:tweetItem.comments){
+            JSONObject commentItem = new JSONObject();
+            commentItem.put("text", comment.text);
+            commentItem.put("id_str", comment.identifier);
+            comments.put(commentItem);
+        }
+
+        entities.put("comments", comments);
         return object;
     }
 
