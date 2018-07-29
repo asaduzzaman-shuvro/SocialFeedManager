@@ -32,6 +32,7 @@ public class InstagramFeedProcessor implements FeedProcessor{
 
     @Override
     public boolean addAction(FeedItem feedItem, SFMAction action, String authToken) {
+
         return false;
     }
 
