@@ -109,11 +109,11 @@ public class Main {
 
 //    tester.testGetAllFeed(); // get all feed
 //    tester.testGetTwitterFeed(); // get twitter specific feed
-//    tester.testTwitterPost(); // post to twitter
+    tester.testTwitterPost(); // post to twitter
 //    tester.testTwitterEditPost(); //edit post
 //    tester.testTwitterFavorite(); // favorite post
 //    tester.testTwitterRetweet(); //retweet
-    tester.testTwitterAddComment(); // add comment
+//    tester.testTwitterAddComment(); // add comment
   }
 
   public static void instagramTest(){
