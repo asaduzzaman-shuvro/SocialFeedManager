@@ -30,6 +30,16 @@ public class Facebook implements Application {
     return applicationType;
   }
 
+  @Override
+  public String getUserDisplayName() {
+    return displayName;
+  }
+
+  @Override
+  public void setUserDisplayName(String displayName) {
+    this.displayName = displayName;
+  }
+
   public void setUserName(String userName) {
     this.userName = userName;
   }

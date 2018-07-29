@@ -7,7 +7,8 @@ import java.util.UUID;
 
 public interface FeedProcessor {
     public List<FeedItem> getFeedItems(String authToken);
-    public boolean addAction(FeedItem feedItem, SFMAction action, String authToken);
+    public boolean addAction(FeedItem feedItem, SFMAction action, String authToken, String userId,
+        String displayName);
     public boolean postUpdate(FeedItem item, String authToken);
     public UUID getApplicationIdentifier();
 }

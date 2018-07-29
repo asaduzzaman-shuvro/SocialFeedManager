@@ -55,4 +55,14 @@ public class Twitter implements Application {
     public ApplicationType getApplicationType() {
         return applicationType;
     }
+
+    @Override
+    public String getUserDisplayName() {
+        return displayName;
+    }
+
+    @Override
+    public void setUserDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
 }

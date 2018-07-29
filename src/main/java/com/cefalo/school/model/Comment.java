@@ -1,6 +1,5 @@
 package com.cefalo.school.model;
 
-import java.sql.DatabaseMetaData;
 import java.util.Date;
 import java.util.UUID;
 

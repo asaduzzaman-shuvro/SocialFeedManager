@@ -15,4 +15,6 @@ public interface Application {
   public String getAuthToken();
   UUID getApplicationIdentifier();
   ApplicationType getApplicationType();
+  String getUserDisplayName();
+  void setUserDisplayName(String displayName);
 }

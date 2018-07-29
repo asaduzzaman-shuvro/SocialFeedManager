@@ -1,5 +1,6 @@
 package com.thirdparty.api;
 
+import com.cefalo.school.services.SFMUtils;
 import java.io.*;
 import org.json.*;
 
@@ -12,7 +13,7 @@ public class FacebookApi {
     String filename = "Facebook.json";
     JSONObject facebookFeeds = null;
     try {
-      facebookFeeds = JsonParser.parseJSONFile(filename);
+      facebookFeeds = SFMUtils.parseJSONFile(filename);
     } catch (IOException e) {
       e.printStackTrace();
     }
