@@ -83,6 +83,16 @@ public class AccountManager {
         return null;
     }
 
+    protected String getApplicationNameByIdentifier(UUID appIdentifier){
+        Application application = supportedApplications.stream().filter(app->{
+           return app.getApplicationIdentifier() == appIdentifier;
+        }).findAny().orElse(null);
+        if(application != null){
+            return application.getApplicationType().toString();
+        }
+        return "";
+    }
+
     protected void addSupportedApplication(Application application){
 
     }
