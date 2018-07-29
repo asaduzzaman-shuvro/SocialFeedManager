@@ -59,6 +59,7 @@ public class FacebookFeedMapper implements FeedMapper {
 
             if(object.has("from")){
                 feedItem.userID = object.getJSONObject("from").getString("id");
+                feedItem.displayName = object.getJSONObject("from").getString("name");
             }
 
             if(object.has("type")) {
@@ -69,9 +70,7 @@ public class FacebookFeedMapper implements FeedMapper {
                 }else {
                     JSONArray attachments = object.getJSONObject("attachments").getJSONArray("data");
                     mapAttachments(feedItem, attachments, object.getString("type"));
-//                    if(feedItem.contents.size() > 0 && "".equals(feedItem.contents.get(0).description) && object.has("message")){
-//                        feedItem.contents.get(0).description = object.getString("message");
-//                    }
+
                 }
             }
 
@@ -124,6 +123,7 @@ public class FacebookFeedMapper implements FeedMapper {
         object.put("id", fbItem.identifier);
         JSONObject user = new JSONObject();
         user.put("id", fbItem.userID);
+        user.put("name", fbItem.displayName);
         object.put("from", user);
 
         String text = "";
