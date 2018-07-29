@@ -186,9 +186,6 @@ public class Main {
     SFMUtils.outputToFile(items, file1,manager);
 
 
-    System.out.println(items.get(0).contents.get(0).description);
-
-
     FeedItem itemToEdit = items.get(0);
     for (Content content : itemToEdit.contents) {
       if(content.contentType == ContentType.TEXT){
@@ -199,7 +196,6 @@ public class Main {
     if(manager.editFeedItem(itemToEdit)){
       items = manager.getAllFeedItems();
     }
-    System.out.println(items.get(0).contents.get(0).description);
 
     File file = new File(dir, "InstagramEdit.txt");
 
