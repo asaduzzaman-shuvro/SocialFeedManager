@@ -19,8 +19,33 @@ public class Main {
 
 //    facebookTest();
 //    twitterTest();
+    postToAllApplication();
     System.out.println("check output logs from /SocialFeedManager/output folder");
-    instagramTest();
+//    instagramTest();
+
+  }
+
+  public static void postToAllApplication(){
+    SocialFeedManager manager = new SocialFeedManager();
+    manager.getAllFeedItems();
+
+
+    FeedItem itemToPost = new FeedItem();
+    itemToPost.contents.add(new Content(ContentType.TEXT, "", "This is test post to all application from SFM"));
+
+
+    List<FeedItem> items = new ArrayList<>();
+    if(manager.postItem(itemToPost, manager.getApplicationIdentifiers())){
+      items = manager.getAllFeedItems();
+    }
+
+    File dir = new File("output");
+    dir.mkdirs();
+    File file1 = new File(dir, "0.Post_to_all_application.txt");
+
+    SFMUtils.outputToFile(items, file1, manager);
+
+
   }
 
 
