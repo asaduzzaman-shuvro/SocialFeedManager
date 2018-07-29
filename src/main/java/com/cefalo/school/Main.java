@@ -133,7 +133,7 @@ public class Main {
     itemToPost.contents.add(new Content(ContentType.TEXT, "", "My first status from SFM"));
 
     List<UUID> identifiers = new ArrayList<>();
-    identifiers.add(manager.getApplicationIdentifiers().get(0));
+    identifiers.add(manager.getApplicationIdentifiers().get(1));
 
     List<FeedItem> items = new ArrayList<>();
     if(manager.postItem(itemToPost, identifiers)){
