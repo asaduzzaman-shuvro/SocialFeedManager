@@ -38,8 +38,7 @@ public class FacebookFeedProcessor implements FeedProcessor {
 
     @Override
     public boolean postUpdate(FeedItem item, String authToken) {
-        FacebookFeedItem itemToPost = (FacebookFeedItem)item;
-        JSONObject object = feedMapper.mapFeedItemToJSON(itemToPost);
+        JSONObject object = feedMapper.mapFeedItemToJSON(item);
         return feedOperator.postItem(object);
     }
 

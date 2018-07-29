@@ -46,10 +46,10 @@ public class SocialFeedManager {
         if (allFeedItems != null){
             allFeedItems.sort(((o2, o1) -> o1.publishedDate.compareTo(o2.publishedDate)));
         }
-        System.out.println("all feeds" + allFeedItems);
-        for (FeedItem item: allFeedItems) {
-            System.out.println("item.publishedDate " + item.publishedDate + " item.appType "+ accountManager.getApplicationTypeByIdentifier(item.applicationIdentifier)+ " item.userID " + item.userID);
-        }
+//        System.out.println("all feeds" + allFeedItems);
+//        for (FeedItem item: allFeedItems) {
+//            System.out.println("item.publishedDate " + item.publishedDate + " item.appType "+ accountManager.getApplicationTypeByIdentifier(item.applicationIdentifier)+ " item.userID " + item.userID);
+//        }
         return allFeedItems;
     }
 
