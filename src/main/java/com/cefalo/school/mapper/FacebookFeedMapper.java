@@ -113,10 +113,28 @@ public class FacebookFeedMapper implements FeedMapper {
         return null;
     }
 
+    private FacebookFeedItem mapFeedItemToFacebookFeedItem(FeedItem item){
+        if(item instanceof FacebookFeedItem){
+            FacebookFeedItem fbItem = (FacebookFeedItem)item;
+            return fbItem;
+        }else{
+            FacebookFeedItem fbItem = new FacebookFeedItem();
+            fbItem.identifier = item.identifier;
+            fbItem.contents = item.contents;
+            fbItem.displayName = item.displayName;
+            fbItem.userID = item.displayName;
+            fbItem.applicationIdentifier = item.applicationIdentifier;
+            fbItem.publishedDate = item.publishedDate;
+
+            return fbItem;
+        }
+    }
+
     @Override
     public JSONObject mapFeedItemToJSON(FeedItem item)
     {
-        FacebookFeedItem fbItem = (FacebookFeedItem) item;
+        FacebookFeedItem fbItem = mapFeedItemToFacebookFeedItem(item);
+
         JSONObject object = new JSONObject();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
         object.put("created_time", df.format(fbItem.publishedDate));
