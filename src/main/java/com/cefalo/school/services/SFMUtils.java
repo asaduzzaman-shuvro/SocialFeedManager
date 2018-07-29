@@ -87,6 +87,7 @@ public class SFMUtils {
             writer.println();
             writer.println("comment details:");
             for (FeedItem comment : fbItem.comments) {
+
               String name = comment.displayName;
               formatLines(name, writer);
               writer.print( " " + df.format(comment.publishedDate));
@@ -122,9 +123,14 @@ public class SFMUtils {
             writer.println();
             writer.println("comment details:");
             for (Comment comment : tweetItem.comments) {
+              String name = comment.commenterDisplayName;
+              formatLines(name, writer);
+              writer.print( " " + df.format(comment.publishDate));
+              writer.println();
+
               String message = comment.text;
-              writer.println(df.format(comment.publishDate));
               formatLines(message, writer);
+              writer.println();
             }
           }
             writer.println();

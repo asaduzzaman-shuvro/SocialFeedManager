@@ -31,7 +31,8 @@
             "created_at": "Sun Apr 01 16:48:36 +0000 2018",
             "id_str" : "123456",
             "text": "awesome post",
-            "commenter_name": "UnderGradProblem"
+            "commenter_name": "OldGREG85",
+            "user_id": "80177619"
           }
         ]
       },
@@ -110,7 +111,8 @@
             "created_at": "Sun Apr 03 16:48:36 +0000 2018",
             "id_str" : "128766",
             "text": "nicely done",
-            "commenter_name": "AIFixer"
+            "commenter_name": "OldGREG85",
+            "user_id": "80177619"
           }
         ],
         "media": [
