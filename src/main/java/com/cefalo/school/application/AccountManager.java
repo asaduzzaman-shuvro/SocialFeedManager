@@ -13,16 +13,19 @@ public class AccountManager {
         Facebook fb = new Facebook();
         fb.setUserName("atiqul.alam");
         fb.setUserId("1234567890123");
+        fb.setUserDisplayName("Atiqul Alam");
         fb.setAuthToken("ASJAKJSHDKJASHDGFJHASJHDGFHAFSD");
         supportedApplications.add(fb);
 
         Twitter twitter= new Twitter();
         twitter.setUserName("AshifIqbal");
+        twitter.setUserDisplayName("Ashif Iqbal");
         twitter.setAuthToken("ASJAK896957658586587658765FHAFSD");
         supportedApplications.add(twitter);
 
         Instagram instagram = new Instagram();
         instagram.setUserName("Shuvro");
+        instagram.setUserDisplayName("Asaduzzaman Shuvro");
         instagram.setAuthToken("ASJAK896957asdaq34qwda58765FHAFSD");
         supportedApplications.add(instagram);
     }
@@ -40,16 +43,6 @@ public class AccountManager {
         return null;
     }
 
-    protected String getApplicationTypeByIdentifier(UUID appIdentifier){
-
-        for (Application supportedApplication : supportedApplications) {
-            if(supportedApplication.getApplicationIdentifier() == appIdentifier){
-                return supportedApplication.getApplicationType().toString();
-            }
-        }
-        return null;
-    }
-
     protected String getApplicationUserIdByIdentifier(UUID appIdentifier){
 
         for (Application supportedApplication : supportedApplications) {
@@ -60,11 +53,12 @@ public class AccountManager {
         return null;
     }
 
-    protected String getApplicationUserNameByIdentifier(UUID appIdentifier){
+
+    protected String getApplicationUserDisplayNameByIdentifier(UUID appIdentifier){
 
         for (Application supportedApplication : supportedApplications) {
             if(supportedApplication.getApplicationIdentifier() == appIdentifier){
-                return supportedApplication.getUserName();
+                return supportedApplication.getUserDisplayName();
             }
         }
         return null;

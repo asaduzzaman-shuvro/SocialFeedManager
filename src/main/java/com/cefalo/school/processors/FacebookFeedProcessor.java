@@ -1,7 +1,6 @@
 package com.cefalo.school.processors;
 
 import com.cefalo.school.mapper.FacebookFeedMapper;
-import com.cefalo.school.model.FacebookFeedItem;
 import com.cefalo.school.model.FeedItem;
 import com.cefalo.school.model.SFMAction;
 import com.cefalo.school.operators.FacebookOperator;
@@ -32,8 +31,9 @@ public class FacebookFeedProcessor implements FeedProcessor {
 
 
     @Override
-    public boolean addAction(FeedItem feedItem, SFMAction action, String authToken){
-        return postUpdate(feedOperator.addAction(feedItem, action), authToken);
+    public boolean addAction(FeedItem feedItem, SFMAction action, String authToken, String userId,
+        String displayName){
+        return postUpdate(feedOperator.addAction(feedItem, action, userId, displayName), authToken);
     }
 
     @Override

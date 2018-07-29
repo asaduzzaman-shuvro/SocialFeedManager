@@ -165,7 +165,7 @@ public class TwitterFeedMapper implements FeedMapper {
             commentItem.put("text", comment.text);
             commentItem.put("id_str", comment.identifier);
             commentItem.put("created_at", df.format(comment.publishDate));
-            commentItem.put("commenter_name", comment.commenteDisplayName);
+            commentItem.put("commenter_name", comment.commenterDisplayName);
             comments.put(commentItem);
         }
 

@@ -31,8 +31,8 @@ public class InstagramFeedProcessor implements FeedProcessor{
     }
 
     @Override
-    public boolean addAction(FeedItem feedItem, SFMAction action, String authToken) {
-
+    public boolean addAction(FeedItem feedItem, SFMAction action, String authToken, String userId,
+        String displayName) {
         return false;
     }
 

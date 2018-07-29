@@ -35,7 +35,7 @@ public class TwitterOperator implements FeedOperator {
         return jsonObject != null;
     }
 
-    public FeedItem addAction(FeedItem item, SFMAction action){
+    public FeedItem addAction(FeedItem item, SFMAction action, String userId, String displayName){
         TwitterFeedItem tweetItem = (TwitterFeedItem) item;
         if(action.actionType == TwitterActionType.FAVORITE) {
             tweetItem.favoriteCount += 1;
@@ -44,6 +44,7 @@ public class TwitterOperator implements FeedOperator {
             tweetItem.retweetCount += 1;
         } else{
             Comment comment = new Comment(action.description);
+            comment.commenterDisplayName = displayName;
             tweetItem.comments.add(comment);
         }
         return tweetItem;

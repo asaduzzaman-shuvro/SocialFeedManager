@@ -40,14 +40,20 @@ public class FacebookOperator implements FeedOperator {
         return jsonObject != null;
     }
 
-    public FeedItem addAction(FeedItem item, SFMAction action){
+    public FeedItem addAction(FeedItem item, SFMAction action, String userId, String displayName){
         FacebookFeedItem fbItem = (FacebookFeedItem) item;
         if(action.actionType != FBActionType.COMMENT) {
+            int currentReactionValue = 0;
+            if(fbItem.reactions.containsKey(action.actionType.toString().toLowerCase())){
+                currentReactionValue = fbItem.reactions.get(action.toString().toLowerCase());
+            }
             fbItem.reactions.put(action.actionType.toString().toLowerCase(),
-                fbItem.reactions.get(action.toString().toLowerCase()) + 1);
+                currentReactionValue + 1);
         }else {
-            FeedItem comment = new FeedItem();
+            FeedItem comment = new FacebookFeedItem();
             comment.contents.add(new Content(ContentType.TEXT, "", action.description));
+            comment.userID = userId;
+            comment.displayName = displayName;
             ((FacebookFeedItem) item).comments.add(comment);
         }
         return fbItem;

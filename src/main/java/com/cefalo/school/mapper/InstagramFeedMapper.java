@@ -4,7 +4,6 @@ import com.cefalo.school.model.Content;
 import com.cefalo.school.model.ContentType;
 import com.cefalo.school.model.FeedItem;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.UUID;
 
