@@ -2,8 +2,6 @@ package com.cefalo.school;
 
 import com.cefalo.school.application.SocialFeedManager;
 import com.cefalo.school.model.*;
-import com.cefalo.school.processors.InstagramFeedProcessor;
-
 import com.cefalo.school.services.SFMUtils;
 import java.io.File;
 import java.util.ArrayList;
@@ -17,8 +15,8 @@ public class Main {
 
   public static void main(String[] args) {
 
-//    facebookTest();
-//    twitterTest();
+    facebookTest();
+    testingForTwitter();
     System.out.println("check output logs from /SocialFeedManager/output folder");
     instagramTest();
   }
@@ -109,13 +107,13 @@ public class Main {
 
 //    uncomment the functiona you want to test
 
-    tester.testGetAllFeed(); // get all feed
+//    tester.testGetAllFeed(); // get all feed
 //    tester.testGetTwitterFeed(); // get twitter specific feed
 //    tester.testTwitterPost(); // post to twitter
 //    tester.testTwitterEditPost(); //edit post
 //    tester.testTwitterFavorite(); // favorite post
 //    tester.testTwitterRetweet(); //retweet
-//    tester.testTwitterAddComment(); // add comment 
+    tester.testTwitterAddComment(); // add comment
   }
 
   public static void instagramTest(){
