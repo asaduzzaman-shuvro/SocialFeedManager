@@ -1,5 +1,6 @@
 package com.cefalo.school.services;
 
+import com.cefalo.school.application.SocialFeedManager;
 import com.cefalo.school.model.*;
 
 import java.io.BufferedReader;
@@ -12,7 +13,6 @@ import java.io.PrintStream;
 import java.text.BreakIterator;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -25,7 +25,7 @@ import org.json.JSONObject;
  */
 public class SFMUtils {
 
-  public static void outputToFile(List<FeedItem> items, File file){
+  public static void outputToFile(List<FeedItem> items, File file, SocialFeedManager manager){
     PrintStream writer = null;
 
     try {
@@ -44,13 +44,13 @@ public class SFMUtils {
         for (Content content : item.contents) {
           if(i == 0) {
             if (content.contentType.equals(ContentType.PICTURE)) {
-              writer.println(String.format("%s upload a picture", item.displayName));
+              writer.println(String.format("%s upload a picture on %s", item.displayName, manager.getApplicationName(item.applicationIdentifier)));
             } else if (content.contentType.equals(ContentType.VIDEO)) {
-              writer.println(String.format("%s upload a video", item.displayName));
+              writer.println(String.format("%s upload a video on %s", item.displayName, manager.getApplicationName(item.applicationIdentifier)));
             } else if (content.contentType.equals(ContentType.URL)) {
-              writer.println(String.format("%s shared a link", item.displayName));
+              writer.println(String.format("%s shared a link on %s", item.displayName, manager.getApplicationName(item.applicationIdentifier)));
             } else {
-              writer.println(String.format("%s post", item.displayName));
+              writer.println(String.format("%s post on %s", item.displayName, manager.getApplicationName(item.applicationIdentifier)));
             }
 
             writer.println(df.format(item.publishedDate));

@@ -19,6 +19,7 @@ public class Main {
 
 //    facebookTest();
 //    twitterTest();
+    System.out.println("check output logs from /SocialFeedManager/output folder");
     instagramTest();
   }
 
@@ -42,9 +43,9 @@ public class Main {
 
     File dir = new File("output");
     dir.mkdirs();
-    File file1 = new File(dir, "post_to_facebook.txt");
+    File file1 = new File(dir, "1.Facebook_post.txt");
 
-    SFMUtils.outputToFile(items, file1);
+    SFMUtils.outputToFile(items, file1, manager);
 
     /* Edit given post to Facebook from SFM*/
 
@@ -59,9 +60,9 @@ public class Main {
       items = manager.getAllFeedItems();
     }
 
-    File file = new File(dir, "edit_post_to_facebook.txt");
+    File file = new File(dir, "2.Facebook_edit_post.txt");
 
-    SFMUtils.outputToFile(items, file);
+    SFMUtils.outputToFile(items, file, manager);
 
     // add like to this post
 
@@ -70,9 +71,9 @@ public class Main {
     }
 
 
-    File file2= new File(dir, "like_facebook_post.txt");
+    File file2= new File(dir, "3.Facebook_add_like.txt");
 
-    SFMUtils.outputToFile(items, file2);
+    SFMUtils.outputToFile(items, file2, manager);
 
     // add comment to this post
 
@@ -80,16 +81,13 @@ public class Main {
       items = manager.getAllFeedItems();
     }
 
-    File file3= new File(dir, "add_comment_to_facebook_post.txt");
+    File file3= new File(dir, "4.Facebook_add_comment.txt");
 
-    SFMUtils.outputToFile(items, file3);
+    SFMUtils.outputToFile(items, file3, manager);
 
     /* edit comment to this post */
 
     FacebookFeedItem targetItem = (FacebookFeedItem)items.get(0);
-    targetItem.comments.forEach(comment->{
-      System.out.println("previous comment: " + comment.contents.get(0).description);
-    });
 
     String targetCommentId = targetItem.comments.get(0).identifier;
 
@@ -97,9 +95,9 @@ public class Main {
       items = manager.getAllFeedItems();
     }
 
-    File file4= new File(dir, "edit_comment_to_facebook_post.txt");
+    File file4= new File(dir, "5.Facebook_edit_comment.txt");
 
-    SFMUtils.outputToFile(items, file4);
+    SFMUtils.outputToFile(items, file4, manager);
 
 
   }
@@ -127,7 +125,7 @@ public class Main {
     dir.mkdirs();
     File file1 = new File(dir, "tweetoutput0.txt");
 
-    SFMUtils.outputToFile(items, file1);
+    SFMUtils.outputToFile(items, file1, manager);
 
     FeedItem itemToEdit = items.get(0);
     for (Content content : itemToEdit.contents) {
@@ -142,7 +140,7 @@ public class Main {
 
     File file = new File(dir, "tweetoutput1.txt");
 
-    SFMUtils.outputToFile(items, file);
+    SFMUtils.outputToFile(items, file, manager);
 
     // add favorite
 
@@ -152,7 +150,7 @@ public class Main {
 
     File file2= new File(dir, "tweetoutput2.txt");
 
-    SFMUtils.outputToFile(items, file2);
+    SFMUtils.outputToFile(items, file2, manager);
 
     // add comment
 
@@ -162,7 +160,7 @@ public class Main {
 
     File file3= new File(dir, "tweetoutput3.txt");
 
-    SFMUtils.outputToFile(items, file3);
+    SFMUtils.outputToFile(items, file3, manager);
   }
 
   public static void instagramTest(){
@@ -185,7 +183,7 @@ public class Main {
     dir.mkdirs();
     File file1 = new File(dir, "Instagram.txt");
 
-    SFMUtils.outputToFile(items, file1);
+    SFMUtils.outputToFile(items, file1,manager);
 
 
     System.out.println(items.get(0).contents.get(0).description);
@@ -205,7 +203,7 @@ public class Main {
 
     File file = new File(dir, "InstagramEdit.txt");
 
-    SFMUtils.outputToFile(items, file);
+    SFMUtils.outputToFile(items, file,manager);
 
   }
 }
