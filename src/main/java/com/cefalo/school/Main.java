@@ -121,40 +121,11 @@ public class Main {
   public static void instagramTest(){
 
     SocialFeedManager manager = new SocialFeedManager();
-    manager.getAllFeedItems();
-
-    List<UUID> identifiers = new ArrayList<>();
-    identifiers.add(manager.getApplicationIdentifiers().get(2));
-
-    FeedItem itemToPost = new FeedItem();
-    itemToPost.contents.add(new Content(ContentType.TEXT, "", "Insatagram Status"));
-
-    List<FeedItem> items = new ArrayList<>();
-    if(manager.postItem(itemToPost, identifiers)){
-      items = manager.getAllFeedItems();
-    }
-
-    File dir = new File("output");
-    dir.mkdirs();
-    File file1 = new File(dir, "Instagram.txt");
-
-    SFMUtils.outputToFile(items, file1,manager);
-
-
-    FeedItem itemToEdit = items.get(0);
-    for (Content content : itemToEdit.contents) {
-      if(content.contentType == ContentType.TEXT){
-        content.description = "eited instagram status";
-      }
-    }
-
-    if(manager.editFeedItem(itemToEdit)){
-      items = manager.getAllFeedItems();
-    }
-
-    File file = new File(dir, "InstagramEdit.txt");
-
-    SFMUtils.outputToFile(items, file,manager);
+    InstagramTester tester = new InstagramTester(manager);
+    tester.testGetAllFeed(); // get all feed.
+    tester.testGetInstagramFeed(); // get instagram feed only.
+    tester.testInstagramNewPost(); // add new instagram post.
+    tester.instagramEditPost(); // edit instagram post.
 
   }
 }
