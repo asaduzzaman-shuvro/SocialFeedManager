@@ -7,11 +7,11 @@ import java.util.UUID;
  */
 public class Facebook implements Application {
 
-  private String userName;
-  private String authToken;
+  private String userName = "";
+  private String authToken = "";
   private ApplicationType applicationType;
   private UUID applicationIdentifier;
-  private String  userId;
+  private String  userId = "";
 
   public Facebook(){
     this.applicationIdentifier = UUID.randomUUID();
@@ -19,9 +19,7 @@ public class Facebook implements Application {
     System.out.println("Facebook: " + applicationIdentifier);
   }
 
-  public String getUserName() {
-    return userName;
-  }
+  @Override
 
   public String getAuthToken() {
     return authToken;
@@ -33,6 +31,11 @@ public class Facebook implements Application {
 
   public void setUserName(String userName) {
     this.userName = userName;
+  }
+
+  @Override
+  public String getUserName() {
+    return userName;
   }
 
   @Override

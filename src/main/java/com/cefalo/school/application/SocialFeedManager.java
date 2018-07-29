@@ -74,6 +74,9 @@ public class SocialFeedManager {
             if(item.userID.isEmpty()){
                 item.userID = accountManager.getApplicationUserIdByIdentifier(id);
             }
+            if(item.displayName.isEmpty()){
+                item.displayName = accountManager.getApplicationUserNameByIdentifier(id);
+            }
             success = processor.postUpdate(item, accountManager.getAuthTokenByIdentifier(id));
         }
         return success;
