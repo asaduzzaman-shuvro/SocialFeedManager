@@ -28,9 +28,10 @@
         "hashtags": [ ],
         "comments":[
           {
-            ""
+            "created_at": "Sun Apr 01 16:48:36 +0000 2018",
             "id_str" : "123456",
-            "text": "awesome post"
+            "text": "awesome post",
+            "commenter_name": "UnderGradProblem"
           }
         ]
       },
@@ -39,15 +40,6 @@
       "in_reply_to_user_id_str": null,
       "place": null,
       "retweet_count": 4,
-      "entities":{
-        "comments":[
-        {
-          "created_at": "Sun Apr 03 16:48:36 +0000 2018",
-          "id_str" : "128766",
-          "text": "nicely done"
-        }
-        ]
-      },
       "created_at": "Sun Apr 03 23:48:36 +0000 2011",
       "user": {
         "notifications": null,
@@ -113,7 +105,14 @@
         ],
         "symbols": [],
         "user_mentions": [],
-        "comments":[],
+        "comments":[
+          {
+            "created_at": "Sun Apr 03 16:48:36 +0000 2018",
+            "id_str" : "128766",
+            "text": "nicely done",
+            "commenter_name": "AIFixer"
+          }
+        ],
         "media": [
           {
             "display_url": "pic.twitter.com/HtdvV0bPEu",
