@@ -19,9 +19,9 @@ public class TwitterOperator implements FeedOperator {
                     array.put(i, item);
                     return true;
                 }
+                i++;
             }
             array.put(item);
-            i++;
             // post to twitter api
             return true;
         }

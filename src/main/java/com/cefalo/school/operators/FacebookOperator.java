@@ -21,12 +21,11 @@ public class FacebookOperator implements FeedOperator {
                 JSONObject jsonItem = (JSONObject) object;
                 if(jsonItem.getString("id").equals(item.getString("id"))){
                     array.put(i, item);
-                    jsonObject.put("data", array);
                     return true;
                 }
+                i++;
             }
             array.put(item);
-            i++;
             // post to FB api
             return true;
         }
