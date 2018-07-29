@@ -74,10 +74,6 @@ public class InstagramFeedMapper implements FeedMapper {
                 }
             }
         }
-        for (FeedItem feed : feedItemList) {
-            System.out.println(feed.publishedDate);
-        }
-
         return feedItemList;
     }
 
