@@ -3,7 +3,6 @@ package com.cefalo.school.application;
 import com.cefalo.school.factories.FeedProcessorFactory;
 import com.cefalo.school.model.FacebookFeedItem;
 import com.cefalo.school.model.FeedItem;
-import com.cefalo.school.model.ActionType;
 import com.cefalo.school.model.SFMAction;
 import com.cefalo.school.processors.FacebookFeedProcessor;
 import com.cefalo.school.processors.FeedProcessor;
@@ -53,7 +52,10 @@ public class SocialFeedManager {
 
     public boolean addAction(FeedItem item, SFMAction action){
         FeedProcessor processor = getProcessor(item.applicationIdentifier);
-        return processor.addAction(item, action, accountManager.getAuthTokenByIdentifier(item.applicationIdentifier));
+        return processor.addAction(item, action,
+            accountManager.getAuthTokenByIdentifier(item.applicationIdentifier),
+            accountManager.getApplicationUserIdByIdentifier(item.applicationIdentifier),
+            accountManager.getApplicationUserNameByIdentifier(item.applicationIdentifier));
     }
 
     public boolean editFeedItem(FeedItem item){

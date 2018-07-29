@@ -40,7 +40,7 @@ public class FacebookOperator implements FeedOperator {
         return jsonObject != null;
     }
 
-    public FeedItem addAction(FeedItem item, SFMAction action){
+    public FeedItem addAction(FeedItem item, SFMAction action, String userId, String displayName){
         FacebookFeedItem fbItem = (FacebookFeedItem) item;
         if(action.actionType != FBActionType.COMMENT) {
             int currentReactionValue = 0;
@@ -52,6 +52,8 @@ public class FacebookOperator implements FeedOperator {
         }else {
             FeedItem comment = new FacebookFeedItem();
             comment.contents.add(new Content(ContentType.TEXT, "", action.description));
+            comment.userID = userId;
+            comment.displayName = displayName;
             ((FacebookFeedItem) item).comments.add(comment);
         }
         return fbItem;

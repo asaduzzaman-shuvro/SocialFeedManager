@@ -31,8 +31,9 @@ public class TwitterFeedProcessor implements FeedProcessor{
     }
 
     @Override
-    public boolean addAction(FeedItem feedItem, SFMAction action, String authToken) {
-        FeedItem itemToAddAction = feedOperator.addAction(feedItem, action);
+    public boolean addAction(FeedItem feedItem, SFMAction action, String authToken, String userId,
+        String displayName) {
+        FeedItem itemToAddAction = feedOperator.addAction(feedItem, action, userId, displayName);
         return postUpdate(itemToAddAction, authToken);
     }
 
