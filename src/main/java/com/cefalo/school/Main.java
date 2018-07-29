@@ -17,10 +17,10 @@ public class Main {
 
   public static void main(String[] args) {
 
-    facebookTest();
+//    facebookTest();
 //    twitterTest();
-    testSFMForTwitter();
     System.out.println("check output logs from /SocialFeedManager/output folder");
+    instagramTest();
   }
 
 
@@ -102,30 +102,104 @@ public class Main {
 
   }
 
-  public static void testSFMForTwitter(){
-      SocialFeedManager manager = new  SocialFeedManager();
+  public static void twitterTest(){
+    SocialFeedManager manager = new SocialFeedManager();
+    manager.getAllFeedItems();
 
-      TwitterTester tester = new TwitterTester(manager);
 
-      // please uncomment the following function to test specific functionalaities.
+    // test post update to twitter
 
-      tester.testGetAllFeed(); // Fet all social feed data
-//      tester.testGetTwitterFeed(); // get twitter feed data
-//      tester.testTwitterPost();  // post to twitter
-//      tester.testTwitterEditPost();  // edit twitter post
-//      tester.testTwitterFavorite(); // favorite twitter post
-//      tester.testTwitterRetweet(); // retiweet
-//      tester.testTwitterAddComment(); // add comment
+    FeedItem itemToPost = new TwitterFeedItem();
+//    FeedItem itemToPost = (FeedItem) fbItem;
+    itemToPost.contents.add(new Content(ContentType.TEXT, "", "My first status from SFM"));
+
+    List<UUID> identifiers = new ArrayList<>();
+    identifiers.add(manager.getApplicationIdentifiers().get(1));
+
+    List<FeedItem> items = new ArrayList<>();
+    if(manager.postItem(itemToPost, identifiers)){
+      items = manager.getAllFeedItems();
+    }
+
+    File dir = new File("output");
+    dir.mkdirs();
+    File file1 = new File(dir, "tweetoutput0.txt");
+
+    SFMUtils.outputToFile(items, file1, manager);
+
+    FeedItem itemToEdit = items.get(0);
+    for (Content content : itemToEdit.contents) {
+      if(content.contentType == ContentType.TEXT){
+        content.description = "this the changed text for this post";
+      }
+    }
+
+    if(manager.editFeedItem(itemToEdit)){
+      items = manager.getAllFeedItems();
+    }
+
+    File file = new File(dir, "tweetoutput1.txt");
+
+    SFMUtils.outputToFile(items, file, manager);
+
+    // add favorite
+
+    if(manager.addAction(itemToEdit, new SFMAction(TwitterActionType.FAVORITE))){
+      items = manager.getAllFeedItems();
+    }
+
+    File file2= new File(dir, "tweetoutput2.txt");
+
+    SFMUtils.outputToFile(items, file2, manager);
+
+    // add comment
+
+    if(manager.addAction(itemToEdit, new SFMAction(TwitterActionType.COMMENT, "aloha comment"))){
+      items = manager.getAllFeedItems();
+    }
+
+    File file3= new File(dir, "tweetoutput3.txt");
+
+    SFMUtils.outputToFile(items, file3, manager);
   }
 
   public static void instagramTest(){
-    UUID uniqueAppId = UUID.randomUUID();
-    InstagramFeedProcessor feedProcessor = new InstagramFeedProcessor(uniqueAppId);
-    List<FeedItem> feedItems = feedProcessor.getFeedItems("");
 
-    System.out.println("\n\n\nInstagram feeds");
-    for (FeedItem item: feedItems) {
-      System.out.println(item.contents.get(0).value);
+    SocialFeedManager manager = new SocialFeedManager();
+    manager.getAllFeedItems();
+
+    List<UUID> identifiers = new ArrayList<>();
+    identifiers.add(manager.getApplicationIdentifiers().get(2));
+
+    FeedItem itemToPost = new FeedItem();
+    itemToPost.contents.add(new Content(ContentType.TEXT, "", "Insatagram Status"));
+
+    List<FeedItem> items = new ArrayList<>();
+    if(manager.postItem(itemToPost, identifiers)){
+      items = manager.getAllFeedItems();
     }
+
+    File dir = new File("output");
+    dir.mkdirs();
+    File file1 = new File(dir, "Instagram.txt");
+
+    SFMUtils.outputToFile(items, file1,manager);
+
+
+    FeedItem itemToEdit = items.get(0);
+    for (Content content : itemToEdit.contents) {
+      if(content.contentType == ContentType.TEXT){
+        content.description = "eited instagram status";
+      }
+    }
+
+    if(manager.editFeedItem(itemToEdit)){
+      items = manager.getAllFeedItems();
+    }
+
+    File file = new File(dir, "InstagramEdit.txt");
+
+    SFMUtils.outputToFile(items, file,manager);
+
   }
 }
