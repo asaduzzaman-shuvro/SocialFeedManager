@@ -1,6 +1,6 @@
 package com.cefalo.school.operators;
 
-import com.cefalo.school.model.FeedItem;
+import com.cefalo.school.model.*;
 import com.thirdparty.api.InstagramApi;
 import com.thirdparty.api.TwitterApi;
 import org.json.JSONArray;
@@ -34,5 +34,18 @@ public class TwitterOperator implements FeedOperator {
             jsonObject = TwitterApi.getFeeds(authToken);
         }
         return jsonObject != null;
+    }
+
+    public FeedItem addAction(FeedItem item, SFMAction action){
+        FacebookFeedItem fbItem = (FacebookFeedItem) item;
+        if(action.actionType != FBActionType.COMMENT) {
+            fbItem.reactions.put(action.actionType.toString().toLowerCase(),
+                    fbItem.reactions.get(action.toString().toLowerCase()) + 1);
+        }else {
+            FeedItem comment = new FeedItem();
+            comment.contents.add(new Content(ContentType.TEXT, "", action.description));
+            ((FacebookFeedItem) item).comments.add(comment);
+        }
+        return fbItem;
     }
 }

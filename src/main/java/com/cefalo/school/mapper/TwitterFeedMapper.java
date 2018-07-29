@@ -83,9 +83,18 @@ public class TwitterFeedMapper implements FeedMapper {
                         JSONObject comment = (JSONObject) commentObj;
                         if (comment.has("text")){
                             String text = comment.getString("text");
+                            Date commentDate = new Date();
+                            try {
+                                commentDate = new SimpleDateFormat("EE MMM dd hh:mm:ss Z yyyy",
+                                        Locale.ENGLISH).parse(object.getString("created_at"));
+                            } catch (Exception e) {
+                                System.out.println(e);
+                            }
+
                             feedItem.comments.
                                     add(new Comment(comment.getString("id_str"),
-                                            comment.getString("text")));
+                                            comment.getString("text"),
+                                            commentDate));
                         }
 
                     }
@@ -155,6 +164,7 @@ public class TwitterFeedMapper implements FeedMapper {
             JSONObject commentItem = new JSONObject();
             commentItem.put("text", comment.text);
             commentItem.put("id_str", comment.identifier);
+            commentItem.put("created_at", df.format(comment.publishDate));
             comments.put(commentItem);
         }
 
