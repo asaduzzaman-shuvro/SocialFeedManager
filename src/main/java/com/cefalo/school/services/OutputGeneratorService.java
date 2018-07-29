@@ -36,28 +36,35 @@ public class OutputGeneratorService {
         }
         writer.println("-");
 
+        int i = 0;
+
         for (Content content : item.contents) {
-          if(content.contentType.equals(ContentType.PICTURE)){
-            writer.println(String.format("%s upload a picture", item.displayName));
-          }else if(content.contentType.equals(ContentType.VIDEO)){
-            writer.println(String.format("%s upload a video", item.displayName));
-          }else if(content.contentType.equals(ContentType.URL)){
-            writer.println(String.format("%s shared a link", item.displayName));
-          }else {
-            writer.println(String.format("%s post", item.displayName));
-          }
+          if(i == 0) {
+            if (content.contentType.equals(ContentType.PICTURE)) {
+              writer.println(String.format("%s upload a picture", item.displayName));
+            } else if (content.contentType.equals(ContentType.VIDEO)) {
+              writer.println(String.format("%s upload a video", item.displayName));
+            } else if (content.contentType.equals(ContentType.URL)) {
+              writer.println(String.format("%s shared a link", item.displayName));
+            } else {
+              writer.println(String.format("%s post", item.displayName));
+            }
 
-
-          writer.println(df.format(item.publishedDate));
-          String message = content.description;
-          formatLines(message, writer);
-
-          if(content.value != ""){
-            message = content.value;
-            writer.println();
-            writer.println("Shared Item Info...");
+            writer.println(df.format(item.publishedDate));
+            String message = content.description;
             formatLines(message, writer);
+          }else {
+            if (content.value != "") {
+              String message = content.value;
+              writer.println();
+              writer.println();
+              writer.println("Shared Item Info...");
+              formatLines(message, writer);
+              writer.println();
+              writer.println();
+            }
           }
+          i++;
         }
         writer.println();
 
