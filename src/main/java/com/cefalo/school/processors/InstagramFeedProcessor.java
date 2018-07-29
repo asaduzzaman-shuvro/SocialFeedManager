@@ -1,11 +1,10 @@
 package com.cefalo.school.processors;
 
-import com.cefalo.school.application.AccountManager;
-import com.cefalo.school.mapper.FacebookFeedMapper;
 import com.cefalo.school.mapper.InstagramFeedMapper;
 import com.cefalo.school.model.FeedItem;
-import com.cefalo.school.operators.FacebookOperator;
+import com.cefalo.school.model.SFMAction;
 import com.cefalo.school.operators.InstagramOperator;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +21,9 @@ public class InstagramFeedProcessor implements FeedProcessor{
     }
 
     @Override
-    public List<FeedItem> getFeedItems() {
+    public List<FeedItem> getFeedItems(String authToken) {
 
-        if(feedOperator.getFeed(AccountManager.getInstance().getAuthTokenByIdentifier(applicationIdentifier))) {
+        if(feedOperator.getFeed(authToken)) {
             feedItems = feedMapper.getProcessedFeedItems(applicationIdentifier, feedOperator.jsonObject);
             return feedItems;
         }
@@ -32,13 +31,15 @@ public class InstagramFeedProcessor implements FeedProcessor{
     }
 
     @Override
-    public void updateFeedItem(FeedItem feedItem, Enum action) {
-
+    public boolean addAction(FeedItem feedItem, SFMAction action, String authToken, String userId,
+        String displayName) {
+        return false;
     }
 
     @Override
-    public boolean postUpdate(FeedItem item) {
-        return false;
+    public boolean postUpdate(FeedItem item, String authToken) {
+        JSONObject object = feedMapper.mapFeedItemToJSON(item);
+        return feedOperator.postItem(object);
     }
 
     @Override

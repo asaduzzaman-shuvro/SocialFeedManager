@@ -1,14 +1,13 @@
 package com.cefalo.school.processors;
 
-import com.cefalo.school.application.AccountManager;
 import com.cefalo.school.mapper.FacebookFeedMapper;
-import com.cefalo.school.mapper.FeedMapper;
 import com.cefalo.school.model.FeedItem;
+import com.cefalo.school.model.SFMAction;
 import com.cefalo.school.operators.FacebookOperator;
-import com.cefalo.school.operators.FeedOperator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import org.json.JSONObject;
 
 public class FacebookFeedProcessor implements FeedProcessor {
 
@@ -22,8 +21,8 @@ public class FacebookFeedProcessor implements FeedProcessor {
     }
 
     @Override
-    public List<FeedItem> getFeedItems(){
-        if(feedOperator.getFeed(AccountManager.getInstance().getAuthTokenByIdentifier(applicationIdentifier))) {
+    public List<FeedItem> getFeedItems(String authToken){
+        if(feedOperator.getFeed(authToken)) {
             feedItems = feedMapper.getProcessedFeedItems(applicationIdentifier, feedOperator.jsonObject);
             return feedItems;
         }
@@ -32,14 +31,15 @@ public class FacebookFeedProcessor implements FeedProcessor {
 
 
     @Override
-    public void updateFeedItem(FeedItem feedItem, Enum action){
-        feedItem.reactions.put(action.toString().toLowerCase(),
-                feedItem.reactions.get(action.toString().toLowerCase()) + 1);
+    public boolean addAction(FeedItem feedItem, SFMAction action, String authToken, String userId,
+        String displayName){
+        return postUpdate(feedOperator.addAction(feedItem, action, userId, displayName), authToken);
     }
 
     @Override
-    public boolean postUpdate(FeedItem item) {
-        return false;
+    public boolean postUpdate(FeedItem item, String authToken) {
+        JSONObject object = feedMapper.mapFeedItemToJSON(item);
+        return feedOperator.postItem(object);
     }
 
     @Override
@@ -47,18 +47,7 @@ public class FacebookFeedProcessor implements FeedProcessor {
         return applicationIdentifier;
     }
 
-    public void updateComment(UUID uuid, String id, String msg){
-        feedItems.forEach(feedItem -> {
-            if(feedItem.comments.size() > 0) {
-                FeedItem targetComment = feedItem.comments.stream()
-                    .filter(comment -> id.equals(comment.identifier))
-                    .findAny()
-                    .orElse(null);
-                if (targetComment != null) {
-                    targetComment.contents.get(0).value = msg;
-                }
-            }
-        });
-
+    public boolean updateComment(FeedItem item, String id, String msg, String authToken){
+        return postUpdate(feedOperator.updateComment(item, id, msg), authToken);
     }
 }

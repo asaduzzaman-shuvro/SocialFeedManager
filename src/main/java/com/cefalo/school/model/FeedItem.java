@@ -8,11 +8,15 @@ import java.util.Map;
 import java.util.UUID;
 
 public class FeedItem {
-    public String identifier;
+    public String identifier = "";
+    public String displayName = "";
+    public String userID = "";
     public Date publishedDate;
-    public Date lastModifiedDate;
-    public List<Content> contents = new ArrayList<Content>();
-    public Map<String, Integer> reactions = new HashMap<String, Integer>();
-    public List<FeedItem> comments = new ArrayList<FeedItem>();
     public UUID applicationIdentifier;
+    public List<Content> contents = new ArrayList<>();
+
+    public FeedItem() {
+        this.identifier = UUID.randomUUID().toString();
+        this.publishedDate = new Date();
+    }
 }

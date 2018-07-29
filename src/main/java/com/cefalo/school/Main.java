@@ -1,19 +1,12 @@
 package com.cefalo.school;
 
-import com.cefalo.school.application.AccountManager;
-import com.cefalo.school.application.Application;
-import com.cefalo.school.application.ApplicationType;
 import com.cefalo.school.application.SocialFeedManager;
-import com.cefalo.school.model.Content;
-import com.cefalo.school.model.ContentType;
-import com.cefalo.school.model.FeedItem;
-import com.cefalo.school.processors.FBActionType;
-import com.cefalo.school.processors.FacebookFeedProcessor;
-import com.cefalo.school.processors.InstagramFeedProcessor;
+import com.cefalo.school.model.*;
+import com.cefalo.school.services.SFMUtils;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by atiqul on 7/17/2018.
@@ -22,102 +15,144 @@ public class Main {
 
   public static void main(String[] args) {
 
-//    facebookTest();
-//    testFBUpdate();
-//    testFbCommentUpdate();
-    twitterTest();
+    facebookTest();
+    testingForTwitter();
+    System.out.println("check output logs from /SocialFeedManager/output folder");
+    instagramTest();
   }
+
 
   public static void facebookTest(){
-    UUID uniqueAppId = UUID.randomUUID();
-    FacebookFeedProcessor facebookFeedProcessor = new FacebookFeedProcessor(uniqueAppId);
-    List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems();
-
-    feedItems.forEach(item->{item.contents.forEach(content -> {
-      System.out.println("======================================");
-      System.out.println(content.contentType + "-" + content.value);
-    });
-      item.reactions.forEach((k,v)-> System.out.println(k + ":" + v ));
-      System.out.println("comments: " + item.comments.size());
-      System.out.println("application Identifier: " + item.applicationIdentifier);
-      System.out.println("======================================");
-    });
-  }
-
-  public static void testFBUpdate(){
-    UUID uniqueAppId = UUID.randomUUID();
-    FacebookFeedProcessor facebookFeedProcessor = new FacebookFeedProcessor(uniqueAppId);
-    List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems();
-    System.out.println(String.format("%s items found in facebook feed", feedItems.size()));
-    System.out.println("now like 3rd item from the feed list");
-
-    facebookFeedProcessor.feedItems.get(2).reactions.forEach((k,v)->{
-      if(k == "like"){
-        System.out.println("initial like count for this post");
-        System.out.println("Like: " + v);
-      }
-    });
-    FeedItem targetFeedItem = feedItems.get(2);
-
-    facebookFeedProcessor.updateFeedItem(targetFeedItem, FBActionType.LIKE);
-    facebookFeedProcessor.feedItems.get(2).reactions.forEach((k,v)->{
-      if(k == "like"){
-        System.out.println("after given like");
-        System.out.println("Like: " + v);
-      }
-    });
-
-  }
-
-  public static void testFbCommentUpdate(){
-    UUID uniqueAppId = UUID.randomUUID();
-    FacebookFeedProcessor facebookFeedProcessor = new FacebookFeedProcessor(uniqueAppId);
-    List<FeedItem> feedItems = facebookFeedProcessor.getFeedItems();
-    System.out.println(String.format("%s items found in facebook feed", feedItems.size()));
-    System.out.println("now update comment of 3rd item from the feed list");
-
-    feedItems.get(2).comments.forEach(comment->{
-      System.out.println("previous comment: " + comment.contents.get(0).value);
-    });
-    String targetCommentId = feedItems.get(2).comments.get(0).identifier;
-
-    facebookFeedProcessor.updateComment(uniqueAppId, targetCommentId, "update test comment....");
-    facebookFeedProcessor.feedItems.get(2).comments.forEach(comment->{
-      System.out.println("current comment: " + comment.contents.get(0).value);
-    });
-
-
-  }
-
-  public static void twitterTest(){
     SocialFeedManager manager = new SocialFeedManager();
     manager.getAllFeedItems();
 
-    // test post update to twitter
-    FeedItem itemToPost = new FeedItem();
-    itemToPost.contents.add(new Content(ContentType.TEXT, "", "My first status from SFM"));
+    // test post to Facebook
 
-    List<Application> applications = AccountManager.getInstance().getSupportedApplications();
-    Stream<Application> matchingObject = applications.stream().
-            filter(p -> p.getApplicationType().equals(ApplicationType.TWITTER));
-    List<UUID> identifiers = matchingObject.
-            map(Application::getApplicationIdentifier).collect(Collectors.toList());
+    FeedItem itemToPost = new FacebookFeedItem();
+    itemToPost.contents.add(new Content(ContentType.TEXT, "", "This is test post to Facebook from SFM"));
 
+    List<UUID> identifiers = new ArrayList<>();
+    identifiers.add(manager.getApplicationIdentifiers().get(0));
+
+    List<FeedItem> items = new ArrayList<>();
     if(manager.postItem(itemToPost, identifiers)){
-      manager.getAllFeedItems();
+      items = manager.getAllFeedItems();
     }
+
+    File dir = new File("output");
+    dir.mkdirs();
+    File file1 = new File(dir, "1.Facebook_post.txt");
+
+    SFMUtils.outputToFile(items, file1, manager);
+
+    /* Edit given post to Facebook from SFM*/
+
+    FeedItem itemToEdit = items.get(0);
+    for (Content content : itemToEdit.contents) {
+      if(content.contentType == ContentType.TEXT){
+        content.description = "Edit first test post to Facebook from SFM";
+      }
+    }
+
+    if(manager.editFeedItem(itemToEdit)){
+      items = manager.getAllFeedItems();
+    }
+
+    File file = new File(dir, "2.Facebook_edit_post.txt");
+
+    SFMUtils.outputToFile(items, file, manager);
+
+    // add like to this post
+
+    if(manager.addAction(itemToEdit, new SFMAction(FBActionType.LIKE))){
+      items = manager.getAllFeedItems();
+    }
+
+
+    File file2= new File(dir, "3.Facebook_add_like.txt");
+
+    SFMUtils.outputToFile(items, file2, manager);
+
+    // add comment to this post
+
+    if(manager.addAction(itemToEdit, new SFMAction(FBActionType.COMMENT, "First comment on the test post"))){
+      items = manager.getAllFeedItems();
+    }
+
+    File file3= new File(dir, "4.Facebook_add_comment.txt");
+
+    SFMUtils.outputToFile(items, file3, manager);
+
+    /* edit comment to this post */
+
+    FacebookFeedItem targetItem = (FacebookFeedItem)items.get(0);
+
+    String targetCommentId = targetItem.comments.get(0).identifier;
+
+    if(manager.editComment(targetItem, targetCommentId, "Comment edited..")){
+      items = manager.getAllFeedItems();
+    }
+
+    File file4= new File(dir, "5.Facebook_edit_comment.txt");
+
+    SFMUtils.outputToFile(items, file4, manager);
+
+
+  }
+
+  public static void testingForTwitter(){
+
+    SocialFeedManager manager = new SocialFeedManager();
+    TwitterTester tester = new TwitterTester(manager);
+
+//    uncomment the functiona you want to test
+
+//    tester.testGetAllFeed(); // get all feed
+//    tester.testGetTwitterFeed(); // get twitter specific feed
+//    tester.testTwitterPost(); // post to twitter
+//    tester.testTwitterEditPost(); //edit post
+//    tester.testTwitterFavorite(); // favorite post
+//    tester.testTwitterRetweet(); //retweet
+    tester.testTwitterAddComment(); // add comment
   }
 
   public static void instagramTest(){
-    UUID uniqueAppId = UUID.randomUUID();
-    InstagramFeedProcessor feedProcessor = new InstagramFeedProcessor(uniqueAppId);
-    List<FeedItem> feedItems = feedProcessor.getFeedItems();
 
-    System.out.println("\n\n\nInstagram feeds");
-    for (FeedItem item: feedItems) {
-      System.out.println(item.contents.get(0).value);
+    SocialFeedManager manager = new SocialFeedManager();
+    manager.getAllFeedItems();
+
+    List<UUID> identifiers = new ArrayList<>();
+    identifiers.add(manager.getApplicationIdentifiers().get(2));
+
+    FeedItem itemToPost = new FeedItem();
+    itemToPost.contents.add(new Content(ContentType.TEXT, "", "Insatagram Status"));
+
+    List<FeedItem> items = new ArrayList<>();
+    if(manager.postItem(itemToPost, identifiers)){
+      items = manager.getAllFeedItems();
     }
 
+    File dir = new File("output");
+    dir.mkdirs();
+    File file1 = new File(dir, "Instagram.txt");
+
+    SFMUtils.outputToFile(items, file1,manager);
+
+
+    FeedItem itemToEdit = items.get(0);
+    for (Content content : itemToEdit.contents) {
+      if(content.contentType == ContentType.TEXT){
+        content.description = "eited instagram status";
+      }
+    }
+
+    if(manager.editFeedItem(itemToEdit)){
+      items = manager.getAllFeedItems();
+    }
+
+    File file = new File(dir, "InstagramEdit.txt");
+
+    SFMUtils.outputToFile(items, file,manager);
 
   }
 }

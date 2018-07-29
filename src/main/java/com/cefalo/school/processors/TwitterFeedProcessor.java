@@ -1,15 +1,12 @@
 package com.cefalo.school.processors;
 
-import com.cefalo.school.application.AccountManager;
-import com.cefalo.school.mapper.InstagramFeedMapper;
 import com.cefalo.school.mapper.TwitterFeedMapper;
 import com.cefalo.school.model.FeedItem;
-import com.cefalo.school.operators.InstagramOperator;
+import com.cefalo.school.model.SFMAction;
 import com.cefalo.school.operators.TwitterOperator;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,8 +22,8 @@ public class TwitterFeedProcessor implements FeedProcessor{
     }
 
     @Override
-    public List<FeedItem> getFeedItems() {
-        if(feedOperator.getFeed(AccountManager.getInstance().getAuthTokenByIdentifier(applicationIdentifier))) {
+    public List<FeedItem> getFeedItems(String authToken) {
+        if(feedOperator.getFeed(authToken)) {
             feedItems = feedMapper.getProcessedFeedItems(applicationIdentifier, feedOperator.jsonObject);
             return feedItems;
         }
@@ -34,14 +31,16 @@ public class TwitterFeedProcessor implements FeedProcessor{
     }
 
     @Override
-    public void updateFeedItem(FeedItem feedItem, Enum action) {
-
+    public boolean addAction(FeedItem feedItem, SFMAction action, String authToken, String userId,
+        String displayName) {
+        FeedItem itemToAddAction = feedOperator.addAction(feedItem, action, userId, displayName);
+        return postUpdate(itemToAddAction, authToken);
     }
 
     @Override
-    public boolean postUpdate(FeedItem item) {
+    public boolean postUpdate(FeedItem item, String authToken) {
         JSONObject object = feedMapper.mapFeedItemToJSON(item);
-        return feedOperator.postUpdate(object);
+        return feedOperator.postItem(object);
     }
 
     @Override
