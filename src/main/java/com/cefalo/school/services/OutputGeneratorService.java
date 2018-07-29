@@ -83,9 +83,14 @@ public class OutputGeneratorService {
             writer.println();
             writer.println("comment details:");
             for (FeedItem comment : fbItem.comments) {
+              String name = comment.displayName;
+              formatLines(name, writer);
+              writer.print( " " + df.format(comment.publishedDate));
+              writer.println();
+
               String message = comment.contents.get(0).description;
-              writer.println(df.format(comment.publishedDate));
               formatLines(message, writer);
+              writer.println();
             }
           }
           if(fbItem.comments.size()>0 || fbItem.reactions.size() > 0) {
