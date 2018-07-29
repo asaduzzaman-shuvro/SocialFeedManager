@@ -1,7 +1,6 @@
 package com.cefalo.school.operators;
 
 import com.cefalo.school.model.*;
-import com.thirdparty.api.InstagramApi;
 import com.thirdparty.api.TwitterApi;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,15 +36,16 @@ public class TwitterOperator implements FeedOperator {
     }
 
     public FeedItem addAction(FeedItem item, SFMAction action){
-        FacebookFeedItem fbItem = (FacebookFeedItem) item;
-        if(action.actionType != FBActionType.COMMENT) {
-            fbItem.reactions.put(action.actionType.toString().toLowerCase(),
-                    fbItem.reactions.get(action.toString().toLowerCase()) + 1);
-        }else {
-            FeedItem comment = new FeedItem();
-            comment.contents.add(new Content(ContentType.TEXT, "", action.description));
-            ((FacebookFeedItem) item).comments.add(comment);
+        TwitterFeedItem tweetItem = (TwitterFeedItem) item;
+        if(action.actionType == TwitterActionType.FAVORITE) {
+            tweetItem.favoriteCount += 1;
         }
-        return fbItem;
+        else if(action.actionType == TwitterActionType.RETWEET){
+            tweetItem.retweetCount += 1;
+        } else{
+            Comment comment = new Comment(action.description);
+            tweetItem.comments.add(comment);
+        }
+        return tweetItem;
     }
 }

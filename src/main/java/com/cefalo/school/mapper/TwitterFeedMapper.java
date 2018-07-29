@@ -34,21 +34,17 @@ public class TwitterFeedMapper implements FeedMapper {
             }
 
             if(object.has("text")){
-                feedItem.contents.add(new Content(ContentType.TEXT,
-                        "", object.getString("text")));
+                if (!object.getString("text").isEmpty()){
+                    feedItem.contents.add(new Content(ContentType.TEXT,
+                            "", object.getString("text")));
+                }
             }
 
             if(object.has("retweet_count")){
                 feedItem.retweetCount = object.getInt("retweet_count");
             }
-            if (object.has("retweeted")){
-                feedItem.retweeted = object.getBoolean("retweeted");
-            }
             if(object.has("favorite_count")){
                 feedItem.favoriteCount= object.getInt("favorite_count");
-            }
-            if (object.has("favorited")){
-                feedItem.favorited = object.getBoolean("favorited");
             }
             if (object.has("user")){
                 JSONObject user = object.getJSONObject("user");
@@ -77,12 +73,14 @@ public class TwitterFeedMapper implements FeedMapper {
                         feedItem.contents.add(new Content(contentType,
                                 media.getString("media_url"), ""));
                     }
-                }else if (item.has("comments")){
+                }
+                if (item.has("comments")){
                     JSONArray comments = item.getJSONArray("comments");
                     for (Object commentObj : comments) {
                         JSONObject comment = (JSONObject) commentObj;
                         if (comment.has("text")){
                             String text = comment.getString("text");
+                            String commenter = "";
                             Date commentDate = new Date();
                             try {
                                 commentDate = new SimpleDateFormat("EE MMM dd hh:mm:ss Z yyyy",
@@ -90,11 +88,14 @@ public class TwitterFeedMapper implements FeedMapper {
                             } catch (Exception e) {
                                 System.out.println(e);
                             }
+                            if(comment.has("commenter_name")){
+                                commenter = comment.getString("commenter_name");
+                            }
 
                             feedItem.comments.
                                     add(new Comment(comment.getString("id_str"),
                                             comment.getString("text"),
-                                            commentDate));
+                                            commentDate, commenter));
                         }
 
                     }
@@ -114,12 +115,11 @@ public class TwitterFeedMapper implements FeedMapper {
         object.put("id_str", item.identifier);
         JSONObject user = new JSONObject();
         user.put("id_str", item.userID);
+        user.put("screen_name", item.displayName);
         object.put("user", user);
 
         object.put("retweet_count", tweetItem.retweetCount);
-        object.put("retweeted", tweetItem.retweeted);
         object.put("favorite_count", tweetItem.favoriteCount);
-        object.put("favorited", tweetItem.favorited);
 
         JSONObject entities = new JSONObject();
         JSONArray media = new JSONArray();
@@ -165,6 +165,7 @@ public class TwitterFeedMapper implements FeedMapper {
             commentItem.put("text", comment.text);
             commentItem.put("id_str", comment.identifier);
             commentItem.put("created_at", df.format(comment.publishDate));
+            commentItem.put("commenter_name", comment.commenteDisplayName);
             comments.put(commentItem);
         }
 
