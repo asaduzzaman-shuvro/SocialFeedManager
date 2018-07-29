@@ -50,6 +50,16 @@ public class Facebook implements Application {
   }
 
   @Override
+  public void setDisplayName(String name) {
+    this.displayName = name;
+  }
+
+  @Override
+  public String getDisplayName() {
+    return displayName;
+  }
+
+  @Override
   public String getUserId() {
     return userId;
   }

@@ -1,7 +1,5 @@
 package com.cefalo.school.operators;
 
-import com.cefalo.school.model.FeedItem;
-import com.thirdparty.api.FacebookApi;
 import com.thirdparty.api.InstagramApi;
 import org.json.JSONArray;
 import org.json.JSONObject;

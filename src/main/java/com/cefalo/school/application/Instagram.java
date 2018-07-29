@@ -39,6 +39,16 @@ public class Instagram implements Application{
         return userName;
     }
 
+    @Override
+    public void setDisplayName(String name) {
+        this.displayName = name;
+    }
+
+    @Override
+    public String getDisplayName() {
+        return displayName;
+    }
+
     public String getAuthToken() {
         return authToken;
     }

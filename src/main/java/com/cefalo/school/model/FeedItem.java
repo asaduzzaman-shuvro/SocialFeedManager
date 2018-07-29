@@ -13,7 +13,7 @@ public class FeedItem {
     public String userID = "";
     public Date publishedDate;
     public UUID applicationIdentifier;
-    public List<Content> contents = new ArrayList<Content>();
+    public List<Content> contents = new ArrayList<>();
 
     public FeedItem() {
         this.identifier = UUID.randomUUID().toString();
