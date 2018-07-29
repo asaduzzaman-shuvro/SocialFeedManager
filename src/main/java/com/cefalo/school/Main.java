@@ -17,9 +17,10 @@ public class Main {
 
   public static void main(String[] args) {
 
-    facebookTest();
+//    facebookTest();
 //    twitterTest();
     System.out.println("check output logs from /SocialFeedManager/output folder");
+    instagramTest();
   }
 
 
@@ -163,15 +164,42 @@ public class Main {
   }
 
   public static void instagramTest(){
-    UUID uniqueAppId = UUID.randomUUID();
-    InstagramFeedProcessor feedProcessor = new InstagramFeedProcessor(uniqueAppId);
-    List<FeedItem> feedItems = feedProcessor.getFeedItems("");
 
-    System.out.println("\n\n\nInstagram feeds");
-    for (FeedItem item: feedItems) {
-      System.out.println(item.contents.get(0).value);
+    SocialFeedManager manager = new SocialFeedManager();
+    manager.getAllFeedItems();
+
+    List<UUID> identifiers = new ArrayList<>();
+    identifiers.add(manager.getApplicationIdentifiers().get(2));
+
+    FeedItem itemToPost = new FeedItem();
+    itemToPost.contents.add(new Content(ContentType.TEXT, "", "Insatagram Status"));
+
+    List<FeedItem> items = new ArrayList<>();
+    if(manager.postItem(itemToPost, identifiers)){
+      items = manager.getAllFeedItems();
     }
 
+    File dir = new File("output");
+    dir.mkdirs();
+    File file1 = new File(dir, "Instagram.txt");
+
+    SFMUtils.outputToFile(items, file1,manager);
+
+
+    FeedItem itemToEdit = items.get(0);
+    for (Content content : itemToEdit.contents) {
+      if(content.contentType == ContentType.TEXT){
+        content.description = "eited instagram status";
+      }
+    }
+
+    if(manager.editFeedItem(itemToEdit)){
+      items = manager.getAllFeedItems();
+    }
+
+    File file = new File(dir, "InstagramEdit.txt");
+
+    SFMUtils.outputToFile(items, file,manager);
 
   }
 }

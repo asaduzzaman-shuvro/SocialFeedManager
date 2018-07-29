@@ -9,18 +9,31 @@ public class InstagramOperator implements FeedOperator {
 
     public boolean postItem(JSONObject item) {
 
+
         if (jsonObject != null){
-            JSONArray array = jsonObject.getJSONArray("data");
-            int i=0;
-            for (Object object : array) {
-                JSONObject jsonItem = (JSONObject) object;
-                if(jsonItem.getString("id").equals(item.getString("id"))){
-                    array.put(i, item);
-                    return true;
+
+            if (jsonObject.has("graphql")){
+                JSONObject graphphql = jsonObject.getJSONObject("graphql");
+                if (graphphql.has("user")){
+                    JSONObject userData = graphphql.getJSONObject("user");
+                    if (userData.has("edge_owner_to_timeline_media")){
+                        JSONObject timelineData = userData.getJSONObject("edge_owner_to_timeline_media");
+                        if (timelineData.has("edges")){
+                            JSONArray allNodes = timelineData.getJSONArray("edges");
+                            int i=0;
+                            for (Object object : allNodes) {
+                                JSONObject jsonItem = ((JSONObject) object).getJSONObject("node");
+
+                                if (jsonItem.getString("id").equals(item.getJSONObject("node").getString("id"))){
+                                    allNodes.put(i, item);
+                                }
+                                i++;
+                            }
+                            allNodes.put(item);
+                        }
+                    }
                 }
-                i++;
             }
-            array.put(item);
             // post to instagram api
             return true;
         }
