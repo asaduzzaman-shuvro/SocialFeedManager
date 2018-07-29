@@ -12,14 +12,16 @@ public class TwitterOperator implements FeedOperator {
     public boolean postItem(JSONObject item) {
         if (jsonObject != null){
             JSONArray array = jsonObject.getJSONArray("data");
+            int i = 0;
             for (Object object : array) {
                 JSONObject jsonItem = (JSONObject) object;
                 if(jsonItem.getString("id_str").equals(item.getString("id_str"))){
-                    jsonItem = item;
+                    array.put(i, item);
                     return true;
                 }
             }
             array.put(item);
+            i++;
             // post to twitter api
             return true;
         }
