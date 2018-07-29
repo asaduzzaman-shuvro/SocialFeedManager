@@ -38,13 +38,13 @@ public class OutputGeneratorService {
 
         for (Content content : item.contents) {
           if(content.contentType.equals(ContentType.PICTURE)){
-            writer.println("user upload a picture");
+            writer.println(String.format("%s upload a picture", item.displayName));
           }else if(content.contentType.equals(ContentType.VIDEO)){
-            writer.println("user upload a video");
+            writer.println(String.format("%s upload a video", item.displayName));
           }else if(content.contentType.equals(ContentType.URL)){
-            writer.println("user shared a link");
+            writer.println(String.format("%s shared a link", item.displayName));
           }else {
-            writer.println("user post");
+            writer.println(String.format("%s post", item.displayName));
           }
 
 

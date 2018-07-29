@@ -16,12 +16,14 @@ public class FacebookOperator implements FeedOperator {
     public boolean postItem(JSONObject item) {
         if (jsonObject != null){
             JSONArray array = jsonObject.getJSONArray("data");
+            int i=0;
             for (Object object : array) {
                 JSONObject jsonItem = (JSONObject) object;
                 if(jsonItem.getString("id").equals(item.getString("id"))){
-                    jsonItem = item;
+                    array.put(i, item);
                     return true;
                 }
+                i++;
             }
             array.put(item);
             // post to FB api
@@ -49,5 +51,21 @@ public class FacebookOperator implements FeedOperator {
             ((FacebookFeedItem) item).comments.add(comment);
         }
         return fbItem;
+    }
+
+    public FeedItem updateComment(FeedItem item, String id, String msg){
+        FacebookFeedItem newItem = (FacebookFeedItem)item;
+        if(newItem != null){
+            if(newItem.comments.size() > 0) {
+                FeedItem targetComment = newItem.comments.stream()
+                    .filter(comment -> id.equals(comment.identifier))
+                    .findAny()
+                    .orElse(null);
+                if (targetComment != null) {
+                    targetComment.contents.get(0).description = msg;
+                }
+            }
+        }
+        return newItem;
     }
 }

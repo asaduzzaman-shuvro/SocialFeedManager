@@ -13,8 +13,17 @@ public class InstagramOperator implements FeedOperator {
 
         if (jsonObject != null){
             JSONArray array = jsonObject.getJSONArray("data");
+            int i=0;
+            for (Object object : array) {
+                JSONObject jsonItem = (JSONObject) object;
+                if(jsonItem.getString("id").equals(item.getString("id"))){
+                    array.put(i, item);
+                    return true;
+                }
+                i++;
+            }
             array.put(item);
-            // post to innstagram api
+            // post to instagram api
             return true;
         }
         return false;
