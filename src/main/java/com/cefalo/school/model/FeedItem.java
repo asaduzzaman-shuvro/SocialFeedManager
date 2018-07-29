@@ -9,6 +9,7 @@ import java.util.UUID;
 
 public class FeedItem {
     public String identifier = "";
+    public String displayName = "";
     public String userID = "";
     public Date publishedDate;
     public UUID applicationIdentifier;
