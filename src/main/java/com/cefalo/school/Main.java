@@ -19,9 +19,9 @@ public class Main {
 
 //    facebookTest();
 //    twitterTest();
+//    instagramTest();
     postToAllApplication();
     System.out.println("check output logs from /SocialFeedManager/output folder");
-//    instagramTest();
 
   }
 
