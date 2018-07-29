@@ -43,16 +43,6 @@ public class AccountManager {
         return null;
     }
 
-    protected String getApplicationTypeByIdentifier(UUID appIdentifier){
-
-        for (Application supportedApplication : supportedApplications) {
-            if(supportedApplication.getApplicationIdentifier() == appIdentifier){
-                return supportedApplication.getApplicationType().toString();
-            }
-        }
-        return null;
-    }
-
     protected String getApplicationUserIdByIdentifier(UUID appIdentifier){
 
         for (Application supportedApplication : supportedApplications) {
@@ -63,15 +53,6 @@ public class AccountManager {
         return null;
     }
 
-    protected String getApplicationUserNameByIdentifier(UUID appIdentifier){
-
-        for (Application supportedApplication : supportedApplications) {
-            if(supportedApplication.getApplicationIdentifier() == appIdentifier){
-                return supportedApplication.getUserName();
-            }
-        }
-        return null;
-    }
 
     protected String getApplicationUserDisplayNameByIdentifier(UUID appIdentifier){
 

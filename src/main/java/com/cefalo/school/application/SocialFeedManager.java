@@ -40,7 +40,6 @@ public class SocialFeedManager {
     public List<FeedItem> getAllFeedItems(){
 
         if (allFeedItems.size() > 0) allFeedItems.clear();
-        List<Application> applications = accountManager.getSupportedApplications();
         for (FeedProcessor processor: processors) {
             allFeedItems.addAll(processor.getFeedItems(accountManager.getAuthTokenByIdentifier(processor.getApplicationIdentifier())));
         }
