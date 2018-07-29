@@ -12,6 +12,7 @@ public class Facebook implements Application {
   private ApplicationType applicationType;
   private UUID applicationIdentifier;
   private String  userId = "";
+  private String displayName = "";
 
   public Facebook(){
     this.applicationIdentifier = UUID.randomUUID();
@@ -36,6 +37,16 @@ public class Facebook implements Application {
   @Override
   public String getUserName() {
     return userName;
+  }
+
+  @Override
+  public void setDisplayName(String name) {
+    this.displayName = name;
+  }
+
+  @Override
+  public String getDisplayName() {
+    return displayName;
   }
 
   @Override

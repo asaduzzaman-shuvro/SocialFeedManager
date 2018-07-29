@@ -9,6 +9,7 @@ public class Instagram implements Application{
     private ApplicationType applicationType;
     private UUID applicationIdentifier;
     private String  userId = "";
+    private String displayName = "";
 
     public Instagram(){
         this.applicationIdentifier = UUID.randomUUID();
@@ -36,6 +37,16 @@ public class Instagram implements Application{
 
     public String getUserName() {
         return userName;
+    }
+
+    @Override
+    public void setDisplayName(String name) {
+        this.displayName = name;
+    }
+
+    @Override
+    public String getDisplayName() {
+        return displayName;
     }
 
     public String getAuthToken() {
