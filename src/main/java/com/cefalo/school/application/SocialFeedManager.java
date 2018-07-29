@@ -37,6 +37,10 @@ public class SocialFeedManager {
         return accountManager.getSupportedApplications().stream().map(app -> app.getApplicationIdentifier()).collect(Collectors.toList());
     }
 
+    public String getApplicationName(UUID appIdentifier){
+        return accountManager.getApplicationNameByIdentifier(appIdentifier);
+    }
+
     public List<FeedItem> getAllFeedItems(){
 
         if (allFeedItems.size() > 0) allFeedItems.clear();
