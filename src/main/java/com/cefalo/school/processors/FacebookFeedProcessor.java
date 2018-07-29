@@ -47,25 +47,7 @@ public class FacebookFeedProcessor implements FeedProcessor {
         return applicationIdentifier;
     }
 
-    public void updateComment(UUID uuid, String id, String msg){
-        feedItems.forEach(feedItem -> {
-            FacebookFeedItem newItem = null;
-            if(feedItem instanceof FacebookFeedItem) {
-                newItem = (FacebookFeedItem)feedItem;
-            }
-            if(newItem != null){
-                if(newItem.comments.size() > 0) {
-                    FeedItem targetComment = newItem.comments.stream()
-                            .filter(comment -> id.equals(comment.identifier))
-                            .findAny()
-                            .orElse(null);
-                    if (targetComment != null) {
-                        targetComment.contents.get(0).value = msg;
-                    }
-                }
-            }
-
-        });
-
+    public boolean updateComment(FeedItem item, String id, String msg, String authToken){
+        return postUpdate(feedOperator.updateComment(item, id, msg), authToken);
     }
 }

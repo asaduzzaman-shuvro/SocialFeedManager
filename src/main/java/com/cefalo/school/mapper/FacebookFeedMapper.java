@@ -128,7 +128,7 @@ public class FacebookFeedMapper implements FeedMapper {
 
         String text = "";
         for (Content content:fbItem.contents) {
-            if(content.contentType == ContentType.TEXT && !content.description.isEmpty()){
+            if(!content.description.isEmpty()){
                 text = content.description;
                 break;
             }
@@ -145,12 +145,14 @@ public class FacebookFeedMapper implements FeedMapper {
         }
 
         if(comments.length() > 0){
-            object.put("comments", comments);
+            object.put("comments", commentObj);
         }
 
         fbItem.reactions.forEach((key, value)->{
             JSONObject reaction = new JSONObject();
-            reaction.put("total_count", value);
+            JSONObject summary = new JSONObject();
+            summary.put("total_count", value);
+            reaction.put("summary", summary);
             object.put(key, reaction);
         });
 

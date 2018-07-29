@@ -1,9 +1,11 @@
 package com.cefalo.school.application;
 
 import com.cefalo.school.factories.FeedProcessorFactory;
+import com.cefalo.school.model.FacebookFeedItem;
 import com.cefalo.school.model.FeedItem;
 import com.cefalo.school.model.ActionType;
 import com.cefalo.school.model.SFMAction;
+import com.cefalo.school.processors.FacebookFeedProcessor;
 import com.cefalo.school.processors.FeedProcessor;
 
 import java.util.ArrayList;
@@ -63,6 +65,20 @@ public class SocialFeedManager {
         if(item.userID.equals(accountManager.getApplicationUserIdByIdentifier(item.applicationIdentifier))){
             // edit supported
             return postItem(item, new ArrayList<UUID>(){{add(item.applicationIdentifier);}});
+        }
+        return false;
+    }
+
+    public boolean editComment(FeedItem item, String commentId, String newMsg){
+        FacebookFeedProcessor processor = (FacebookFeedProcessor) getProcessor(item.applicationIdentifier);
+        FacebookFeedItem itemToEdit = (FacebookFeedItem) item;
+        FeedItem targetComment = ((FacebookFeedItem) item).comments.stream()
+            .filter(comment->{
+                return comment.identifier.equals(commentId);
+            }).findAny().orElse(null);
+        if(targetComment.userID.equals(accountManager.getApplicationUserIdByIdentifier(item.applicationIdentifier))){
+            // edit supported
+            return processor.updateComment(item, commentId, newMsg, accountManager.getAuthTokenByIdentifier(item.applicationIdentifier));
         }
         return false;
     }
