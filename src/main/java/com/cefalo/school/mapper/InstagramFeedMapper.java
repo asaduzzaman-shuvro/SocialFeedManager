@@ -63,8 +63,9 @@ public class InstagramFeedMapper implements FeedMapper {
 
                             if (object.has("owner")){
                                 JSONObject userInfo = object.getJSONObject("owner");
-                                feedItem.userID = userInfo.getString("id");
-
+                                if (userInfo.has("id")){
+                                    feedItem.userID = userInfo.getString("id");
+                                }
                             }
 
                             feedItemList.add(feedItem);
@@ -84,25 +85,30 @@ public class InstagramFeedMapper implements FeedMapper {
     public JSONObject mapFeedItemToJSON(FeedItem item) {
 
         JSONObject object = new JSONObject();
-        object.put("id",item.identifier);
-        object.put("created_time",new Date().getTime());
 
-        String text = "";
+        JSONObject  nodeObject = new JSONObject();
+        nodeObject.put("id",item.identifier.toString());
+        nodeObject.put("taken_at_timestamp",new Date().getTime());
+
+
+        JSONObject edge_media_to_caption = new JSONObject();
+        JSONArray captionEges = new JSONArray();
+
+
         for (Content content:item.contents) {
             if(content.contentType == ContentType.TEXT && !content.description.isEmpty()){
-                text = content.description;
-                break;
+                JSONObject node = new JSONObject();
+                node.put("text",content.value);
+                captionEges.put(new JSONObject().put("node",node));
             }
         }
 
-        JSONObject captionObject = new JSONObject();
-        captionObject.put("text",text);
-        object.put("caption",captionObject);
+        edge_media_to_caption.put("edges",captionEges);
+        nodeObject.put("edge_media_to_caption",edge_media_to_caption);
 
-        JSONObject user = new JSONObject();
-        user.put("id",item.userID);
-        object.put("user",user);
+        object.put("node",nodeObject);
 
+//        System.out.println(object);
         return object;
     }
 }

@@ -17,8 +17,9 @@ public class Main {
 
   public static void main(String[] args) {
 
-    facebookTest();
+//    facebookTest();
 //    twitterTest();
+    instagramTest();
   }
 
 
@@ -165,15 +166,20 @@ public class Main {
   }
 
   public static void instagramTest(){
-    UUID uniqueAppId = UUID.randomUUID();
-    InstagramFeedProcessor feedProcessor = new InstagramFeedProcessor(uniqueAppId);
-    List<FeedItem> feedItems = feedProcessor.getFeedItems("");
 
-    System.out.println("\n\n\nInstagram feeds");
-    for (FeedItem item: feedItems) {
-      System.out.println(item.contents.get(0).value);
+    SocialFeedManager manager = new SocialFeedManager();
+    manager.getAllFeedItems();
+
+    List<UUID> identifiers = new ArrayList<>();
+    identifiers.add(manager.getApplicationIdentifiers().get(0));
+
+    FeedItem itemToPost = new FeedItem();
+    itemToPost.contents.add(new Content(ContentType.TEXT, "", "My first status from SFM"));
+
+    List<FeedItem> items = new ArrayList<>();
+    if(manager.postItem(itemToPost, identifiers)){
+//      items = manager.getAllFeedItems();
     }
-
 
   }
 }
