@@ -3,11 +3,11 @@ package com.cefalo.school.application;
 import java.util.UUID;
 
 public class Twitter implements Application {
-    private String userName;
-    private String authToken;
+    private String userName = "";
+    private String authToken = "";
     private ApplicationType applicationType;
     private UUID applicationIdentifier;
-    private String  userId;
+    private String  userId = "";
 
     public Twitter(){
         this.applicationIdentifier = UUID.randomUUID();

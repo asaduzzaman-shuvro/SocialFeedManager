@@ -60,6 +60,16 @@ public class AccountManager {
         return null;
     }
 
+    protected String getApplicationUserNameByIdentifier(UUID appIdentifier){
+
+        for (Application supportedApplication : supportedApplications) {
+            if(supportedApplication.getApplicationIdentifier() == appIdentifier){
+                return supportedApplication.getUserName();
+            }
+        }
+        return null;
+    }
+
     protected void addSupportedApplication(Application application){
 
     }

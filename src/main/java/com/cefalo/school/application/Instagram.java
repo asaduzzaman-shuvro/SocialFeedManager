@@ -4,11 +4,11 @@ import java.util.UUID;
 
 public class Instagram implements Application{
 
-    private String userName;
-    private String authToken;
+    private String userName = "";
+    private String authToken = "";
     private ApplicationType applicationType;
     private UUID applicationIdentifier;
-    private String  userId;
+    private String  userId = "";
 
     public Instagram(){
         this.applicationIdentifier = UUID.randomUUID();
@@ -17,11 +17,11 @@ public class Instagram implements Application{
         System.out.println("Instagram: " + applicationIdentifier);
     }
 
+    @Override
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
-    @Override
     public String getUserId() {
         return userId;
     }
