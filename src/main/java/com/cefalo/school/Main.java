@@ -26,8 +26,8 @@ public class Main {
 
 //    facebookTest();
 //    testFBUpdate();
-    testFbCommentUpdate();
-//    twitterTest();
+//    testFbCommentUpdate();
+    twitterTest();
   }
 
   public static void facebookPostTest(){
@@ -128,7 +128,7 @@ public class Main {
 
     // test post update to twitter
 
-    FeedItem itemToPost = new FacebookFeedItem();
+    FeedItem itemToPost = new TwitterFeedItem();
 //    FeedItem itemToPost = (FeedItem) fbItem;
     itemToPost.contents.add(new Content(ContentType.TEXT, "", "My first status from SFM"));
 
@@ -140,16 +140,51 @@ public class Main {
       items = manager.getAllFeedItems();
     }
 
+    File dir1 = new File("output");
+    dir1.mkdirs();
+    File file1 = new File(dir1, "tweetoutput0.txt");
+
+    OutputGeneratorService.outputToFile(items, file1);
+
     FeedItem itemToEdit = items.get(0);
-//    items.
-    if(manager.postItem(itemToEdit, identifiers)){
-      manager.getAllFeedItems();
+    for (Content content : itemToEdit.contents) {
+      if(content.contentType == ContentType.TEXT){
+        content.description = "this the changed text for this post";
+      }
+    }
+
+    if(manager.editFeedItem(itemToEdit)){
+      items = manager.getAllFeedItems();
     }
     File dir = new File("output");
     dir.mkdirs();
-    File file = new File(dir, "output.txt");
+    File file = new File(dir, "tweetoutput1.txt");
 
     OutputGeneratorService.outputToFile(items, file);
+
+    // add favorite
+
+    if(manager.addAction(itemToEdit, new SFMAction(TwitterActionType.FAVORITE))){
+      items = manager.getAllFeedItems();
+    }
+
+    File dir2 = new File("output");
+    dir2.mkdirs();
+    File file2= new File(dir2, "tweetoutput2.txt");
+
+    OutputGeneratorService.outputToFile(items, file2);
+
+    // add comment
+
+    if(manager.addAction(itemToEdit, new SFMAction(TwitterActionType.COMMENT, "aloha comment"))){
+      items = manager.getAllFeedItems();
+    }
+
+    File dir3 = new File("output");
+    dir3.mkdirs();
+    File file3= new File(dir3, "tweetoutput3.txt");
+
+    OutputGeneratorService.outputToFile(items, file3);
   }
 
   public static void instagramTest(){
