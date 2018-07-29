@@ -48,22 +48,16 @@ public class SocialFeedManager {
         if (allFeedItems != null){
             allFeedItems.sort(((o2, o1) -> o1.publishedDate.compareTo(o2.publishedDate)));
         }
-//        System.out.println("all feeds" + allFeedItems);
-//        for (FeedItem item: allFeedItems) {
-//            System.out.println("item.publishedDate " + item.publishedDate + " item.appType "+ accountManager.getApplicationTypeByIdentifier(item.applicationIdentifier)+ " item.userID " + item.userID);
-//        }
         return allFeedItems;
     }
 
     public boolean addAction(FeedItem item, SFMAction action){
         FeedProcessor processor = getProcessor(item.applicationIdentifier);
-
         return processor.addAction(item, action, accountManager.getAuthTokenByIdentifier(item.applicationIdentifier));
     }
 
     public boolean editFeedItem(FeedItem item){
         if(item.userID.equals(accountManager.getApplicationUserIdByIdentifier(item.applicationIdentifier))){
-            // edit supported
             return postItem(item, new ArrayList<UUID>(){{add(item.applicationIdentifier);}});
         }
         return false;
