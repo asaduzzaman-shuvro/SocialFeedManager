@@ -102,65 +102,20 @@ public class Main {
 
   }
 
-  public static void twitterTest(){
+  public static void testingForTwitter(){
+
     SocialFeedManager manager = new SocialFeedManager();
-    manager.getAllFeedItems();
+    TwitterTester tester = new TwitterTester(manager);
 
+//    uncomment the functiona you want to test
 
-    // test post update to twitter
-
-    FeedItem itemToPost = new TwitterFeedItem();
-//    FeedItem itemToPost = (FeedItem) fbItem;
-    itemToPost.contents.add(new Content(ContentType.TEXT, "", "My first status from SFM"));
-
-    List<UUID> identifiers = new ArrayList<>();
-    identifiers.add(manager.getApplicationIdentifiers().get(1));
-
-    List<FeedItem> items = new ArrayList<>();
-    if(manager.postItem(itemToPost, identifiers)){
-      items = manager.getAllFeedItems();
-    }
-
-    File dir = new File("output");
-    dir.mkdirs();
-    File file1 = new File(dir, "tweetoutput0.txt");
-
-    SFMUtils.outputToFile(items, file1, manager);
-
-    FeedItem itemToEdit = items.get(0);
-    for (Content content : itemToEdit.contents) {
-      if(content.contentType == ContentType.TEXT){
-        content.description = "this the changed text for this post";
-      }
-    }
-
-    if(manager.editFeedItem(itemToEdit)){
-      items = manager.getAllFeedItems();
-    }
-
-    File file = new File(dir, "tweetoutput1.txt");
-
-    SFMUtils.outputToFile(items, file, manager);
-
-    // add favorite
-
-    if(manager.addAction(itemToEdit, new SFMAction(TwitterActionType.FAVORITE))){
-      items = manager.getAllFeedItems();
-    }
-
-    File file2= new File(dir, "tweetoutput2.txt");
-
-    SFMUtils.outputToFile(items, file2, manager);
-
-    // add comment
-
-    if(manager.addAction(itemToEdit, new SFMAction(TwitterActionType.COMMENT, "aloha comment"))){
-      items = manager.getAllFeedItems();
-    }
-
-    File file3= new File(dir, "tweetoutput3.txt");
-
-    SFMUtils.outputToFile(items, file3, manager);
+    tester.testGetAllFeed(); // get all feed
+//    tester.testGetTwitterFeed(); // get twitter specific feed
+//    tester.testTwitterPost(); // post to twitter
+//    tester.testTwitterEditPost(); //edit post
+//    tester.testTwitterFavorite(); // favorite post
+//    tester.testTwitterRetweet(); //retweet
+//    tester.testTwitterAddComment(); // add comment 
   }
 
   public static void instagramTest(){
