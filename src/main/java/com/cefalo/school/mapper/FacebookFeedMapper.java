@@ -20,9 +20,13 @@ import java.util.Locale;
 public class FacebookFeedMapper implements FeedMapper {
     Map<String, ContentType> keyMap = new HashMap<String, ContentType>(){{
         put("status", ContentType.TEXT);
+        put("TEXT", ContentType.TEXT);
         put("link", ContentType.URL);
+        put("URL", ContentType.URL);
         put("video", ContentType.VIDEO);
+        put("VIDEO", ContentType.VIDEO);
         put("photo", ContentType.PICTURE);
+        put("PICTURE", ContentType.PICTURE);
     }};
 
     public List<FeedItem> getProcessedFeedItems(UUID applicationIdentifier, JSONObject jsonObject) {
@@ -51,8 +55,6 @@ public class FacebookFeedMapper implements FeedMapper {
             try {
                 feedItem.publishedDate = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ", Locale.ENGLISH)
                     .parse(object.getString("created_time")) ;
-//                feedItem.lastModifiedDate = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ", Locale.ENGLISH)
-//                    .parse(object.getString("updated_time")) ;
             }catch (Exception e) {
                 e.printStackTrace();
             }
@@ -64,13 +66,11 @@ public class FacebookFeedMapper implements FeedMapper {
 
             if(object.has("type")) {
                 String feedType = object.getString("type");
-                if (feedType.equals("status")){
-                    feedItem.contents.add(new Content(keyMap.get(feedType), "",
-                        object.has("message") ? object.getString("message") : ""));
-                }else {
+                feedItem.contents.add(new Content(keyMap.get(feedType), "",
+                    object.has("message") ? object.getString("message") : ""));
+                if (object.has("attachments")){
                     JSONArray attachments = object.getJSONObject("attachments").getJSONArray("data");
                     mapAttachments(feedItem, attachments, object.getString("type"));
-
                 }
             }
 
@@ -96,7 +96,7 @@ public class FacebookFeedMapper implements FeedMapper {
         for (Object attachment : attachments) {
             JSONObject object = (JSONObject) attachment;
             if(object.getString("type").equals("photo") || object.getString("type").equals("new_album")){
-                if(attachments.length() > 1 || object.has("subattachments")){
+                if(object.has("subattachments")){
                     item.contents.add(new Content(ContentType.PICTURE, object.getString("url"),
                         object.has("description")?object.getString("description"):""));
                 }else{
@@ -126,15 +126,23 @@ public class FacebookFeedMapper implements FeedMapper {
         user.put("name", fbItem.displayName);
         object.put("from", user);
 
-        String text = "";
+        int i=0;
         for (Content content:fbItem.contents) {
-            if(!content.description.isEmpty()){
-                text = content.description;
-                break;
+            if(i==0){
+                object.put("type", content.contentType.toString());
+                object.put("message", content.description);
+            }else{
+                JSONArray attachments = new JSONArray();
+                JSONObject attach = new JSONObject();
+                attach.put("type", content.contentType.toString());
+                attach.put("description", content.description);
+                JSONObject target = new JSONObject();
+                target.put("url", content.value);
+                attach.put("target", target);
+                attachments.put(attach);
+                object.put("attachments", attachments);
             }
         }
-        object.put("message", text);
-        object.put("type", "status");
 
         JSONObject commentObj = new JSONObject();
         JSONArray comments = new JSONArray();
