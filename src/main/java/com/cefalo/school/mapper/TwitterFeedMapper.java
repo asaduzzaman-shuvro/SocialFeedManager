@@ -81,6 +81,7 @@ public class TwitterFeedMapper implements FeedMapper {
                         if (comment.has("text")){
                             String text = comment.getString("text");
                             String commenter = "";
+                            String commenterID = "";
                             Date commentDate = new Date();
                             try {
                                 commentDate = new SimpleDateFormat("EE MMM dd hh:mm:ss Z yyyy",
@@ -91,11 +92,14 @@ public class TwitterFeedMapper implements FeedMapper {
                             if(comment.has("commenter_name")){
                                 commenter = comment.getString("commenter_name");
                             }
+                            if(comment.has("user_id")){
+                                commenterID = comment.getString("user_id");
+                            }
 
                             feedItem.comments.
                                     add(new Comment(comment.getString("id_str"),
                                             comment.getString("text"),
-                                            commentDate, commenter));
+                                            commentDate, commenterID, commenter));
                         }
 
                     }
@@ -166,6 +170,7 @@ public class TwitterFeedMapper implements FeedMapper {
             commentItem.put("id_str", comment.identifier);
             commentItem.put("created_at", df.format(comment.publishDate));
             commentItem.put("commenter_name", comment.commenterDisplayName);
+            commentItem.put("user_id", comment.userId);
             comments.put(commentItem);
         }
 

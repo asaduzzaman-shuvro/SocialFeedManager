@@ -43,8 +43,9 @@ public class TwitterOperator implements FeedOperator {
         else if(action.actionType == TwitterActionType.RETWEET){
             tweetItem.retweetCount += 1;
         } else{
-            Comment comment = new Comment(action.description);
+            Comment comment = new Comment(action.description, userId, displayName);
             comment.commenterDisplayName = displayName;
+            comment.userId = userId;
             tweetItem.comments.add(comment);
         }
         return tweetItem;

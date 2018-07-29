@@ -19,7 +19,7 @@ public class AccountManager {
 
         Twitter twitter= new Twitter();
         twitter.setUserName("AshifIqbal");
-        twitter.setUserDisplayName("Ashif Iqbal");
+        twitter.setUserDisplayName("AshifIqbal");
         twitter.setAuthToken("ASJAK896957658586587658765FHAFSD");
         supportedApplications.add(twitter);
 
