@@ -1,9 +1,7 @@
 package com.cefalo.school.services;
 
-import com.cefalo.school.model.Content;
-import com.cefalo.school.model.ContentType;
-import com.cefalo.school.model.FacebookFeedItem;
-import com.cefalo.school.model.FeedItem;
+import com.cefalo.school.model.*;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -61,6 +59,7 @@ public class OutputGeneratorService {
         }
         writer.println();
 
+        // Facebook specific
         FacebookFeedItem fbItem = null;
         try {
           fbItem = (FacebookFeedItem) item;
@@ -87,7 +86,34 @@ public class OutputGeneratorService {
 
 
         }catch (ClassCastException e){
-          continue;
+
+        }
+        // Twitter specific
+        TwitterFeedItem tweetItem = null;
+        try {
+          tweetItem = (TwitterFeedItem) item;
+
+          String rtMsg = "retweet count "+tweetItem.retweetCount;
+          writer.print(String.format("|%-10s|", rtMsg));
+
+          String fvtCountMsg = "favorite count "+tweetItem.favoriteCount;
+          writer.print(String.format("|%-10s|", fvtCountMsg));
+
+          if(tweetItem.comments.size()>0){
+            String msg = String.format("comments: %s", tweetItem.comments.size());
+            writer.print(String.format("|%-10s|", msg));
+            writer.println();
+            writer.println("comment details:");
+            for (Comment comment : tweetItem.comments) {
+              String message = comment.text;
+              writer.println(df.format(comment.publishDate));
+              formatLines(message, writer);
+            }
+          }
+            writer.println();
+
+        }catch (ClassCastException e){
+
         }
       }
       writer.println();
