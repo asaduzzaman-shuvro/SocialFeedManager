@@ -171,15 +171,41 @@ public class Main {
     manager.getAllFeedItems();
 
     List<UUID> identifiers = new ArrayList<>();
-    identifiers.add(manager.getApplicationIdentifiers().get(0));
+    identifiers.add(manager.getApplicationIdentifiers().get(2));
 
     FeedItem itemToPost = new FeedItem();
-    itemToPost.contents.add(new Content(ContentType.TEXT, "", "My first status from SFM"));
+    itemToPost.contents.add(new Content(ContentType.TEXT, "", "Insatagram Status"));
 
     List<FeedItem> items = new ArrayList<>();
     if(manager.postItem(itemToPost, identifiers)){
-//      items = manager.getAllFeedItems();
+      items = manager.getAllFeedItems();
     }
+
+    File dir = new File("output");
+    dir.mkdirs();
+    File file1 = new File(dir, "Instagram.txt");
+
+    SFMUtils.outputToFile(items, file1);
+
+
+    System.out.println(items.get(0).contents.get(0).description);
+
+
+    FeedItem itemToEdit = items.get(0);
+    for (Content content : itemToEdit.contents) {
+      if(content.contentType == ContentType.TEXT){
+        content.description = "eited instagram status";
+      }
+    }
+
+    if(manager.editFeedItem(itemToEdit)){
+      items = manager.getAllFeedItems();
+    }
+    System.out.println(items.get(0).contents.get(0).description);
+
+    File file = new File(dir, "InstagramEdit.txt");
+
+    SFMUtils.outputToFile(items, file);
 
   }
 }

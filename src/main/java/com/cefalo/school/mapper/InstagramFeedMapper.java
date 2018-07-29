@@ -46,7 +46,7 @@ public class InstagramFeedMapper implements FeedMapper {
                                     JSONArray textEgges = textMediaObject.getJSONArray("edges");
                                     for (Object textEdge : textEgges  ) {
                                         JSONObject textObject = (JSONObject) textEdge;
-                                        feedItem.contents.add(new Content(ContentType.TEXT, textObject.getJSONObject("node").getString("text"), ""));
+                                        feedItem.contents.add(new Content(ContentType.TEXT, "", textObject.getJSONObject("node").getString("text")));
 
                                     }
                                 }
@@ -98,7 +98,7 @@ public class InstagramFeedMapper implements FeedMapper {
         for (Content content:item.contents) {
             if(content.contentType == ContentType.TEXT && !content.description.isEmpty()){
                 JSONObject node = new JSONObject();
-                node.put("text",content.value);
+                node.put("text",content.description);
                 captionEges.put(new JSONObject().put("node",node));
             }
         }
