@@ -2,6 +2,8 @@ package com.cefalo.school;
 
 import com.cefalo.school.application.SocialFeedManager;
 import com.cefalo.school.model.*;
+import com.cefalo.school.processors.InstagramFeedProcessor;
+
 import com.cefalo.school.services.SFMUtils;
 import java.io.File;
 import java.util.ArrayList;
@@ -15,10 +17,35 @@ public class Main {
 
   public static void main(String[] args) {
 
-    facebookTest();
-    testingForTwitter();
+//    facebookTest();
+//    twitterTest();
+//    instagramTest();
+    postToAllApplication();
     System.out.println("check output logs from /SocialFeedManager/output folder");
-    instagramTest();
+
+  }
+
+  public static void postToAllApplication(){
+    SocialFeedManager manager = new SocialFeedManager();
+    manager.getAllFeedItems();
+
+
+    FeedItem itemToPost = new FeedItem();
+    itemToPost.contents.add(new Content(ContentType.TEXT, "", "This is test post to all application from SFM"));
+
+
+    List<FeedItem> items = new ArrayList<>();
+    if(manager.postItem(itemToPost, manager.getApplicationIdentifiers())){
+      items = manager.getAllFeedItems();
+    }
+
+    File dir = new File("output");
+    dir.mkdirs();
+    File file1 = new File(dir, "0.Post_to_all_application.txt");
+
+    SFMUtils.outputToFile(items, file1, manager);
+
+
   }
 
 
@@ -107,23 +134,52 @@ public class Main {
 
 //    uncomment the functiona you want to test
 
-//    tester.testGetAllFeed(); // get all feed
+    tester.testGetAllFeed(); // get all feed
 //    tester.testGetTwitterFeed(); // get twitter specific feed
-    tester.testTwitterPost(); // post to twitter
+//    tester.testTwitterPost(); // post to twitter
 //    tester.testTwitterEditPost(); //edit post
 //    tester.testTwitterFavorite(); // favorite post
 //    tester.testTwitterRetweet(); //retweet
-//    tester.testTwitterAddComment(); // add comment
+//    tester.testTwitterAddComment(); // add comment 
   }
 
   public static void instagramTest(){
 
     SocialFeedManager manager = new SocialFeedManager();
-    InstagramTester tester = new InstagramTester(manager);
-    tester.testGetAllFeed(); // get all feed.
-    tester.testGetInstagramFeed(); // get instagram feed only.
-    tester.testInstagramNewPost(); // add new instagram post.
-    tester.instagramEditPost(); // edit instagram post.
+    manager.getAllFeedItems();
+
+    List<UUID> identifiers = new ArrayList<>();
+    identifiers.add(manager.getApplicationIdentifiers().get(2));
+
+    FeedItem itemToPost = new FeedItem();
+    itemToPost.contents.add(new Content(ContentType.TEXT, "", "Insatagram Status"));
+
+    List<FeedItem> items = new ArrayList<>();
+    if(manager.postItem(itemToPost, identifiers)){
+      items = manager.getAllFeedItems();
+    }
+
+    File dir = new File("output");
+    dir.mkdirs();
+    File file1 = new File(dir, "Instagram.txt");
+
+    SFMUtils.outputToFile(items, file1,manager);
+
+
+    FeedItem itemToEdit = items.get(0);
+    for (Content content : itemToEdit.contents) {
+      if(content.contentType == ContentType.TEXT){
+        content.description = "eited instagram status";
+      }
+    }
+
+    if(manager.editFeedItem(itemToEdit)){
+      items = manager.getAllFeedItems();
+    }
+
+    File file = new File(dir, "InstagramEdit.txt");
+
+    SFMUtils.outputToFile(items, file,manager);
 
   }
 }
